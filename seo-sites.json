@@ -2,41 +2,49 @@
   {
     "name": "LB Electrical",
     "url": "https://www.lbelectrical.uk",
-    "gsc_property": "sc-domain:lbelectrical.uk"
+    "gsc_property": "sc-domain:lbelectrical.uk",
+    "repository": "elieassaf33/LB_Electrical"
   },
   {
     "name": "INTECH Lithuania",
     "url": "https://getintech.lt",
-    "gsc_property": "sc-domain:getintech.lt"
+    "gsc_property": "sc-domain:getintech.lt",
+    "repository": "elieassaf33/commerce_well"
   },
   {
     "name": "INTECH Europe",
     "url": "https://getintech.eu",
-    "gsc_property": "sc-domain:getintech.eu"
+    "gsc_property": "sc-domain:getintech.eu",
+    "repository": "elieassaf33/commerce_well"
   },
   {
     "name": "Alisos Fotografija",
     "url": "https://alisosfotografija.lt",
-    "gsc_property": "sc-domain:alisosfotografija.lt"
+    "gsc_property": "sc-domain:alisosfotografija.lt",
+    "repository": "elieassaf33/alisos_foto_django"
   },
   {
     "name": "Klaipedos Aliejus",
     "url": "https://klaipedosaliejus.lt",
-    "gsc_property": "sc-domain:klaipedosaliejus.lt"
+    "gsc_property": "sc-domain:klaipedosaliejus.lt",
+    "repository": "elieassaf33/klaipedos_aliejus"
   },
   {
     "name": "Jegaainis",
     "url": "https://jegaainis.lt",
-    "gsc_property": "sc-domain:jegaainis.lt"
+    "gsc_property": "sc-domain:jegaainis.lt",
+    "repository": "elieassaf33/jegaainis"
   },
   {
     "name": "CardBros TCG",
     "url": "https://cardbrostcg.com",
-    "gsc_property": "sc-domain:cardbrostcg.com"
+    "gsc_property": "sc-domain:cardbrostcg.com",
+    "repository": "elieassaf33/pokemon"
   },
   {
     "name": "Tesla EU",
     "url": "https://teslaeu.eu",
-    "gsc_property": "sc-domain:teslaeu.eu"
+    "gsc_property": "sc-domain:teslaeu.eu",
+    "repository": "elieassaf33/nemokek.lt"
   }
 ]
