@@ -13,15 +13,13 @@ or the exact URL-prefix property including its trailing slash). Review and merge
 the generated registry PR. No client workflow or code change is needed.
 Alternatively add the same fields directly to `seo-sites.json` through a PR.
 
-The current registry has no `gsc_property` values. Configure the actual verified
-properties before expecting live keyword reports; the controller deliberately
-does not guess which properties the service account can access.
+The registry configures domain properties for all eight INTECH clients. Live reporting
+requires that the existing service account retain Search Console access to each property.
 
 ## Google access
 
-Enable the Search Console API in Google Cloud. Configure GitHub Workload Identity
-Federation restricted to this repository, and set repository variables
-`GCP_WIF_PROVIDER` and `GCP_SERVICE_ACCOUNT`. Grant the service account access to
+Enable the Search Console API in Google Cloud. The workflow uses the existing keyless GitHub Workload Identity
+Federation provider and service account for this repository. Grant the service account access to
 each client's Search Console property. The existing verification workflow can
 list authorized properties. No service account JSON secret is required.
 
