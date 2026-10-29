@@ -1,0 +1,52 @@
+name: INTECH SEO - onboard client
+on:
+  workflow_dispatch:
+    inputs:
+      client_name:
+        description: Client name
+        required: true
+        type: string
+      website:
+        description: HTTPS website root
+        required: true
+        type: string
+      github_repo:
+        description: Client GitHub owner/repo (optional)
+        required: false
+        type: string
+      gsc_property:
+        description: Search Console property, e.g. sc-domain:example.com (optional)
+        required: false
+        type: string
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  onboard:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Register client
+        env:
+          CLIENT_NAME: ${{ inputs.client_name }}
+          CLIENT_URL: ${{ inputs.website }}
+          CLIENT_REPO: ${{ inputs.github_repo }}
+          CLIENT_GSC: ${{ inputs.gsc_property }}
+        run: python scripts/intech_register.py
+      - name: Open onboarding PR
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          branch="seo/onboard-${GITHUB_RUN_ID}"
+          git switch -c "$branch"
+          git add seo-sites.json
+          git commit -m "Register new SEO client"
+          git -c http.extraheader="AUTHORIZATION: basic $(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)" push origin "$branch"
+          gh pr create --base main --head "$branch" --title "SEO: onboard new client" --body "Review the new client configuration. Merging enables the next weekly audit; no deployment."
