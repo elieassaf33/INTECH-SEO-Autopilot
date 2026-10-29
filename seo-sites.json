@@ -38,5 +38,30 @@
     "name": "Tesla EU",
     "url": "https://teslaeu.eu",
     "gsc_property": "sc-domain:teslaeu.eu"
+  },
+  {
+    "name": "Tvari Kirpeja",
+    "url": "https://tvarikirpeja.lt",
+    "gsc_property": "sc-domain:tvarikirpeja.lt"
+  },
+  {
+    "name": "Naturalus Maistas",
+    "url": "https://naturalusmaistas.lt",
+    "gsc_property": "sc-domain:naturalusmaistas.lt"
+  },
+  {
+    "name": "CardBros TCG UK",
+    "url": "https://cardbrostcg.co.uk",
+    "gsc_property": "sc-domain:cardbrostcg.co.uk"
+  },
+  {
+    "name": "Grikiu Dievas",
+    "url": "https://grikiudievas.lt",
+    "gsc_property": "sc-domain:grikiudievas.lt"
+  },
+  {
+    "name": "The Furry Tale",
+    "url": "https://thefurrytale.com",
+    "gsc_property": "sc-domain:thefurrytale.com"
   }
 ]
