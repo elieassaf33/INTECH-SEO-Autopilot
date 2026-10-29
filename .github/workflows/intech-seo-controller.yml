@@ -1,0 +1,39 @@
+name: INTECH SEO Autopilot - all clients
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 7 * * 1'
+permissions:
+  contents: read
+  id-token: write
+jobs:
+  weekly-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Install Search Console client
+        run: pip install google-auth requests
+      - name: Check scripts
+        run: python -m py_compile scripts/intech_controller.py scripts/intech_register.py scripts/seo_multisite.py
+      - name: Authenticate to Google Cloud (keyless)
+        if: ${{ vars.GCP_WIF_PROVIDER != '' && vars.GCP_SERVICE_ACCOUNT != '' }}
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
+          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
+          token_format: access_token
+      - name: Audit all registered clients
+        env:
+          GCP_USE_ADC: 'true'
+        run: python scripts/intech_controller.py
+      - name: Publish weekly report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: intech-weekly-seo-report
+          path: seo-reports/controller/
+          retention-days: 90
