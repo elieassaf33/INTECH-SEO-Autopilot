@@ -14,16 +14,14 @@ OUT.mkdir(parents=True, exist_ok=True)
 
 def search_console(site):
     """Returns explicit setup status when GSC access has not been configured."""
-    creds = os.environ.get("GSC_SERVICE_ACCOUNT_JSON", "")
     prop = site.get("gsc_property", "")
-    if not creds or not prop:
+    if not prop or os.environ.get("GCP_USE_ADC") != "true":
         return {"status": "not_configured", "queries": []}
     try:
-        from google.oauth2 import service_account
+        import google.auth
         from google.auth.transport.requests import AuthorizedSession
-        credentials = service_account.Credentials.from_service_account_info(
-            json.loads(creds),
-            scopes=["https://www.googleapis.com/auth/webmasters.readonly"],
+        credentials, _ = google.auth.default(
+            scopes=["https://www.googleapis.com/auth/webmasters.readonly"]
         )
         session = AuthorizedSession(credentials)
         end = dt.date.today() - dt.timedelta(days=3)
