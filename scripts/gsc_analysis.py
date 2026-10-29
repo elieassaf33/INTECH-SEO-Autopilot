@@ -1,0 +1,75 @@
+"""Read-only, paginated weekly Search Console analysis."""
+import datetime as dt
+from urllib.parse import quote
+from zoneinfo import ZoneInfo
+
+PAGE_SIZE = 25000
+MAX_ROWS = 100000
+
+
+def periods(today=None):
+    today = today or dt.datetime.now(ZoneInfo("America/Los_Angeles")).date()
+    end = today - dt.timedelta(days=3)
+    start = end - dt.timedelta(days=6)
+    return (start, end), (start - dt.timedelta(days=7), end - dt.timedelta(days=7))
+
+
+def fetch_rows(session, prop, period):
+    url = "https://searchconsole.googleapis.com/webmasters/v3/sites/" + quote(prop, safe="") + "/searchAnalytics/query"
+    rows = []
+    while len(rows) < MAX_ROWS:
+        response = session.post(url, json={
+            "startDate": period[0].isoformat(), "endDate": period[1].isoformat(),
+            "dimensions": ["query", "page"], "type": "web", "dataState": "final",
+            "rowLimit": PAGE_SIZE, "startRow": len(rows),
+        }, timeout=30)
+        response.raise_for_status()
+        batch = response.json().get("rows", [])
+        rows.extend(batch)
+        if len(batch) < PAGE_SIZE:
+            return rows, False
+    return rows, True
+
+
+def analyze(current, previous):
+    before = {tuple(r["keys"]): r for r in previous}
+    after = {tuple(r["keys"]): r for r in current}
+    keywords, recommendations = [], []
+    for key in sorted(before.keys() | after.keys()):
+        now, old = after.get(key, {}), before.get(key, {})
+        clicks, impressions = now.get("clicks", 0), now.get("impressions", 0)
+        old_clicks = old.get("clicks", 0)
+        item = {"keyword": key[0], "page": key[1], "clicks": clicks,
+                "impressions": impressions, "ctr": now.get("ctr", 0),
+                "position": now.get("position") if impressions else None,
+                "previous_clicks": old_clicks,
+                "click_change": clicks - old_clicks,
+                "click_change_percent": (clicks - old_clicks) / old_clicks * 100 if old_clicks else None,
+                "impression_change": impressions - old.get("impressions", 0),
+                "position_improvement": old["position"] - now["position"] if old.get("impressions") and impressions else None,
+                "presence": "continuing" if key in before and key in after else "newly_observed" if key in after else "no_longer_observed"}
+        keywords.append(item)
+        actions = []
+        if old_clicks >= 5 and clicks <= old_clicks * .7:
+            actions.append(("high", "traffic_decline", "Investigate lost clicks: compare indexing, search intent, competitors and recent page changes."))
+        if impressions >= 50 and 1 <= now.get("position", 0) <= 10 and now.get("ctr", 0) < .02:
+            actions.append(("medium", "low_ctr", "Review the page title and search snippet against this query's intent; propose a clearer title and description."))
+        if impressions >= 10 and 5 <= now.get("position", 0) <= 20:
+            actions.append(("medium", "ranking_opportunity", "Review query coverage on the landing page and propose relevant content improvements and internal links."))
+        for priority, reason, action in actions:
+            recommendations.append({**item, "priority": priority, "reason": reason, "action": action})
+    recommendations.sort(key=lambda r: (r["priority"] != "high", -r["impressions"], r["keyword"], r["page"], r["reason"]))
+    return keywords, recommendations
+
+
+def weekly_analysis(session, prop, today=None):
+    current_period, previous_period = periods(today)
+    current, current_capped = fetch_rows(session, prop, current_period)
+    previous, previous_capped = fetch_rows(session, prop, previous_period)
+    keywords, recommendations = analyze(current, previous)
+    return {"status": "ok" if current or previous else "no_data",
+            "period": [d.isoformat() for d in current_period],
+            "previous_period": [d.isoformat() for d in previous_period],
+            "queries": keywords, "recommendations": recommendations,
+            "row_cap_reached": current_capped or previous_capped,
+            "coverage_note": "Query/page rows are partial Search Console data, not site totals. Missing rows do not prove zero traffic. Recommendations are heuristics requiring human review."}

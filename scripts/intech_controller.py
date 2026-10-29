@@ -4,7 +4,7 @@ import datetime as dt
 import json
 import os
 from pathlib import Path
-from urllib.parse import quote
+from gsc_analysis import weekly_analysis
 from seo_multisite import inspect
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -24,26 +24,8 @@ def search_console(site):
             scopes=["https://www.googleapis.com/auth/webmasters.readonly"]
         )
         session = AuthorizedSession(credentials)
-        end = dt.date.today() - dt.timedelta(days=3)
-        start = end - dt.timedelta(days=27)
-        url = "https://searchconsole.googleapis.com/webmasters/v3/sites/" + quote(prop, safe="") + "/searchAnalytics/query"
-        response = session.post(url, json={
-            "startDate": start.isoformat(), "endDate": end.isoformat(),
-            "dimensions": ["query"], "rowLimit": 100,
-        }, timeout=30)
-        response.raise_for_status()
-        rows = response.json().get("rows", [])
-        queries = [{
-            "keyword": row["keys"][0], "clicks": row.get("clicks", 0),
-            "impressions": row.get("impressions", 0),
-            "ctr": row.get("ctr", 0), "position": row.get("position", 0),
-        } for row in rows]
-        opportunities = sorted(
-            (q for q in queries if q["impressions"] >= 10 and q["position"] >= 5),
-            key=lambda q: (-q["impressions"], q["position"]),
-        )[:20]
-        return {"status": "ok", "queries": queries, "opportunities": opportunities,
-                "period": [start.isoformat(), end.isoformat()]}
+        with session:
+            return weekly_analysis(session, prop)
     except Exception as exc:
         return {"status": "error", "error": str(exc)[:300], "queries": []}
 
@@ -53,14 +35,12 @@ def main():
     for site in sites:
         try:
             audit = inspect(site)
-            audit["repository"] = site.get("repository", "")
-            audit["gsc"] = search_console(site)
-            results.append(audit)
         except Exception as exc:
-            results.append({"name": site["name"], "base_url": site["url"],
-                            "repository": site.get("repository", ""),
-                            "findings": [{"severity": "high", "message": "Audit failed: " + str(exc)[:200]}],
-                            "gsc": {"status": "not_run"}})
+            audit = {"name": site["name"], "base_url": site["url"],
+                     "findings": [{"severity": "high", "message": "Audit failed: " + str(exc)[:200]}]}
+        audit["repository"] = site.get("repository", "")
+        audit["gsc"] = search_console(site)
+        results.append(audit)
     report = {"generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),
               "client_count": len(results), "sites": results}
     (OUT / "report.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
@@ -72,8 +52,19 @@ def main():
                   f"Search Console: {site['gsc']['status']}"]
         for issue in site.get("findings", [])[:25]:
             lines.append("- " + issue["severity"] + ": " + issue["message"])
-        for kw in site["gsc"].get("opportunities", [])[:10]:
-            lines.append(f"- Keyword opportunity: {kw['keyword']} ({kw['impressions']} impressions, position {kw['position']:.1f})")
+        gsc = site["gsc"]
+        if "period" in gsc:
+            lines.append(f"Period: {gsc['period']} vs {gsc['previous_period']}")
+            lines.append(gsc["coverage_note"])
+            if gsc["row_cap_reached"]:
+                lines.append("WARNING: configured row cap reached; analysis is truncated.")
+        if gsc.get("error"):
+            lines.append("Search Console error: " + gsc["error"])
+        for kw in gsc.get("recommendations", [])[:20]:
+            keyword = kw['keyword'].replace("\n", " ").replace("\r", " ")
+            lines.append(f"- [{kw['priority']}] {keyword} - {kw['page']}: {kw['action']} "
+                         f"({kw['impressions']} impressions, {kw['clicks']} clicks, "
+                         f"CTR {kw['ctr']:.1%}, click change {kw['click_change']:+g})")
         lines.append("")
     (OUT / "report.md").write_text("\n".join(lines), encoding="utf-8")
     print("\n".join(lines))

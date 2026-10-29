@@ -16,9 +16,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Install Search Console client
-        run: pip install google-auth requests
+        run: pip install -r requirements.txt
       - name: Check scripts
-        run: python -m py_compile scripts/intech_controller.py scripts/intech_register.py scripts/seo_multisite.py
+        run: python -m unittest discover -s tests -v
       - name: Authenticate to Google Cloud (keyless)
         if: ${{ vars.GCP_WIF_PROVIDER != '' && vars.GCP_SERVICE_ACCOUNT != '' }}
         uses: google-github-actions/auth@v2
