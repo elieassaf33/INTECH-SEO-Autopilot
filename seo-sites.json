@@ -1,30 +1,42 @@
 [
   {
     "name": "LB Electrical",
-    "url": "https://www.lbelectrical.uk"
+    "url": "https://www.lbelectrical.uk",
+    "gsc_property": "sc-domain:lbelectrical.uk"
   },
   {
     "name": "INTECH Lithuania",
-    "url": "https://getintech.lt"
+    "url": "https://getintech.lt",
+    "gsc_property": "sc-domain:getintech.lt"
   },
   {
     "name": "INTECH Europe",
-    "url": "https://getintech.eu"
+    "url": "https://getintech.eu",
+    "gsc_property": "sc-domain:getintech.eu"
   },
   {
     "name": "Alisos Fotografija",
-    "url": "https://alisosfotografija.lt"
+    "url": "https://alisosfotografija.lt",
+    "gsc_property": "sc-domain:alisosfotografija.lt"
   },
   {
     "name": "Klaipedos Aliejus",
-    "url": "https://klaipedosaliejus.lt"
+    "url": "https://klaipedosaliejus.lt",
+    "gsc_property": "sc-domain:klaipedosaliejus.lt"
   },
   {
     "name": "Jegaainis",
-    "url": "https://jegaainis.lt"
+    "url": "https://jegaainis.lt",
+    "gsc_property": "sc-domain:jegaainis.lt"
   },
   {
     "name": "CardBros TCG",
-    "url": "https://cardbrostcg.com"
+    "url": "https://cardbrostcg.com",
+    "gsc_property": "sc-domain:cardbrostcg.com"
+  },
+  {
+    "name": "Tesla EU",
+    "url": "https://teslaeu.eu",
+    "gsc_property": "sc-domain:teslaeu.eu"
   }
 ]
