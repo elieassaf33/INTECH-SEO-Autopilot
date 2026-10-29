@@ -1,11 +1,12 @@
 # INTECH SEO Autopilot
 
-Central, read-only weekly SEO monitoring for all clients in `seo-sites.json`.
+Read-only monitoring of 13 Google Search Console properties, grouped into 11
+clients. Weekly reports combine technical checks, separate property aggregates,
+query/page comparisons and indexed-version diagnostics. All client remediations
+are disabled until explicitly reviewed and configured; supported proposals create
+draft PRs only.
 
-The Monday workflow audits websites and compares two seven-day Search Console
-windows, producing JSON and Markdown reports with page-specific recommendations.
-New clients only need a registry entry and Search Console access.
+See [setup, safeguards and limits](docs/INTECH-SEO-AUTOPILOT.md) and
+[verified status and blockers](docs/VERIFICATION-2026-10-30.md).
 
-See [setup and report interpretation](docs/INTECH-SEO-AUTOPILOT.md).
-
-Run offline tests: `python -m unittest discover -s tests -v`.
+Tests: `python -m unittest discover -s tests -v`.

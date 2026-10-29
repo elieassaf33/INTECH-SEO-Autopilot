@@ -2,6 +2,7 @@
 import datetime as dt
 from urllib.parse import quote
 from zoneinfo import ZoneInfo
+from gsc_api import request, error_status
 
 PAGE_SIZE = 25000
 MAX_ROWS = 100000
@@ -18,17 +19,29 @@ def fetch_rows(session, prop, period):
     url = "https://searchconsole.googleapis.com/webmasters/v3/sites/" + quote(prop, safe="") + "/searchAnalytics/query"
     rows = []
     while len(rows) < MAX_ROWS:
-        response = session.post(url, json={
+        payload = request(session, "post", url, json={
             "startDate": period[0].isoformat(), "endDate": period[1].isoformat(),
             "dimensions": ["query", "page"], "type": "web", "dataState": "final",
-            "rowLimit": PAGE_SIZE, "startRow": len(rows),
-        }, timeout=30)
-        response.raise_for_status()
-        batch = response.json().get("rows", [])
+            "rowLimit": min(PAGE_SIZE, MAX_ROWS - len(rows)), "startRow": len(rows),
+        })
+        batch = payload.get("rows", [])
         rows.extend(batch)
         if len(batch) < PAGE_SIZE:
             return rows, False
     return rows, True
+
+
+def site_metrics(session, prop, period):
+    """Property aggregates must be requested independently of query/page rows."""
+    url = "https://searchconsole.googleapis.com/webmasters/v3/sites/" + quote(prop, safe="") + "/searchAnalytics/query"
+    payload = request(session, "post", url, json={
+        "startDate": period[0].isoformat(), "endDate": period[1].isoformat(),
+        "dimensions": [], "aggregationType": "byProperty", "type": "web", "dataState": "final",
+    })
+    rows = payload.get("rows", [])
+    if not rows:
+        return {"status": "no_data", "metrics": None}
+    return {"status": "ok", "metrics": {k: rows[0].get(k) for k in ("clicks", "impressions", "ctr", "position")}}
 
 
 def analyze(current, previous):
@@ -64,12 +77,37 @@ def analyze(current, previous):
 
 def weekly_analysis(session, prop, today=None):
     current_period, previous_period = periods(today)
-    current, current_capped = fetch_rows(session, prop, current_period)
-    previous, previous_capped = fetch_rows(session, prop, previous_period)
-    keywords, recommendations = analyze(current, previous)
-    return {"status": "ok" if current or previous else "no_data",
+    result = {
             "period": [d.isoformat() for d in current_period],
             "previous_period": [d.isoformat() for d in previous_period],
-            "queries": keywords, "recommendations": recommendations,
-            "row_cap_reached": current_capped or previous_capped,
+            "queries": [], "recommendations": [], "row_cap_reached": False,
             "coverage_note": "Query/page rows are partial Search Console data, not site totals. Missing rows do not prove zero traffic. Recommendations are heuristics requiring human review."}
+    totals = {}
+    for label, period in (("current", current_period), ("previous", previous_period)):
+        try:
+            totals[label] = site_metrics(session, prop, period)
+        except Exception as exc:
+            totals[label] = error_status(exc)
+    result["site_metrics"] = totals
+    if all(totals[k]["status"] == "ok" for k in totals):
+        now, old = (totals[k]["metrics"] for k in ("current", "previous"))
+        result["site_metric_changes"] = {
+            "clicks": now["clicks"] - old["clicks"],
+            "impressions": now["impressions"] - old["impressions"],
+            "ctr_percentage_points": (now["ctr"] - old["ctr"]) * 100,
+            "position_improvement": old["position"] - now["position"],
+        }
+    try:
+        current, current_capped = fetch_rows(session, prop, current_period)
+        previous, previous_capped = fetch_rows(session, prop, previous_period)
+        result["queries"], result["recommendations"] = analyze(current, previous)
+        result["query_status"] = "ok" if current or previous else "no_data"
+        result["row_cap_reached"] = current_capped or previous_capped
+    except Exception as exc:
+        result["query_status"] = "error"
+        result["query_error"] = error_status(exc)
+    statuses = [t["status"] for t in totals.values()] + [result["query_status"]]
+    result["status"] = ("error" if all(s == "error" for s in statuses) else
+                        "partial" if "error" in statuses else
+                        "no_data" if all(s == "no_data" for s in statuses) else "ok")
+    return result

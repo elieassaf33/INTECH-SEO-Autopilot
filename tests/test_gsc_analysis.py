@@ -56,8 +56,9 @@ class WeeklyAnalysisTests(unittest.TestCase):
     def test_api_failure_is_not_empty_success(self):
         session = Mock()
         session.post.return_value.raise_for_status.side_effect = RuntimeError('Forbidden')
-        with self.assertRaisesRegex(RuntimeError, 'Forbidden'):
-            gsc.weekly_analysis(session, 'p')
+        result = gsc.weekly_analysis(session, 'p')
+        self.assertEqual(result['status'], 'error')
+        self.assertEqual(result['query_status'], 'error')
 
     def test_missing_setup(self):
         with patch.dict(os.environ, {}, clear=True):
