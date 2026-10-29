@@ -20,12 +20,12 @@ jobs:
       - name: Check scripts
         run: python -m unittest discover -s tests -v
       - name: Authenticate to Google Cloud (keyless)
-        if: ${{ vars.GCP_WIF_PROVIDER != '' && vars.GCP_SERVICE_ACCOUNT != '' }}
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
-          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
-          token_format: access_token
+          workload_identity_provider: projects/110513102800/locations/global/workloadIdentityPools/intech-github/providers/github
+          service_account: intech-seo-autopilot@intech-seo-autopilot.iam.gserviceaccount.com
+          create_credentials_file: true
+          export_environment_variables: true
       - name: Audit all registered clients
         env:
           GCP_USE_ADC: 'true'
