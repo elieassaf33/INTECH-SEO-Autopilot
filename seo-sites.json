@@ -32,7 +32,9 @@
   {
     "name": "CardBros TCG",
     "url": "https://cardbrostcg.com",
-    "gsc_property": "sc-domain:cardbrostcg.com"
+    "gsc_property": "sc-domain:cardbrostcg.com",
+    "client_id": "cardbros-tcg",
+    "repository": "elieassaf33/pokemon"
   },
   {
     "name": "Tesla EU",
@@ -50,9 +52,11 @@
     "gsc_property": "sc-domain:naturalusmaistas.lt"
   },
   {
-    "name": "CardBros TCG UK",
+    "name": "CardBros TCG (.co.uk)",
     "url": "https://cardbrostcg.co.uk",
-    "gsc_property": "sc-domain:cardbrostcg.co.uk"
+    "gsc_property": "sc-domain:cardbrostcg.co.uk",
+    "client_id": "cardbros-tcg",
+    "repository": "elieassaf33/pokemon"
   },
   {
     "name": "Grikiu Dievas",
