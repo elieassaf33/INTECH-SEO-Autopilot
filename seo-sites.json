@@ -2,42 +2,53 @@
   {
     "name": "LB Electrical",
     "url": "https://www.lbelectrical.uk",
-    "gsc_property": "sc-domain:lbelectrical.uk"
+    "gsc_property": "sc-domain:lbelectrical.uk",
+    "repository": "elieassaf33/LB_Electrical"
   },
   {
     "name": "INTECH Lithuania",
     "url": "https://getintech.lt",
-    "gsc_property": "sc-domain:getintech.lt"
+    "gsc_property": "sc-domain:getintech.lt",
+    "repository": "elieassaf33/commerce_well",
+    "client_id": "intech"
   },
   {
     "name": "INTECH Europe",
     "url": "https://getintech.eu",
-    "gsc_property": "sc-domain:getintech.eu"
+    "gsc_property": "sc-domain:getintech.eu",
+    "repository": "elieassaf33/commerce_well",
+    "client_id": "intech"
   },
   {
     "name": "Alisos Fotografija",
     "url": "https://alisosfotografija.lt",
-    "gsc_property": "sc-domain:alisosfotografija.lt"
+    "gsc_property": "sc-domain:alisosfotografija.lt",
+    "repository": "elieassaf33/alisos_foto_django"
   },
   {
     "name": "Klaipedos Aliejus",
     "url": "https://klaipedosaliejus.lt",
-    "gsc_property": "sc-domain:klaipedosaliejus.lt"
+    "gsc_property": "sc-domain:klaipedosaliejus.lt",
+    "repository": "elieassaf33/klaipedos_aliejus"
   },
   {
     "name": "Jegaainis",
     "url": "https://jegaainis.lt",
-    "gsc_property": "sc-domain:jegaainis.lt"
+    "gsc_property": "sc-domain:jegaainis.lt",
+    "repository": "elieassaf33/jegaainis"
   },
   {
     "name": "CardBros TCG",
     "url": "https://cardbrostcg.com",
-    "gsc_property": "sc-domain:cardbrostcg.com"
+    "gsc_property": "sc-domain:cardbrostcg.com",
+    "repository": "elieassaf33/pokemon",
+    "client_id": "cardbros-tcg"
   },
   {
     "name": "Tesla EU",
     "url": "https://teslaeu.eu",
-    "gsc_property": "sc-domain:teslaeu.eu"
+    "gsc_property": "sc-domain:teslaeu.eu",
+    "repository": "elieassaf33/nemokek.lt"
   },
   {
     "name": "Tvari Kirpeja",
@@ -47,21 +58,26 @@
   {
     "name": "Naturalus Maistas",
     "url": "https://naturalusmaistas.lt",
-    "gsc_property": "sc-domain:naturalusmaistas.lt"
+    "gsc_property": "sc-domain:naturalusmaistas.lt",
+    "repository": "elieassaf33/naturalus_maistas"
   },
   {
     "name": "CardBros TCG UK",
     "url": "https://cardbrostcg.co.uk",
-    "gsc_property": "sc-domain:cardbrostcg.co.uk"
+    "gsc_property": "sc-domain:cardbrostcg.co.uk",
+    "repository": "elieassaf33/pokemon",
+    "client_id": "cardbros-tcg"
   },
   {
     "name": "Grikiu Dievas",
     "url": "https://grikiudievas.lt",
-    "gsc_property": "sc-domain:grikiudievas.lt"
+    "gsc_property": "sc-domain:grikiudievas.lt",
+    "repository": "elieassaf33/grikiu_dievas"
   },
   {
     "name": "The Furry Tale",
     "url": "https://thefurrytale.com",
-    "gsc_property": "sc-domain:thefurrytale.com"
+    "gsc_property": "sc-domain:thefurrytale.com",
+    "repository": "elieassaf33/thefurrytale"
   }
 ]
