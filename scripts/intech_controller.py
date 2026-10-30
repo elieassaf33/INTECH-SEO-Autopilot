@@ -59,6 +59,7 @@ def main():
         audit["gsc_property"] = site.get("gsc_property")
         audit["repository_status"] = site.get("repository_status", "unmapped")
         audit["default_branch"] = site.get("default_branch")
+        audit["primary_origin"] = site.get("primary_origin")
         audit["gsc"] = search_console(site)
         results.append(audit)
     report = {"generated_at": dt.datetime.now(dt.timezone.utc).isoformat(),

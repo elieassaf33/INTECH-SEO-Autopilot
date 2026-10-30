@@ -54,8 +54,11 @@ store metadata, and each sitemap lists its own domain's `/en/`. Neither returned
 a canonical tag. The `pokemon` default-branch template
 `cards/templates/cards/base.html` has the same title/description and no canonical;
 `pokemonstore/urls.py` explicitly redirects the root to `/en/`. No cross-domain
-redirect is observed. No primary domain was chosen and no canonical/redirect fix
-PR was created: selecting a cross-domain policy would be speculative.
+redirect is observed. Initially no primary was chosen. On 30 October 2026 the owner explicitly
+confirmed `cardbrostcg.com` as primary. Both registry entries now record that
+origin. A narrow homepage canonical fix is proposed in
+[CardBros draft PR #1](https://github.com/elieassaf33/pokemon/pull/1); no redirects
+or other-page canonical policies are changed.
 
 ## Implemented versus pending
 
@@ -96,7 +99,8 @@ Pending setup: protected remediation environment
 with reviewers, selected-repository GitHub App or fine-grained PAT, approved
 metadata policies and client CI/deployment-trigger review. Dynamic framework
 adapters and arbitrary client application test orchestration are not implemented.
-No enabled policy exists and no client source repository has been changed.
+No automated policy is enabled. CardBros has a review-only feature branch and
+draft PR; no client default branch or deployed website has been changed.
 
 ## Minimal owner actions
 
@@ -104,8 +108,8 @@ No enabled policy exists and no client source repository has been changed.
    `siteFullUser` access in audit 41026334512. The earlier denials are historical.
 2. Review PR #6 and then the dependent platform PR; normal review/merge is required
    before the Monday schedule uses the new implementation.
-3. Confirm the intended CardBros domain relationship before a canonical fix.
-   Photography and Tvari Kirpeja source repositories are now owner-confirmed;
+3. Review CardBros draft PR #1 for the owner-approved .com homepage canonical.
+   Photography and Tvari Kirpeja source repositories are owner-confirmed;
    any enabled fix policy still requires a reviewed source commit and deployment-trigger review.
 4. If enabling supported metadata proposals, configure the protected
    `seo-remediation` environment and scoped App/PAT described in setup docs,
@@ -137,3 +141,18 @@ passed. Downloaded artifacts confirm `unhealthy_properties: []`,
 `permission_actions: []` and `other_unverified_properties: []`.
 This supersedes the earlier permission-denial blockers; no permissions were
 changed by repository code or this agent.
+
+## CardBros owner-approved homepage proposal
+
+The owner confirmed `.com` as primary. The `pokemon` default branch was verified
+as `main`, and no duplicate PR, repository deployment workflow or configured
+webhook was found. The deployment guide describes manual server operations.
+Draft PR #1 changes three template lines and adds four isolated render tests
+plus a read-only PR test workflow. It does not load production settings/models,
+access a database, change redirect/DNS/sitemap behavior, merge or deploy.
+
+[Client CI 41029323754](https://github.com/elieassaf33/pokemon/actions/runs/41029323754)
+passed all four tests on Python 3.11 with the repository-declared Django 4.2.7.
+This is template-inheritance validation, not a full checkout/application test.
+Production still has no declared homepage canonical until the PR is reviewed,
+merged and released through the client's normal process.

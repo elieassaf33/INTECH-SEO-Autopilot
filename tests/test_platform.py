@@ -102,6 +102,16 @@ def fetched(body=b'', status=200, url='https://example.com/', content_type='text
 
 
 class TechnicalTests(unittest.TestCase):
+    def test_approved_primary_is_canonical_target_but_not_redirect_permission(self):
+        site = {'name': 'CardBros UK', 'url': 'https://cardbrostcg.co.uk',
+                'primary_origin': 'https://cardbrostcg.com'}
+        home = fetched(b'<head><link rel="canonical" href="https://cardbrostcg.com/en/"></head>',
+                       url='https://cardbrostcg.co.uk/en/')
+        with patch.object(technical, 'fetch', side_effect=[home, fetched(status=404), fetched(b'<urlset/>')]) as fetch:
+            result = technical.inspect(site)
+        self.assertNotIn('canonical_review', {i['code'] for i in result['findings']})
+        self.assertNotIn('cardbrostcg.com', fetch.call_args_list[0].args[1])
+
     def test_metadata_after_closed_head_is_not_accepted(self):
         result = self.audit(fetched(b'<head></head><title>Outside head</title><link rel="canonical" href="/">'))
         self.assertTrue({'missing_title', 'missing_canonical'} <= {i['code'] for i in result['findings']})
@@ -280,6 +290,19 @@ class RemediationTests(unittest.TestCase):
 
 
 class RegistryTests(unittest.TestCase):
+    def test_primary_must_be_safe_consistent_and_belong_to_same_client(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path = Path(temp) / 'registry.json'
+            sites = [{'name': 'Primary', 'url': 'https://primary.test', 'client_id': 'shared', 'primary_origin': 'https://primary.test'},
+                     {'name': 'Alias', 'url': 'https://alias.test', 'client_id': 'shared', 'primary_origin': 'https://primary.test'}]
+            path.write_text(json.dumps(sites))
+            self.assertEqual(len(load_registry(path)), 2)
+            for origin in ['https://other.test', 'http://primary.test', 'https://primary.test/path',
+                           'https://primary.test?token=x', 'https://user:password@primary.test', 'https://alias.test']:
+                path.write_text(json.dumps([sites[0], {**sites[1], 'primary_origin': origin}]))
+                with self.subTest(origin=origin), self.assertRaises(ValueError):
+                    load_registry(path)
+
     def test_owner_confirmations_preserve_source_mappings_and_disable_remediation(self):
         sites = load_registry(Path(__file__).resolve().parents[1] / 'seo-sites.json')
         for prop, repo, branch in [('sc-domain:tvarikirpeja.lt', 'ainos_plauku', 'main'),
@@ -317,6 +340,14 @@ class RegistryTests(unittest.TestCase):
 
 
 class HealthTests(unittest.TestCase):
+    def test_approved_canonical_policy_still_requires_source_specific_review(self):
+        site = {'client_id': 'shared', 'gsc_property': 'sc-domain:alias.test', 'repository': 'owner/repo',
+                'primary_origin': 'https://primary.test', 'remediation_enabled': False}
+        report = {'sites': [{'gsc_property': site['gsc_property'], 'findings': [{'code': 'missing_canonical', 'url': 'https://alias.test/'}]}]}
+        plan = remediation.plan_proposals(report, [site])
+        self.assertEqual(plan['proposals'][0]['status'], 'blocked')
+        self.assertEqual(plan['proposals'][0]['reason'], 'source_specific_canonical_patch_required')
+
     def test_permission_checklist_names_exact_properties_and_identity(self):
         report = {'generated_at': '2026-10-30T00:00:00+00:00', 'sites': [
             {'gsc_property': 'sc-domain:denied.test', 'client_id': 'denied', 'gsc': {

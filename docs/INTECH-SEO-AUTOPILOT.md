@@ -123,7 +123,7 @@ client repositories; draft status alone is not a merge permission control.
 The first adapter supports only insertion of a missing title or description in
 an explicitly identified static HTML file. Dynamic Django/React templates,
 canonicals, robots, sitemaps, routing and domain changes deliberately fail closed.
-Those need a source-specific adapter and separate tests. No speculative copy is
+Those need a source-specific reviewed patch and separate tests. No speculative copy is
 invented: an approved metadata value is mandatory. The pipeline is:
 
 1. Match a fresh (at most seven days) issue to its exact GSC property and URL.
@@ -138,9 +138,19 @@ invented: an approved metadata value is mandatory. The pipeline is:
 No client code, dependency installers or test commands execute with a write
 credential. The controlled adapter validates its patch offline. Client application
 CI and human review are still required before merging; arbitrary remote app tests
-are not yet automated. There are no enabled policies matching current findings,
-so no client fix PR has been created. CardBros canonical policy remains a human
-decision because both domains independently serve pages and self-hosted sitemaps.
+are not yet automated. There are no enabled automatic policies matching current findings. The owner
+confirmed `https://cardbrostcg.com` as CardBros primary on 30 October 2026; both
+CardBros registry entries record that `primary_origin`. The registry validates
+that a primary belongs to a registered property of the same client and that
+client members do not declare conflicting primaries. It is accepted as a
+canonical target without authorizing any cross-domain redirects.
+
+[CardBros draft PR #1](https://github.com/elieassaf33/pokemon/pull/1) is a separately
+reviewed source-specific homepage fix: a base-template block plus an explicit
+`https://cardbrostcg.com/en/` canonical in the homepage template. Four real-template
+render tests cover both hosts, query/host isolation, and other-page inheritance.
+No product, account or checkout canonical policy is inferred. Nothing has been
+merged or deployed; production remains unchanged until a reviewed release.
 
 A reviewed policy has this shape (example only; do not enable blindly):
 

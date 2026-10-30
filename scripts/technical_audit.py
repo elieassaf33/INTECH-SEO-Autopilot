@@ -114,6 +114,10 @@ def inspect(site):
     hosts = {host, "www." + host}
     # Only explicit, registry-reviewed aliases can be followed. Shared client ID is not an alias policy.
     hosts.update(site.get("allowed_redirect_hosts", []))
+    # A reviewed primary is an accepted canonical target, not permission to follow cross-domain redirects.
+    canonical_hosts = set(hosts)
+    if site.get("primary_origin"):
+        canonical_hosts.add(urlsplit(site["primary_origin"]).hostname)
     result = {"name": site["name"], "base_url": base, "status": "ok", "checks": {}, "findings": []}
 
     def finding(code, message, url, severity="medium", **evidence):
@@ -202,7 +206,7 @@ def inspect(site):
         for canonical in canonicals:
             resolved = urljoin(final, canonical)
             parts = urlsplit(resolved)
-            if parts.scheme not in ("http", "https") or parts.hostname not in hosts or parts.fragment or parts.username or parts.password:
+            if parts.scheme not in ("http", "https") or parts.hostname not in canonical_hosts or parts.fragment or parts.username or parts.password:
                 finding("canonical_review", "Canonical has an unapproved host, fragment, credentials or invalid scheme", final, canonical=canonical)
         if "noindex" in parser.robots or "noindex" in home.get("x_robots_tag", "").lower():
             finding("noindex_review", "Homepage declares noindex; confirm whether intentional", final, "high")

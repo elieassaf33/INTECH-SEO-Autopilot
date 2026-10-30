@@ -34,4 +34,20 @@ def load_registry(path):
         site.setdefault("client_id", url.hostname.removeprefix("www."))
         if not re.fullmatch(r"[a-z0-9][a-z0-9.-]*", site["client_id"]):
             raise ValueError("Invalid client identity")
+    client_origins = {}
+    for site in sites:
+        origin = site.get("primary_origin")
+        if not origin:
+            continue
+        primary = urlsplit(origin)
+        if (primary.scheme != "https" or not primary.hostname or primary.username or primary.password or
+                primary.port not in (None, 443) or primary.path not in ("", "/") or primary.query or primary.fragment):
+            raise ValueError("Primary origin must be an HTTPS root")
+        client_hosts = {urlsplit(s["url"]).hostname.removeprefix("www.") for s in sites if s["client_id"] == site["client_id"]}
+        if primary.hostname.removeprefix("www.") not in client_hosts:
+            raise ValueError("Primary origin must belong to a registered property of the same client")
+        normalized = origin.rstrip("/")
+        if site["client_id"] in client_origins and client_origins[site["client_id"]] != normalized:
+            raise ValueError("Client properties disagree on the primary origin")
+        client_origins[site["client_id"]] = normalized
     return sites

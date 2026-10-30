@@ -33,6 +33,8 @@ def check(path):
     cardbros = [s for s in sites if s.get('gsc_property') in ('sc-domain:cardbrostcg.com', 'sc-domain:cardbrostcg.co.uk')]
     if len({s['client_id'] for s in cardbros}) != 1 or any(s.get('repository') != 'elieassaf33/pokemon' for s in cardbros):
         raise ValueError('CardBros must share one client identity and repository')
+    if any(s.get('primary_origin') != 'https://cardbrostcg.com' for s in cardbros):
+        raise ValueError('CardBros primary must match the owner-confirmed .com origin')
     print(f'Validated {len(sites)} monitored properties')
 
 

@@ -26,7 +26,7 @@ def plan_proposals(report, sites):
                 continue
             seen.add(key)
             blocked = ("repository_unmapped" if not site.get("repository") else
-                       "manual_canonical_or_domain_decision" if "canonical" in code else
+                       ("source_specific_canonical_patch_required" if site.get("primary_origin") else "manual_canonical_or_domain_decision") if "canonical" in code else
                        "repository_source_unverified" if site.get("repository_status") != "confirmed_by_owner" else
                        "remediation_disabled" if not site.get("remediation_enabled") else
                        "no_safe_adapter" if code not in SUPPORTED else "explicit_file_policy_required")
