@@ -68,7 +68,8 @@
     "client_id": "cardbros-tcg",
     "default_branch": "main",
     "repository_status": "confirmed_by_owner",
-    "remediation_enabled": false
+    "remediation_enabled": false,
+    "primary_origin": "https://cardbrostcg.com"
   },
   {
     "name": "Tesla EU",
@@ -109,7 +110,8 @@
     "client_id": "cardbros-tcg",
     "default_branch": "main",
     "repository_status": "confirmed_by_owner",
-    "remediation_enabled": false
+    "remediation_enabled": false,
+    "primary_origin": "https://cardbrostcg.com"
   },
   {
     "name": "Grikiu Dievas",
