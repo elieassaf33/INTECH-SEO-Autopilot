@@ -1,0 +1,91 @@
+name: Weekday AI keyword research and publishing
+on:
+  schedule:
+    - cron: '30 7 * * 2,4'
+  workflow_dispatch:
+    inputs:
+      publish:
+        type: boolean
+        default: false
+        description: Publish independently checked content updates
+      limit:
+        type: string
+        default: '13'
+        description: Maximum properties to research (1-13)
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: seo-production-repairs
+  cancel-in-progress: false
+jobs:
+  growth:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -v
+      - name: Download latest completed successful main audit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh api "repos/$GH_REPO/actions/workflows/intech-seo-controller.yml/runs?branch=main&status=completed&per_page=1" > /tmp/growth-audit.json
+          run_id=$(python - <<'PY'
+          import json
+          runs = json.load(open('/tmp/growth-audit.json'))['workflow_runs']
+          assert runs and runs[0]['conclusion'] == 'success', 'Latest main audit must pass'
+          print(runs[0]['id'])
+          PY
+          )
+          gh run download "$run_id" --pattern 'intech-weekly-seo-report-*' --dir seo-reports/growth/audit
+      - name: Research keywords and fact-check useful localized content
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          SEO_AI_MODEL: gpt-5-mini
+          RESEARCH_LIMIT: ${{ inputs.limit || '13' }}
+        run: python scripts/keyword_research.py --audit seo-reports/growth/audit/report.json --limit "$RESEARCH_LIMIT"
+      - name: Publish checked content through restricted server worker
+        if: always() && (github.event_name == 'schedule' || inputs.publish)
+        env:
+          REPAIR_KEY: ${{ secrets.SEO_REPAIR_SSH_KEY }}
+          KNOWN_HOSTS: ${{ vars.SEO_REPAIR_KNOWN_HOSTS }}
+          REPAIR_HOST: ${{ vars.SEO_REPAIR_HOST }}
+        run: |
+          test -n "$REPAIR_KEY" && test -n "$KNOWN_HOSTS" && test -n "$REPAIR_HOST"
+          test -s seo-reports/growth/proposals.json
+          install -d -m 700 "$RUNNER_TEMP/seo-ssh"
+          trap 'rm -f "$RUNNER_TEMP/seo-ssh/key"' EXIT
+          printf '%s\n' "$REPAIR_KEY" > "$RUNNER_TEMP/seo-ssh/key"
+          chmod 600 "$RUNNER_TEMP/seo-ssh/key"
+          printf '%s\n' "$KNOWN_HOSTS" > "$RUNNER_TEMP/seo-ssh/known_hosts"
+          ssh -T -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15 -o IdentitiesOnly=yes -o UserKnownHostsFile="$RUNNER_TEMP/seo-ssh/known_hosts" -i "$RUNNER_TEMP/seo-ssh/key" "root@$REPAIR_HOST" growth < seo-reports/growth/proposals.json > seo-reports/growth/publication.json
+      - name: Publish research and deployment summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, os
+          from pathlib import Path
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+              out.write('## Weekday keyword growth\n\n')
+              for filename in ['proposals.json', 'publication.json']:
+                  path = Path('seo-reports/growth') / filename
+                  if path.exists() and path.stat().st_size:
+                      report = json.loads(path.read_text())
+                      for row in report['results']:
+                          out.write('- ' + row.get('gsc_property', row.get('target_id', 'unknown')) + ': ' + row['status'] + '\n')
+          PY
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: weekday-keyword-growth-${{ github.run_id }}
+          path: seo-reports/growth/
+          retention-days: 90
+          if-no-files-found: warn
