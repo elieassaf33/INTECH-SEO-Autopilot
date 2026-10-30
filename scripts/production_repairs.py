@@ -1,6 +1,7 @@
 """Apply root-owned, source-pinned metadata repair bundles; never accept remote code."""
 import argparse
 import base64
+from concurrent.futures import ThreadPoolExecutor
 import datetime as dt
 import hashlib
 from html.parser import HTMLParser
@@ -144,9 +145,12 @@ def reload_services(services):
 
 
 def verify(checks, attempts=6):
+    if not checks:
+        return []
     for attempt in range(attempts):
         try:
-            return [probe(check) for check in checks]
+            with ThreadPoolExecutor(max_workers=min(4, len(checks))) as pool:
+                return list(pool.map(probe, checks))
         except Exception:
             if attempt == attempts - 1:
                 raise
