@@ -31,6 +31,15 @@ class ProductionRepairsTests(unittest.TestCase):
         file = {**self.file, 'approved_predecessors': [hashlib.sha256(original).hexdigest()]}
         self.assertEqual(repairs.repair_bytes(original, file), self.desired)
 
+    def test_missing_complete_metadata_line_is_recovered_without_allowing_other_edits(self):
+        desired = b'<head>\n    <title>Example</title>\n    ' + self.snippet.encode() + b'\n</head>'
+        file = {**self.file, 'content_base64': base64.b64encode(desired).decode(),
+                'sha256': hashlib.sha256(desired).hexdigest()}
+        missing_line = desired.replace(b'    ' + self.snippet.encode() + b'\n', b'')
+        self.assertEqual(repairs.repair_bytes(missing_line, file), desired)
+        with self.assertRaises(ValueError):
+            repairs.repair_bytes(missing_line.replace(b'Example', b'New'), file)
+
     def test_live_failure_restores_exact_original_bytes(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)

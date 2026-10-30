@@ -19,7 +19,7 @@
     "default_branch": "master",
     "repository_status": "confirmed_by_owner",
     "remediation_enabled": false,
-    "production_repair_enabled": false
+    "production_repair_enabled": true
   },
   {
     "name": "INTECH Europe",
@@ -30,7 +30,7 @@
     "default_branch": "master",
     "repository_status": "confirmed_by_owner",
     "remediation_enabled": false,
-    "production_repair_enabled": false
+    "production_repair_enabled": true
   },
   {
     "name": "Alisos Fotografija",
@@ -99,7 +99,7 @@
     "repository": "elieassaf33/ainos_plauku",
     "default_branch": "main",
     "source_evidence": "Owner confirmed active production source on 2026-10-30; default branch verified through GitHub API.",
-    "production_repair_enabled": false
+    "production_repair_enabled": true
   },
   {
     "name": "Naturalus Maistas",

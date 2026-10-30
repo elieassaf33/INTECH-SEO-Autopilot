@@ -68,6 +68,7 @@ jobs:
           assert path.exists() and path.stat().st_size, 'No production repair report received'
           report = json.loads(path.read_text())
           assert report['worker_sha256'] == hashlib.sha256(Path('scripts/production_repairs.py').read_bytes()).hexdigest(), 'Installed worker differs from tested code'
+          assert report['netlify_worker_sha256'] == hashlib.sha256(Path('scripts/netlify_repairs.py').read_bytes()).hexdigest(), 'Installed Netlify worker differs from tested code'
           with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
               out.write('## Automatic production SEO repairs\n\n')
               for row in report['results']:

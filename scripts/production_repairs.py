@@ -1,6 +1,7 @@
 """Apply root-owned, source-pinned metadata repair bundles; never accept remote code."""
 import argparse
 import base64
+from concurrent.futures import ThreadPoolExecutor
 import datetime as dt
 import hashlib
 from html.parser import HTMLParser
@@ -56,6 +57,33 @@ def approved_bytes(file):
     return desired
 
 
+def missing_metadata_variants(desired, snippets):
+    """Recognize removal of a tag or its otherwise empty complete source line."""
+    if len(snippets) > 3 or any(desired.count(s) != 1 for s in snippets):
+        raise ValueError("Invalid recovery snippets")
+    choices = []
+    for snippet in snippets:
+        start = desired.index(snippet)
+        end = start + len(snippet)
+        line_start = desired.rfind(b"\n", 0, start) + 1
+        newline = desired.find(b"\n", end)
+        line_end = len(desired) if newline == -1 else newline + 1
+        options = [None, snippet]
+        if not desired[line_start:start].strip() and not desired[end:line_end].strip():
+            line = desired[line_start:line_end]
+            if line != snippet:
+                options.append(line)
+        choices.append(options)
+    for removed in itertools.product(*choices):
+        if not any(s is not None for s in removed):
+            continue
+        variant = desired
+        for snippet in removed:
+            if snippet is not None:
+                variant = variant.replace(snippet, b"", 1)
+        yield variant
+
+
 def repair_bytes(current, file):
     """Only recover a missing approved snippet, or apply an exact approved predecessor."""
     desired = approved_bytes(file)
@@ -64,15 +92,8 @@ def repair_bytes(current, file):
     if digest(current) in file.get("approved_predecessors", []):
         return desired
     snippets = [s.encode("utf-8") for s in file.get("recoverable_snippets", [])]
-    if len(snippets) > 3 or any(desired.count(s) != 1 for s in snippets):
-        raise ValueError("Invalid recovery snippets")
-    for count in range(1, len(snippets) + 1):
-        for removed in itertools.combinations(snippets, count):
-            variant = desired
-            for snippet in removed:
-                variant = variant.replace(snippet, b"", 1)
-            if current == variant:
-                return desired
+    if any(current == variant for variant in missing_metadata_variants(desired, snippets)):
+        return desired
     raise ValueError("Source changed beyond approved metadata; refresh source baseline")
 
 
@@ -124,9 +145,12 @@ def reload_services(services):
 
 
 def verify(checks, attempts=6):
+    if not checks:
+        return []
     for attempt in range(attempts):
         try:
-            return [probe(check) for check in checks]
+            with ThreadPoolExecutor(max_workers=min(4, len(checks))) as pool:
+                return list(pool.map(probe, checks))
         except Exception:
             if attempt == attempts - 1:
                 raise
@@ -192,9 +216,22 @@ def main():
                 results.append(apply_bundle(bundle, state, args.apply))
             except Exception as exc:
                 results.append({"id": bundle["id"], "status": "blocked", "reason": str(exc)})
+        netlify_hash = None
+        if manifest.get("netlify_sites"):
+            import netlify_repairs
+            netlify_hash = digest(Path(netlify_repairs.__file__).read_bytes())
+            client = netlify_repairs.Netlify(manifest["netlify_token_path"])
+            for policy in manifest["netlify_sites"]:
+                try:
+                    results.append(netlify_repairs.apply_site(policy, client, verify, args.apply))
+                except Exception as exc:
+                    # Transport errors may include URLs; credentials never enter reports.
+                    reason = str(exc) if isinstance(exc, (ValueError, RuntimeError)) else "Netlify API operation failed"
+                    results.append({"id": policy["id"], "status": "blocked", "reason": reason})
         report = {"generated_at": dt.datetime.now(dt.timezone.utc).isoformat(), "apply": args.apply,
                   "worker_sha256": digest(Path(__file__).read_bytes()),
                   "manifest_sha256": digest(Path(args.manifest).read_bytes()),
+                  "netlify_worker_sha256": netlify_hash,
                   "results": results, "not_enabled": manifest.get("not_enabled", [])}
         payload = json.dumps(report, indent=2)
         (state / "latest.json").write_text(payload + "\n")
