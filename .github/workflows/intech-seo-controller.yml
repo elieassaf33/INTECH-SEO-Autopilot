@@ -35,6 +35,7 @@ jobs:
       - name: Audit all registered clients
         env:
           GCP_USE_ADC: 'true'
+          GSC_MONITOR_IDENTITY: intech-seo-autopilot@intech-seo-autopilot.iam.gserviceaccount.com
         run: python scripts/intech_controller.py
       - name: Publish weekly report
         if: always()

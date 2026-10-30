@@ -13,6 +13,7 @@ def main():
     for site in sites:
         result = search_console(site)
         results.append({'property': site['gsc_property'], 'status': result['status'],
+                        'identity': result.get('identity'),
                         'access': result.get('access'), 'site_metrics': result.get('site_metrics'),
                         'indexing': result.get('indexing')})
     output = Path('seo-reports/verification')

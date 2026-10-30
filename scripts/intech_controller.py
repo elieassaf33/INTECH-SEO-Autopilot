@@ -25,13 +25,17 @@ def search_console(site):
         credentials, _ = google.auth.default(
             scopes=["https://www.googleapis.com/auth/webmasters.readonly"]
         )
+        identity = getattr(credentials, "service_account_email", None)
+        if not isinstance(identity, str) or not identity:
+            identity = os.environ.get("GSC_MONITOR_IDENTITY", "Configured ADC identity (email not reported)")
         session = AuthorizedSession(credentials)
         with session:
             access = property_access(session, prop)
             if access["status"] != "ok":
-                return {"status": "access_denied" if access.get("http_status") in (403, 404) else "error", "access": access, "queries": []}
+                return {"status": "access_denied" if access.get("http_status") in (403, 404) else "error", "access": access, "identity": identity, "queries": []}
             report = weekly_analysis(session, prop)
             report["access"] = access
+            report["identity"] = identity
             report["indexing"] = indexing(session, prop, site["url"].rstrip("/") + "/")
             if report["indexing"]["status"] != "ok" and report["status"] in ("ok", "no_data"):
                 report["status"] = "partial"
@@ -104,6 +108,8 @@ def main():
     (OUT / "remediation-plan.json").write_text(json.dumps(plan_proposals(report, sites), indent=2), encoding="utf-8")
     (OUT / "health.json").write_text(json.dumps({"property_count": len(results),
         "unhealthy_properties": [s["gsc_property"] for s in results if s["gsc"]["status"] not in ("ok", "no_data") or s.get("status") != "ok"]}, indent=2), encoding="utf-8")
+    from access_actions import write_access_actions
+    write_access_actions(report, OUT)
     print("\n".join(lines))
 
 if __name__ == "__main__":

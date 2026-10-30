@@ -29,7 +29,11 @@ has failed access or incomplete diagnostics. A green old workflow alone did not
 prove that all properties succeeded: inspect per-property results.
 
 Artifacts (90 days): `report.json`, `report.md`, timestamped snapshots,
-`health.json`, and `remediation-plan.json`. Each run has its own artifact name.
+`health.json`, `remediation-plan.json`, and `access-actions.json`/`access-actions.md`.
+The access checklist names each denied property, observed HTTP status and ADC
+service-account email (when available), with exact permission and recheck steps.
+Other setup/transport errors remain separate; they are not mislabeled as missing
+GSC permissions. Each run has its own artifact name.
 Adjacent-window comparisons use Google history directly. Snapshots are retained
 as run artifacts; no permanent time-series database or year-over-year trend
 engine is implemented.
@@ -66,15 +70,19 @@ change redirects. Fetches reject non-public addresses and non-HTTP(S) schemes,
 use timeouts and cap bodies at 1.5 MB. A truncated, failed or non-HTML response
 does not produce missing-metadata findings.
 
-Checks include nonempty title/description/canonical, canonical conflicts,
+Checks include nonempty title/description/canonical, HTML/HTTP canonical conflicts,
 noindex hints, Googlebot robots rules, robots-declared sitemap discovery,
 sitemap XML validation, and homepage internal-link opportunities. A missing
 robots.txt is allowed. Off-host sitemap/canonical references require review,
 not automatic replacement. Sitemap indexes are recognized but not recursively
 crawled. Internal-link suggestions mean a sitemap URL is not directly linked
 from the homepage, not that it is an orphan. No arbitrary full-site crawl,
-JavaScript rendering, server-header canonical parsing, broken-link crawl, or
-live Google indexability test is claimed. URL Inspection describes Google's
+JavaScript rendering, broken-link crawl, or
+live Google indexability test is claimed. HTTP Link canonical headers are checked
+alongside head metadata. Matching header and HTML targets are not conflicts;
+body metadata is ignored. Fragment-bearing canonical targets require review.
+Truncated robots or sitemap bodies make the audit partial rather than producing
+a false validity verdict. URL Inspection describes Google's
 indexed version and cannot submit an indexing request.
 
 ## Registry and onboarding
@@ -188,3 +196,7 @@ Contents/PR write access needed to propose a registry change.
 
 API references: [Search Analytics](https://developers.google.com/webmaster-tools/v1/searchanalytics/query),
 [URL Inspection](https://developers.google.com/webmaster-tools/v1/urlInspection.index/inspect).
+
+Canonical handling follows [Google's HTML and HTTP canonical documentation](https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls).
+An absent explicit canonical is a review opportunity, not proof that Google
+cannot index a page or that a particular primary domain should be selected.

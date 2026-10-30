@@ -109,3 +109,12 @@ No enabled policy exists and no client source repository has been changed.
    `seo-remediation` environment and scoped App/PAT described in setup docs,
    then review explicit target-file policies. Keep deployment triggers disabled
    for proposal branches.
+
+## Follow-up hardening
+
+PR #7 now also checks HTTP Link canonical declarations, compares normalized HTML
+and header targets, ignores misplaced body metadata, and marks truncated robots
+and sitemap evaluations partial. Regression tests cover each case. Monitoring
+artifacts now include a separate `access-actions.md` and matching JSON checklist
+with the exact denied property and public service-account identity. No permission
+change is performed by generating those artifacts.

@@ -6,6 +6,7 @@ from urllib.error import HTTPError, URLError
 from urllib.parse import urljoin, urlsplit
 from urllib.request import Request, build_opener, HTTPRedirectHandler
 from urllib.robotparser import RobotFileParser
+from requests.utils import parse_header_links
 import xml.etree.ElementTree as ET
 
 LIMIT = 1_500_000
@@ -47,6 +48,7 @@ def fetch(url, hosts):
             return {"status": response.status, "final_url": response.url, "redirects": redirects.chain,
                     "content_type": response.headers.get("Content-Type", ""),
                     "x_robots_tag": response.headers.get("X-Robots-Tag", ""),
+                    "link_header": ", ".join(response.headers.get_all("Link", [])),
                     "truncated": len(body) > LIMIT, "body": body[:LIMIT]}
     except HTTPError as exc:
         return {"status": exc.code, "final_url": exc.url, "redirects": redirects.chain, "body": b""}
@@ -65,31 +67,45 @@ class MetadataParser(HTMLParser):
         self.links = []
         self.robots = ""
         self.h1 = False
+        self.in_body = False
+        self.head_closed = False
 
     def handle_starttag(self, tag, attrs):
-        attrs = dict(attrs)
-        if tag == "title":
+        attrs = {key: value or "" for key, value in attrs}
+        if tag == "body":
+            self.in_body = True
+            self.in_title = False
+        if tag == "title" and not self.in_body and not self.head_closed:
             self.in_title = True
         if tag == "h1":
             self.h1 = True
-        if tag == "meta":
+        if tag == "meta" and not self.in_body and not self.head_closed:
             name = attrs.get("name", "").lower()
             if name == "description":
                 self.description = attrs.get("content", "").strip()
             if name in ("robots", "googlebot"):
                 self.robots += "," + attrs.get("content", "").lower()
-        if tag == "link" and "canonical" in attrs.get("rel", "").lower().split():
+        if tag == "link" and not self.in_body and not self.head_closed and "canonical" in attrs.get("rel", "").lower().split():
             self.canonicals.append(attrs.get("href", "").strip())
         if tag == "a" and attrs.get("href"):
             self.links.append(attrs["href"])
 
     def handle_endtag(self, tag):
+        if tag == "head":
+            self.head_closed = True
+            self.in_title = False
         if tag == "title":
             self.in_title = False
 
     def handle_data(self, data):
         if self.in_title:
             self.title += data
+
+
+def header_canonicals(value):
+    """HTTP canonical declarations are as relevant as HTML declarations."""
+    return [link["url"].strip() for link in parse_header_links(value)
+            if "canonical" in link.get("rel", "").lower().split() and link.get("url", "").strip()]
 
 
 def inspect(site):
@@ -127,6 +143,9 @@ def inspect(site):
             sitemap_urls = robot.site_maps() or []
             if not robot.can_fetch("Googlebot", final):
                 finding("robots_blocks_homepage", "robots.txt disallows Googlebot at the final homepage", final, "high")
+    elif robots.get("truncated"):
+        result["status"] = "partial"
+        result["checks"]["robots"]["note"] = "Body limit reached; robots rules were not evaluated"
     elif robots["status"] not in (404, 410):
         finding("robots_unavailable", "robots.txt unavailable; crawler behavior requires review", robots_url, status=robots["status"])
     else:
@@ -154,6 +173,7 @@ def inspect(site):
         except ET.ParseError:
             finding("sitemap_invalid", "Sitemap is not valid sitemap XML", sitemap_url)
     elif sitemap.get("truncated"):
+        result["status"] = "partial"
         result["checks"]["sitemap"]["note"] = "Body limit reached; no XML validity verdict"
     else:
         finding("sitemap_unavailable", "Sitemap discovery failed; a sitemap is recommended, not required for indexing", sitemap_url, status=sitemap["status"])
@@ -165,18 +185,25 @@ def inspect(site):
             return result
         parser = MetadataParser()
         parser.feed(home["body"].decode("utf-8", "replace"))
+        http_canonicals = header_canonicals(home.get("link_header", ""))
+        canonicals = parser.canonicals + http_canonicals
         result["checks"]["metadata"] = {"title": parser.title.strip(), "description": parser.description,
-                                          "canonicals": parser.canonicals, "h1": parser.h1}
+                                          "canonicals": canonicals, "html_canonicals": parser.canonicals,
+                                          "http_canonicals": http_canonicals, "h1": parser.h1}
         for code, present in (("missing_title", parser.title.strip()), ("missing_description", parser.description),
-                              ("missing_canonical", any(parser.canonicals))):
+                              ("missing_canonical", any(canonicals))):
             if not present:
-                finding(code, code.replace("_", " ").capitalize() + " in fetched HTML (rendered JavaScript not evaluated)", final)
-        if len(parser.canonicals) > 1:
-            finding("multiple_canonicals", "Multiple canonical declarations require review", final)
-        for canonical in parser.canonicals:
+                message = ("No canonical declared in fetched HTML or HTTP Link headers" if code == "missing_canonical" else
+                           code.replace("_", " ").capitalize() + " in fetched HTML (rendered JavaScript not evaluated)")
+                finding(code, message, final)
+        targets = {urljoin(final, c) for c in canonicals if c}
+        if len(targets) > 1:
+            finding("multiple_canonicals", "Conflicting HTML or HTTP canonical targets require review", final)
+        for canonical in canonicals:
             resolved = urljoin(final, canonical)
-            if urlsplit(resolved).scheme not in ("http", "https") or urlsplit(resolved).hostname not in hosts:
-                finding("canonical_review", "Canonical points outside approved hosts or uses an invalid scheme", final, canonical=canonical)
+            parts = urlsplit(resolved)
+            if parts.scheme not in ("http", "https") or parts.hostname not in hosts or parts.fragment or parts.username or parts.password:
+                finding("canonical_review", "Canonical has an unapproved host, fragment, credentials or invalid scheme", final, canonical=canonical)
         if "noindex" in parser.robots or "noindex" in home.get("x_robots_tag", "").lower():
             finding("noindex_review", "Homepage declares noindex; confirm whether intentional", final, "high")
         internal = sorted({urljoin(final, u).split("#")[0] for u in parser.links

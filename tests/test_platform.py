@@ -21,6 +21,7 @@ import remediation
 import technical_audit as technical
 import report_health
 import intech_register
+from access_actions import write_access_actions
 from check_registry import check
 
 
@@ -101,6 +102,53 @@ def fetched(body=b'', status=200, url='https://example.com/', content_type='text
 
 
 class TechnicalTests(unittest.TestCase):
+    def test_metadata_after_closed_head_is_not_accepted(self):
+        result = self.audit(fetched(b'<head></head><title>Outside head</title><link rel="canonical" href="/">'))
+        self.assertTrue({'missing_title', 'missing_canonical'} <= {i['code'] for i in result['findings']})
+
+    def test_repeated_http_link_headers_are_preserved(self):
+        from email.message import Message
+        headers = Message()
+        headers['Content-Type'] = 'text/html'
+        headers['Link'] = '<https://example.com/style.css>; rel="preload"'
+        headers['Link'] = '<https://example.com/>; rel="canonical"'
+        with patch.object(technical, 'public_url'), patch.object(technical, 'build_opener') as opener:
+            page = opener.return_value.open.return_value.__enter__.return_value
+            page.status, page.url, page.headers = 200, 'https://example.com/', headers
+            page.read.return_value = b'<html/>'
+            result = technical.fetch('https://example.com/', {'example.com'})
+        self.assertEqual(technical.header_canonicals(result['link_header']), ['https://example.com/'])
+
+    def test_http_canonical_prevents_false_missing_finding(self):
+        result = self.audit(fetched(b'<html><head><title>Example</title></head></html>',
+                                   link_header='<https://example.com/>; rel="canonical", <https://example.com/style.css>; rel="preload"'))
+        self.assertNotIn('missing_canonical', {i['code'] for i in result['findings']})
+        self.assertEqual(result['checks']['metadata']['http_canonicals'], ['https://example.com/'])
+
+    def test_matching_html_and_header_canonical_are_not_conflicting(self):
+        result = self.audit(fetched(b'<head><link rel="canonical" href="/"></head>',
+                                   link_header='<https://example.com/>; rel="canonical"'))
+        self.assertNotIn('multiple_canonicals', {i['code'] for i in result['findings']})
+
+    def test_conflicting_html_and_header_canonical_require_review(self):
+        result = self.audit(fetched(b'<head><link rel="canonical" href="/"></head>',
+                                   link_header='<https://example.com/other/>; rel="canonical"'))
+        self.assertIn('multiple_canonicals', {i['code'] for i in result['findings']})
+
+    def test_body_metadata_and_boolean_attributes_do_not_mask_missing_head_metadata(self):
+        result = self.audit(fetched(b'<html><head><meta name><link rel></head><body><title>Body</title><meta name="description" content="Body"><link rel="canonical" href="/"></body></html>'))
+        self.assertTrue({'missing_title', 'missing_description', 'missing_canonical'} <= {i['code'] for i in result['findings']})
+
+    def test_truncated_robots_and_sitemap_are_partial_without_false_verdicts(self):
+        result = self.audit(fetched(b'<html/>'), fetched(b'User-agent: *\nDisallow:', truncated=True),
+                            fetched(b'<urlset>', truncated=True))
+        self.assertEqual(result['status'], 'partial')
+        self.assertFalse({'robots_blocks_homepage', 'robots_unavailable', 'sitemap_invalid'} & {i['code'] for i in result['findings']})
+
+    def test_fragment_canonical_requires_review(self):
+        result = self.audit(fetched(b'<head><link rel="canonical" href="/#section"></head>'))
+        self.assertIn('canonical_review', {i['code'] for i in result['findings']})
+
     def audit(self, home, robots=None, sitemap=None):
         with patch.object(technical, 'fetch', side_effect=[home, robots or fetched(status=404),
                       sitemap or fetched(b'<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"/>')]):
@@ -259,6 +307,24 @@ class RegistryTests(unittest.TestCase):
 
 
 class HealthTests(unittest.TestCase):
+    def test_permission_checklist_names_exact_properties_and_identity(self):
+        report = {'generated_at': '2026-10-30T00:00:00+00:00', 'sites': [
+            {'gsc_property': 'sc-domain:denied.test', 'client_id': 'denied', 'gsc': {
+                'status': 'access_denied', 'identity': 'monitor@example.iam.gserviceaccount.com', 'access': {'http_status': 404}}},
+            {'gsc_property': 'sc-domain:ok.test', 'client_id': 'ok', 'gsc': {'status': 'ok'}},
+            {'gsc_property': 'sc-domain:partial.test', 'client_id': 'partial', 'gsc': {'status': 'partial'}}]}
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            write_access_actions(report, root)
+            data = json.loads((root / 'access-actions.json').read_text())
+            self.assertEqual(len(data['permission_actions']), 1)
+            self.assertEqual(data['permission_actions'][0]['identity'], 'monitor@example.iam.gserviceaccount.com')
+            self.assertEqual(data['other_unverified_properties'][0]['status'], 'partial')
+            text = (root / 'access-actions.md').read_text()
+            self.assertIn('sc-domain:denied.test', text)
+            self.assertIn('HTTP 404', text)
+            self.assertNotIn('sc-domain:ok.test', text)
+
     def test_health_gate_fails_denied_and_preserves_no_data_success(self):
         with tempfile.TemporaryDirectory() as temp:
             path = Path(temp) / 'report.json'
@@ -319,6 +385,9 @@ class LocalGoogleIntegrationTests(unittest.TestCase):
                 self.assertEqual(sum(s['gsc']['status'] == 'access_denied' for s in report['sites']), 1)
                 self.assertEqual(report['sites'][-1]['gsc']['site_metrics']['current']['metrics']['clicks'], 20)
                 self.assertTrue((root / 'remediation-plan.json').exists())
+                actions = json.loads((root / 'access-actions.json').read_text())
+                self.assertEqual(len(actions['permission_actions']), 1)
+                self.assertEqual(actions['permission_actions'][0]['gsc_property'], 'sc-domain:denied.test')
                 self.assertEqual(len(list(root.glob('snapshot-*.json'))), 1)
         finally:
             server.shutdown(); server.server_close(); thread.join()
