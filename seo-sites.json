@@ -36,9 +36,9 @@
     "repository": "elieassaf33/alisos_foto_django",
     "client_id": "alisosfotografija-lt",
     "default_branch": "master",
-    "repository_status": "source_correlated",
+    "repository_status": "confirmed_by_owner",
     "remediation_enabled": false,
-    "source_evidence": "Live HTML matches templates/base.html static versions 20261018-phone-menu-centered and 20261019-mobile-polish; deployment commit unverified."
+    "source_evidence": "Owner confirmed active production source on 2026-10-30; live HTML also matches templates/base.html markers. Exact deployed commit unverified."
   },
   {
     "name": "Klaipedos Aliejus",
@@ -85,8 +85,11 @@
     "url": "https://tvarikirpeja.lt",
     "gsc_property": "sc-domain:tvarikirpeja.lt",
     "client_id": "tvarikirpeja-lt",
-    "repository_status": "unmapped",
-    "remediation_enabled": false
+    "repository_status": "confirmed_by_owner",
+    "remediation_enabled": false,
+    "repository": "elieassaf33/ainos_plauku",
+    "default_branch": "main",
+    "source_evidence": "Owner confirmed active production source on 2026-10-30; default branch verified through GitHub API."
   },
   {
     "name": "Naturalus Maistas",
