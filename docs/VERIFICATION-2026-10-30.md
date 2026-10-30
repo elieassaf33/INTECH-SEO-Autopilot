@@ -1,5 +1,10 @@
 # Verification and remaining work
 
+**Current status:** production automation for all 13 properties was subsequently
+enabled and merged in PRs #8/#9. See [production automation and verification](AUTOMATION-2026-10-30.md).
+The sections below preserve earlier evidence and historical blockers; their
+disabled-remediation and unmerged-PR statements describe the earlier state.
+
 ## Registry reconciliation
 
 Main at `720c8af` already includes merged PR #5 and all 13 properties. PR #4
