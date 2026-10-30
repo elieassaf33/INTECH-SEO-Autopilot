@@ -54,11 +54,17 @@ not required. Windsor authorization is a different identity and grants no ADC
 access. The verification workflow checks every registry property and emits
 `gsc-access.json`, including HTTP status and the required action on access denial.
 
-The five properties returned 403 in the real baseline run: `tvarikirpeja.lt`,
-`naturalusmaistas.lt`, `cardbrostcg.co.uk`, `grikiudievas.lt`, `thefurrytale.com`.
-Grant the identity above access to those exact domain properties and rerun the
-verification workflow. Search Console permission is separate from Cloud IAM.
-Do not create a broader Cloud IAM role to fix a per-property GSC denial.
+The five added properties initially returned 403 in the baseline. This was
+resolved externally: [live audit 41026334512](https://github.com/elieassaf33/INTECH-SEO-Autopilot/actions/runs/41026334512)
+verified `siteFullUser` access and successful indexed-version diagnostics for
+all 13 properties. Seven properties returned traffic data; Tesla EU and the five
+additions returned authorized no-data. The health gate passed and permission
+checklist was empty. No GSC permission action remains from that run.
+
+If a denial recurs, verify the exact property and grant the identity above access
+through Search Console Settings > Users and permissions, then rerun verification.
+Search Console permission is separate from Cloud IAM. Do not create a broader
+Cloud IAM role to fix a per-property GSC denial.
 
 ## Technical checks and limits
 
@@ -97,9 +103,10 @@ any of the original 13 properties while allowing additions.
 
 The verified defaults are `master` for `commerce_well` and `alisos_foto_django`,
 and `main` for the other mapped repositories. Proposal publication rechecks the
-actual GitHub default branch. Photography is source-correlated with four live
-HTML markers but its deployed commit is unverified; remediation stays disabled.
-Tvari Kirpeja remains unmapped. See [verification evidence](VERIFICATION-2026-10-30.md).
+actual GitHub default branch. The owner confirmed `alisos_foto_django` as the photography production source
+and `ainos_plauku` (`main`) as Tvari Kirpeja's production source on 30 October 2026.
+Photography also matches four live HTML markers. Exact deployed commits remain
+unverified; remediation stays disabled for all clients. See [verification evidence](VERIFICATION-2026-10-30.md).
 
 ## Safe remediation
 

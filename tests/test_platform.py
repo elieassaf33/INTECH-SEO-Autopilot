@@ -280,6 +280,16 @@ class RemediationTests(unittest.TestCase):
 
 
 class RegistryTests(unittest.TestCase):
+    def test_owner_confirmations_preserve_source_mappings_and_disable_remediation(self):
+        sites = load_registry(Path(__file__).resolve().parents[1] / 'seo-sites.json')
+        for prop, repo, branch in [('sc-domain:tvarikirpeja.lt', 'ainos_plauku', 'main'),
+                                  ('sc-domain:alisosfotografija.lt', 'alisos_foto_django', 'master')]:
+            site = next(s for s in sites if s.get('gsc_property') == prop)
+            self.assertEqual(site['repository'], 'elieassaf33/' + repo)
+            self.assertEqual(site['default_branch'], branch)
+            self.assertEqual(site['repository_status'], 'confirmed_by_owner')
+            self.assertFalse(site['remediation_enabled'])
+
     def test_future_client_is_monitored_but_remediation_stays_disabled(self):
         with tempfile.TemporaryDirectory() as temp:
             path = Path(temp) / 'registry.json'

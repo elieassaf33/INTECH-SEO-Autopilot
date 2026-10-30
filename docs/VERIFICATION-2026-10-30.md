@@ -15,21 +15,21 @@ used the configured Google service account on 29 October 2026 UTC. Its artifact
 contains all 13 property results. That old workflow exits successfully even when
 individual properties return errors; the proposed health gate corrects this.
 
-| Property | Client/source | Default branch | GSC baseline |
-|---|---|---|---|
-| lbelectrical.uk | LB Electrical / LB_Electrical | main | OK |
-| getintech.lt | INTECH / commerce_well | master | OK |
-| getintech.eu | INTECH / commerce_well | master | OK |
-| alisosfotografija.lt | Alisos / alisos_foto_django (source-correlated) | master | OK |
-| klaipedosaliejus.lt | Klaipedos Aliejus / klaipedos_aliejus | main | OK |
-| jegaainis.lt | Jegaainis / jegaainis | main | OK |
-| cardbrostcg.com | CardBros / pokemon | main | OK |
-| teslaeu.eu | Tesla EU / nemokek.lt | main | No query data |
-| tvarikirpeja.lt | Tvari Kirpeja / unmapped | unknown | HTTP 403 |
-| naturalusmaistas.lt | Naturalus Maistas / naturalus_maistas | main | HTTP 403 |
-| cardbrostcg.co.uk | CardBros / pokemon | main | HTTP 403 |
-| grikiudievas.lt | Grikiu Dievas / grikiu_dievas | main | HTTP 403 |
-| thefurrytale.com | The Furry Tale / thefurrytale | main | HTTP 403 |
+| Property | Client/source | Default branch | Historical baseline | Latest verified access/data |
+|---|---|---|---|---|
+| lbelectrical.uk | LB Electrical / LB_Electrical | main | OK | Full user; traffic data |
+| getintech.lt | INTECH / commerce_well | master | OK | Full user; traffic data |
+| getintech.eu | INTECH / commerce_well | master | OK | Full user; traffic data |
+| alisosfotografija.lt | Alisos / alisos_foto_django (owner-confirmed) | master | OK | Full user; traffic data |
+| klaipedosaliejus.lt | Klaipedos Aliejus / klaipedos_aliejus | main | OK | Full user; traffic data |
+| jegaainis.lt | Jegaainis / jegaainis | main | OK | Full user; traffic data |
+| cardbrostcg.com | CardBros / pokemon | main | OK | Full user; traffic data |
+| teslaeu.eu | Tesla EU / nemokek.lt | main | No query data | Full user; no data |
+| tvarikirpeja.lt | Tvari Kirpeja / ainos_plauku | main | HTTP 403 | Full user; no data |
+| naturalusmaistas.lt | Naturalus Maistas / naturalus_maistas | main | HTTP 403 | Full user; no data |
+| cardbrostcg.co.uk | CardBros / pokemon | main | HTTP 403 | Full user; no data |
+| grikiudievas.lt | Grikiu Dievas / grikiu_dievas | main | HTTP 403 | Full user; no data |
+| thefurrytale.com | The Furry Tale / thefurrytale | main | HTTP 403 | Full user; no data |
 
 All repository names above are under `elieassaf33`. Default branches were read
 from the authenticated GitHub repository API, not inferred from naming.
@@ -44,8 +44,10 @@ homepage-to-sitemap internal-link opportunities, not proven orphan pages.
 `templates/base.html` markers `20261018-phone-menu-centered`,
 `20261019-mobile-polish`, `fonts/geist-variable.woff2`, and
 `max-image-preview:large`. This is strong source correlation, not proof of the
-exact deployed commit. Multiple photography repositories exist; no automated
-write is enabled until the deployment source/revision is confirmed.
+exact deployed commit. The owner confirmed this as the active production repository on 30 October 2026.
+The same confirmation maps Tvari Kirpeja to `elieassaf33/ainos_plauku`, whose
+`main` default branch was verified through the authenticated GitHub API.
+No automated writes are enabled; exact deployed revisions are still unverified.
 
 Both CardBros roots redirect to `/en/` on their own domain, both return matching
 store metadata, and each sitemap lists its own domain's `/en/`. Neither returned
@@ -98,13 +100,13 @@ No enabled policy exists and no client source repository has been changed.
 
 ## Minimal owner actions
 
-1. Grant `intech-seo-autopilot@intech-seo-autopilot.iam.gserviceaccount.com`
-   access to the five HTTP-403 GSC domain properties listed above; use Search
-   Console Settings > Users and permissions, not Google Cloud IAM or Windsor.
+1. No GSC permission action remains: all 13 properties were verified with
+   `siteFullUser` access in audit 41026334512. The earlier denials are historical.
 2. Review PR #6 and then the dependent platform PR; normal review/merge is required
    before the Monday schedule uses the new implementation.
-3. Confirm the deployed photography repository/revision, Tvari Kirpeja source,
-   and intended CardBros domain relationship before any related fix proposal.
+3. Confirm the intended CardBros domain relationship before a canonical fix.
+   Photography and Tvari Kirpeja source repositories are now owner-confirmed;
+   any enabled fix policy still requires a reviewed source commit and deployment-trigger review.
 4. If enabling supported metadata proposals, configure the protected
    `seo-remediation` environment and scoped App/PAT described in setup docs,
    then review explicit target-file policies. Keep deployment triggers disabled
@@ -118,3 +120,20 @@ and sitemap evaluations partial. Regression tests cover each case. Monitoring
 artifacts now include a separate `access-actions.md` and matching JSON checklist
 with the exact denied property and public service-account identity. No permission
 change is performed by generating those artifacts.
+
+On 30 October 2026 the owner confirmed `tvarikirpeja.lt` maps to
+`elieassaf33/ainos_plauku` (`main`) and `alisosfotografija.lt` maps to
+`elieassaf33/alisos_foto_django` (`master`). Both registry entries are now
+`confirmed_by_owner`, without enabling remediation or changing GSC access.
+
+## Latest live permission verification
+
+[Audit 41026334512](https://github.com/elieassaf33/INTECH-SEO-Autopilot/actions/runs/41026334512)
+verified the identity `intech-seo-autopilot@intech-seo-autopilot.iam.gserviceaccount.com`
+with `siteFullUser` access on all 13 properties. Every URL Inspection request
+succeeded. Seven properties returned traffic data; Tesla EU and the five additions
+returned authorized no-data. All 13 technical audits completed and the health gate
+passed. Downloaded artifacts confirm `unhealthy_properties: []`,
+`permission_actions: []` and `other_unverified_properties: []`.
+This supersedes the earlier permission-denial blockers; no permissions were
+changed by repository code or this agent.
