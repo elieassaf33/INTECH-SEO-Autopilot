@@ -7,34 +7,29 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 15
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.12'
       - name: Install Google authentication libraries
-        run: pip install google-auth requests
+        run: pip install -r requirements.txt
       - name: Authenticate using GitHub OIDC
-        uses: google-github-actions/auth@v2
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3
         with:
-          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
-          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
-      - name: Verify Search Console API and list authorized properties
-        run: |
-          python - <<'PY'
-          import google.auth
-          from google.auth.transport.requests import AuthorizedSession
-          credentials, _ = google.auth.default(scopes=["https://www.googleapis.com/auth/webmasters.readonly"])
-          response = AuthorizedSession(credentials).get(
-              "https://searchconsole.googleapis.com/webmasters/v3/sites", timeout=30
-          )
-          print("HTTP status:", response.status_code)
-          response.raise_for_status()
-          entries = response.json().get("siteEntry", [])
-          print("Accessible Search Console properties:", len(entries))
-          for entry in entries:
-              print("-", entry.get("siteUrl"), "permission:", entry.get("permissionLevel"))
-          if not entries:
-              print("ACTION REQUIRED: Add the service account email as a user on each client's Search Console property.")
-          PY
+          workload_identity_provider: projects/110513102800/locations/global/workloadIdentityPools/intech-github/providers/github
+          service_account: intech-seo-autopilot@intech-seo-autopilot.iam.gserviceaccount.com
+      - name: Verify all registered properties with service-account ADC
+        env:
+          GSC_MONITOR_IDENTITY: intech-seo-autopilot@intech-seo-autopilot.iam.gserviceaccount.com
+        run: python scripts/verify_gsc.py
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: gsc-access-${{ github.run_id }}
+          path: seo-reports/verification/
+          retention-days: 30
+          if-no-files-found: error

@@ -6,6 +6,10 @@ on:
         description: Client name
         required: true
         type: string
+      client_id:
+        description: Shared business identity (optional, lowercase slug)
+        required: false
+        type: string
       website:
         description: HTTPS website root
         required: true
@@ -24,16 +28,18 @@ permissions:
 jobs:
   onboard:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           persist-credentials: false
-      - uses: actions/setup-python@v5
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
         with:
           python-version: '3.12'
       - name: Register client
         env:
           CLIENT_NAME: ${{ inputs.client_name }}
+          CLIENT_ID: ${{ inputs.client_id }}
           CLIENT_URL: ${{ inputs.website }}
           CLIENT_REPO: ${{ inputs.github_repo }}
           CLIENT_GSC: ${{ inputs.gsc_property }}

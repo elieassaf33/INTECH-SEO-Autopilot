@@ -7,7 +7,8 @@
     "client_id": "lbelectrical-uk",
     "default_branch": "main",
     "repository_status": "confirmed_by_owner",
-    "remediation_enabled": false
+    "remediation_enabled": false,
+    "production_repair_enabled": true
   },
   {
     "name": "INTECH Lithuania",
@@ -17,7 +18,8 @@
     "client_id": "intech",
     "default_branch": "master",
     "repository_status": "confirmed_by_owner",
-    "remediation_enabled": false
+    "remediation_enabled": false,
+    "production_repair_enabled": false
   },
   {
     "name": "INTECH Europe",
@@ -27,7 +29,8 @@
     "client_id": "intech",
     "default_branch": "master",
     "repository_status": "confirmed_by_owner",
-    "remediation_enabled": false
+    "remediation_enabled": false,
+    "production_repair_enabled": false
   },
   {
     "name": "Alisos Fotografija",
@@ -38,7 +41,8 @@
     "default_branch": "master",
     "repository_status": "confirmed_by_owner",
     "remediation_enabled": false,
-    "source_evidence": "Owner confirmed active production source on 2026-10-30; live HTML also matches templates/base.html markers. Exact deployed commit unverified."
+    "source_evidence": "Owner confirmed active production source on 2026-10-30; live HTML also matches templates/base.html markers. Exact deployed commit unverified.",
+    "production_repair_enabled": true
   },
   {
     "name": "Klaipedos Aliejus",
@@ -48,7 +52,8 @@
     "client_id": "klaipedosaliejus-lt",
     "default_branch": "main",
     "repository_status": "confirmed_by_owner",
-    "remediation_enabled": false
+    "remediation_enabled": false,
+    "production_repair_enabled": true
   },
   {
     "name": "Jegaainis",
@@ -58,7 +63,8 @@
     "client_id": "jegaainis-lt",
     "default_branch": "main",
     "repository_status": "confirmed_by_owner",
-    "remediation_enabled": false
+    "remediation_enabled": false,
+    "production_repair_enabled": true
   },
   {
     "name": "CardBros TCG",
@@ -69,7 +75,8 @@
     "default_branch": "main",
     "repository_status": "confirmed_by_owner",
     "remediation_enabled": false,
-    "primary_origin": "https://cardbrostcg.com"
+    "primary_origin": "https://cardbrostcg.com",
+    "production_repair_enabled": true
   },
   {
     "name": "Tesla EU",
@@ -79,7 +86,8 @@
     "client_id": "teslaeu-eu",
     "default_branch": "main",
     "repository_status": "confirmed_by_owner",
-    "remediation_enabled": false
+    "remediation_enabled": false,
+    "production_repair_enabled": true
   },
   {
     "name": "Tvari Kirpeja",
@@ -90,7 +98,8 @@
     "remediation_enabled": false,
     "repository": "elieassaf33/ainos_plauku",
     "default_branch": "main",
-    "source_evidence": "Owner confirmed active production source on 2026-10-30; default branch verified through GitHub API."
+    "source_evidence": "Owner confirmed active production source on 2026-10-30; default branch verified through GitHub API.",
+    "production_repair_enabled": false
   },
   {
     "name": "Naturalus Maistas",
@@ -100,7 +109,8 @@
     "client_id": "naturalusmaistas-lt",
     "default_branch": "main",
     "repository_status": "confirmed_by_owner",
-    "remediation_enabled": false
+    "remediation_enabled": false,
+    "production_repair_enabled": true
   },
   {
     "name": "CardBros TCG UK",
@@ -111,7 +121,8 @@
     "default_branch": "main",
     "repository_status": "confirmed_by_owner",
     "remediation_enabled": false,
-    "primary_origin": "https://cardbrostcg.com"
+    "primary_origin": "https://cardbrostcg.com",
+    "production_repair_enabled": true
   },
   {
     "name": "Grikiu Dievas",
@@ -121,7 +132,8 @@
     "client_id": "grikiudievas-lt",
     "default_branch": "main",
     "repository_status": "confirmed_by_owner",
-    "remediation_enabled": false
+    "remediation_enabled": false,
+    "production_repair_enabled": true
   },
   {
     "name": "The Furry Tale",
@@ -131,6 +143,7 @@
     "client_id": "thefurrytale-com",
     "default_branch": "main",
     "repository_status": "confirmed_by_owner",
-    "remediation_enabled": false
+    "remediation_enabled": false,
+    "production_repair_enabled": true
   }
 ]

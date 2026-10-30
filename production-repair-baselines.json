@@ -1,0 +1,278 @@
+{
+  "mode": "pinned_metadata_recovery",
+  "bundles": [
+    {
+      "id": "lbelectrical-uk",
+      "repository": "elieassaf33/LB_Electrical",
+      "root": "/opt/lb-electrical",
+      "services": [
+        "lb-electrical.service"
+      ],
+      "checks": [
+        {
+          "url": "https://www.lbelectrical.uk/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://www.lbelectrical.uk/"
+            ]
+          }
+        }
+      ],
+      "files": [
+        {
+          "path": "templates/base.html",
+          "sha256": "7d6699bcb68f84a42d5e400ed9c43f37ab07fd49d8d233e08c28dd7711393976",
+          "approved_predecessors": []
+        }
+      ]
+    },
+    {
+      "id": "alisosfotografija-lt",
+      "repository": "elieassaf33/alisos_foto_django",
+      "root": "/var/www/alisos_foto_django",
+      "services": [
+        "alisos.service"
+      ],
+      "checks": [
+        {
+          "url": "https://www.alisosfotografija.lt/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://www.alisosfotografija.lt/"
+            ]
+          }
+        }
+      ],
+      "files": [
+        {
+          "path": "templates/base.html",
+          "sha256": "2bb04f2e9707be81f71414295923aaeb061fa1c6dbdcd80df4930153ee75ada7",
+          "approved_predecessors": []
+        }
+      ]
+    },
+    {
+      "id": "klaipedosaliejus-lt",
+      "repository": "elieassaf33/klaipedos_aliejus",
+      "root": "/var/www/klaipedos_aliejus",
+      "services": [
+        "klaipeda.service"
+      ],
+      "checks": [
+        {
+          "url": "https://klaipedosaliejus.lt/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://klaipedosaliejus.lt/"
+            ]
+          }
+        }
+      ],
+      "files": [
+        {
+          "path": "templates/shop/base.html",
+          "sha256": "2daa04b4262f6973a22b278f43a775d0e52971eb0e348f64ee272100898d56b7",
+          "approved_predecessors": []
+        }
+      ]
+    },
+    {
+      "id": "jegaainis-lt",
+      "repository": "elieassaf33/jegaainis",
+      "root": "/var/www/jegaainis/jegaainis",
+      "services": [
+        "gunicorn-jegaainis.service"
+      ],
+      "checks": [
+        {
+          "url": "https://jegaainis.lt/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://jegaainis.lt/"
+            ]
+          }
+        }
+      ],
+      "files": [
+        {
+          "path": "shop/templates/shop/base.html",
+          "sha256": "b69c14b0f0dc0d752e61914ce0549f7e0ecc70032d9c63b7c557ab87ece71ece",
+          "approved_predecessors": []
+        }
+      ]
+    },
+    {
+      "id": "cardbros-tcg",
+      "repository": "elieassaf33/pokemon",
+      "root": "/var/www/card_bros_tcg/pokemon",
+      "services": [
+        "card_bros_tcg.service",
+        "gunicorn.service"
+      ],
+      "checks": [
+        {
+          "url": "https://cardbrostcg.com/en/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://cardbrostcg.com/en/"
+            ]
+          }
+        },
+        {
+          "url": "https://cardbrostcg.co.uk/en/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://cardbrostcg.com/en/"
+            ]
+          }
+        }
+      ],
+      "files": [
+        {
+          "path": "cards/templates/cards/base.html",
+          "sha256": "00742e351123d523c781933f79ff24e097ad7e4637e457f440875337d76f3705",
+          "approved_predecessors": [
+            "22a52b3f61f9d53cbc8c82298bb2464a6a6f92e6b3f36ed86ebf44db99ef9ed4"
+          ]
+        },
+        {
+          "path": "cards/templates/cards/home.html",
+          "sha256": "b518336639d4a130127642898754797966c489fd3bff1a7f68e35e4feb84b05d",
+          "approved_predecessors": [
+            "f3a625d8d7f4e65e81cb268f9a4d25d1c821f434f0afcbe25817b92a3c3bee24"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "teslaeu-eu",
+      "repository": "elieassaf33/nemokek.lt",
+      "root": "/var/www/teslaeu",
+      "services": [
+        "teslaeu.service"
+      ],
+      "checks": [
+        {
+          "url": "https://teslaeu.eu/en/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://teslaeu.eu/en/"
+            ]
+          }
+        }
+      ],
+      "files": [
+        {
+          "path": "frontend/templates/base.html",
+          "sha256": "e739b2188f4d01d34d95b97bdb3b5f774f0ca4d232b9271bc622a3a63400004e",
+          "approved_predecessors": []
+        }
+      ]
+    },
+    {
+      "id": "naturalusmaistas-lt",
+      "repository": "elieassaf33/naturalus_maistas",
+      "root": "/var/www/naturalus_maistas",
+      "services": [
+        "naturalusmaistas.service"
+      ],
+      "checks": [
+        {
+          "url": "https://naturalusmaistas.lt/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://naturalusmaistas.lt/"
+            ]
+          }
+        }
+      ],
+      "files": [
+        {
+          "path": "shop/templates/shop/base.html",
+          "sha256": "3604e40d8dd09a7dc36b6c2911d1a54f14564bcc064021e9359faed03983fa7f",
+          "approved_predecessors": []
+        }
+      ]
+    },
+    {
+      "id": "grikiudievas-lt",
+      "repository": "elieassaf33/grikiu_dievas",
+      "root": "/var/www/grikiu_dievas/grikiu_dievas",
+      "services": [
+        "grikiu_dievas.service"
+      ],
+      "checks": [
+        {
+          "url": "https://grikiudievas.lt/lt/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://grikiudievas.lt/lt/"
+            ]
+          }
+        }
+      ],
+      "files": [
+        {
+          "path": "templates/base.html",
+          "sha256": "35ce6a6b4ee48407be470a3b84246e0abce1043df70e804a5569de6c6b091c88",
+          "approved_predecessors": []
+        }
+      ]
+    },
+    {
+      "id": "thefurrytale-com",
+      "repository": "elieassaf33/thefurrytale",
+      "root": "/var/www/thefurrytale/thefurrytale",
+      "services": [
+        "thefurrytale.service"
+      ],
+      "checks": [
+        {
+          "url": "https://thefurrytale.com/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://thefurrytale.com/"
+            ]
+          }
+        }
+      ],
+      "files": [
+        {
+          "path": "templates/shop/base.html",
+          "sha256": "b28d19f9665d579c463715050fcf0cbab816584e7e9bec62536c554372b5f26a",
+          "approved_predecessors": []
+        }
+      ]
+    }
+  ],
+  "not_enabled": [
+    {
+      "id": "intech",
+      "reason": "Netlify hosts both language domains; release credentials and validated shared build path are not configured for this worker"
+    },
+    {
+      "id": "tvarikirpeja-lt",
+      "reason": "Production deployment host/path is not verified; canonical and sitemap need a separate tested policy"
+    }
+  ]
+}

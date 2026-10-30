@@ -1,11 +1,16 @@
 # INTECH SEO Autopilot
 
-Central, read-only weekly SEO monitoring for all clients in `seo-sites.json`.
+Weekly monitoring of 13 Google Search Console properties, grouped into 11
+clients, followed by automatic production metadata recovery for nine VPS clients
+(ten properties). The production worker restores only approved missing metadata
+against pinned template snapshots, backs up changes, checks live pages and rolls
+back failed repairs. Netlify's two INTECH properties and Tvari Kirpeja still need
+deployment integration. Other SEO findings remain recommendations.
 
-The Monday workflow audits websites and compares two seven-day Search Console
-windows, producing JSON and Markdown reports with page-specific recommendations.
-New clients only need a registry entry and Search Console access.
+The separate static-HTML draft-PR adapter remains disabled. Production recovery
+uses its own restricted SSH worker, not the draft-PR credential path.
 
-See [setup and report interpretation](docs/INTECH-SEO-AUTOPILOT.md).
+See [setup, safeguards and limits](docs/INTECH-SEO-AUTOPILOT.md) and
+[verified status and blockers](docs/VERIFICATION-2026-10-30.md).
 
-Run offline tests: `python -m unittest discover -s tests -v`.
+Tests: `python -m unittest discover -s tests -v`.

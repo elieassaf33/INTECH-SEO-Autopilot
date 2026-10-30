@@ -1,0 +1,11 @@
+[
+  {"id":"lbelectrical-uk","repository":"elieassaf33/LB_Electrical","root":"/opt/lb-electrical","template":"templates/base.html","services":["lb-electrical.service"],"urls":["https://www.lbelectrical.uk/"]},
+  {"id":"alisosfotografija-lt","repository":"elieassaf33/alisos_foto_django","root":"/var/www/alisos_foto_django","template":"templates/base.html","services":["alisos.service"],"urls":["https://alisosfotografija.lt/"]},
+  {"id":"klaipedosaliejus-lt","repository":"elieassaf33/klaipedos_aliejus","root":"/var/www/klaipedos_aliejus","template":"templates/shop/base.html","services":["klaipeda.service"],"urls":["https://klaipedosaliejus.lt/"]},
+  {"id":"jegaainis-lt","repository":"elieassaf33/jegaainis","root":"/var/www/jegaainis/jegaainis","template":"shop/templates/shop/base.html","services":["gunicorn-jegaainis.service"],"urls":["https://jegaainis.lt/"]},
+  {"id":"cardbros-tcg","repository":"elieassaf33/pokemon","root":"/var/www/card_bros_tcg/pokemon","template":"cards/templates/cards/base.html","services":["card_bros_tcg.service","gunicorn.service"],"urls":["https://cardbrostcg.com/en/","https://cardbrostcg.co.uk/en/"]},
+  {"id":"teslaeu-eu","repository":"elieassaf33/nemokek.lt","root":"/var/www/teslaeu","template":"frontend/templates/base.html","services":["teslaeu.service"],"urls":["https://teslaeu.eu/"]},
+  {"id":"naturalusmaistas-lt","repository":"elieassaf33/naturalus_maistas","root":"/var/www/naturalus_maistas","template":"shop/templates/shop/base.html","services":["naturalusmaistas.service"],"urls":["https://naturalusmaistas.lt/"]},
+  {"id":"grikiudievas-lt","repository":"elieassaf33/grikiu_dievas","root":"/var/www/grikiu_dievas/grikiu_dievas","template":"templates/base.html","services":["grikiu_dievas.service"],"urls":["https://grikiudievas.lt/"]},
+  {"id":"thefurrytale-com","repository":"elieassaf33/thefurrytale","root":"/var/www/thefurrytale/thefurrytale","template":"templates/shop/base.html","services":["thefurrytale.service"],"urls":["https://thefurrytale.com/"]}
+]

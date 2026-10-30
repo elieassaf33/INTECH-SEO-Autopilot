@@ -1,0 +1,68 @@
+name: Review-gated SEO proposals
+on:
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: Create draft PRs for explicitly enabled policies (requires environment approval)
+        type: boolean
+        default: false
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: seo-remediation
+  cancel-in-progress: false
+jobs:
+  proposals:
+    if: github.ref == 'refs/heads/main'
+    environment: seo-remediation
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -v
+      - name: Get latest completed main monitoring report
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          run_id=$(gh run list --workflow intech-seo-controller.yml --branch main --status completed --limit 1 --json databaseId --jq '.[0].databaseId')
+          test -n "$run_id" && test "$run_id" != null
+          gh run download "$run_id" --pattern 'intech-weekly-seo-report-*' --dir seo-reports/controller
+      - name: Require explicit GitHub App repository scope
+        if: vars.SEO_APP_ID != ''
+        env:
+          TARGETS: ${{ vars.SEO_TARGET_REPOSITORIES }}
+        run: test -n "$TARGETS"
+      - name: Create selected-repository GitHub App token
+        id: app-token
+        if: vars.SEO_APP_ID != ''
+        uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510 # v3.3.0
+        with:
+          app-id: ${{ vars.SEO_APP_ID }}
+          private-key: ${{ secrets.SEO_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: ${{ vars.SEO_TARGET_REPOSITORIES }}
+          permission-contents: write
+          permission-pull-requests: write
+      - name: Propose reviewed patches
+        env:
+          GH_TOKEN: ${{ steps.app-token.outputs.token || secrets.SEO_REMEDIATION_TOKEN }}
+          PUBLISH: ${{ inputs.publish }}
+        run: |
+          args=()
+          if [ "$PUBLISH" = true ]; then args+=(--publish); fi
+          python scripts/remediation.py --report seo-reports/controller/report.json "${args[@]}"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: seo-proposal-results-${{ github.run_id }}
+          path: seo-reports/remediation/
+          if-no-files-found: warn
+          retention-days: 30
