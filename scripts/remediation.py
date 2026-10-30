@@ -83,6 +83,8 @@ def validate_policy(policy, sites, report):
         i.get("code") == policy["issue"] and i.get("url") == policy.get("url") for i in s.get("findings", [])) for s in report["sites"])
     if not match or not re.fullmatch(r"[0-9a-f]{64}", policy.get("source_sha256", "")):
         raise ValueError("Missing matching issue evidence or reviewed source hash")
+    if not re.fullmatch(r"[0-9a-f]{40}", policy.get("reviewed_commit", "")):
+        raise ValueError("A reviewed repository commit is required to bind the deployment-trigger review")
     return site
 
 
@@ -107,6 +109,8 @@ def propose(policy, sites, report, publish=False):
         raise ValueError("Repository default branch changed or repository archived")
     from urllib.parse import quote
     base = gh("api", f"repos/{repo}/commits/{quote(site['default_branch'], safe='')}")["sha"]
+    if base != policy["reviewed_commit"]:
+        raise ValueError("Repository advanced since source and deployment-trigger review; refresh policy")
     target = gh("api", f"repos/{repo}/contents/{quote(policy['file'], safe='/')}?ref={base}")
     if target.get("type") != "file" or target.get("encoding") != "base64":
         raise ValueError("Target must be a regular UTF-8 HTML file")

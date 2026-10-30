@@ -159,6 +159,7 @@ class RemediationTests(unittest.TestCase):
         self.policy = {'gsc_property': self.site['gsc_property'], 'repository': 'owner/site', 'default_branch': 'master',
                        'issue': 'missing_description', 'file': 'index.html', 'url': 'https://example.com/',
                        'source_sha256': hashlib.sha256(self.source.encode()).hexdigest(), 'approved_value': 'Approved & clear',
+                       'reviewed_commit': 'a' * 40,
                        'branch_push_reviewed': True}
         self.report = {'generated_at': dt.datetime.now(dt.timezone.utc).isoformat(), 'sites': [
             {'gsc_property': self.site['gsc_property'], 'findings': [{'code': 'missing_description', 'url': 'https://example.com/'}]}]}
@@ -192,7 +193,7 @@ class RemediationTests(unittest.TestCase):
             remediation.validate_policy({**self.policy, 'branch_push_reviewed': False}, [self.site], self.report)
 
     def api(self, duplicate=False, drift=False):
-        return [{'default_branch': 'master'}, {'sha': 'base'},
+        return [{'default_branch': 'master'}, {'sha': 'a' * 40},
                 {'type': 'file', 'encoding': 'base64', 'sha': 'blob', 'content': base64.b64encode((self.source + ('changed' if drift else '')).encode()).decode()},
                 [{'html_url': 'https://github.com/owner/site/pull/1'}] if duplicate else []]
 
@@ -212,6 +213,13 @@ class RemediationTests(unittest.TestCase):
         with patch.object(remediation, 'gh', side_effect=self.api(drift=True)) as api, self.assertRaises(ValueError):
             remediation.propose(self.policy, [self.site], self.report, True)
         self.assertEqual(api.call_count, 3)
+
+    def test_repository_drift_requires_deployment_trigger_review_again(self):
+        replies = self.api()
+        replies[1] = {'sha': 'b' * 40}
+        with patch.object(remediation, 'gh', side_effect=replies) as api, self.assertRaises(ValueError):
+            remediation.propose(self.policy, [self.site], self.report, True)
+        self.assertEqual(api.call_count, 2)
 
     def test_only_draft_pr_targeting_actual_default_branch(self):
         with patch.object(remediation, 'gh', side_effect=self.api() + [{}, {}, {'html_url': 'pr'}]) as api:

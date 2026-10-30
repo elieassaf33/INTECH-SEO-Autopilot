@@ -77,9 +77,18 @@ of the denied properties.
 
 [PR test run 40963314743](https://github.com/elieassaf33/INTECH-SEO-Autopilot/actions/runs/40963314743)
 passed Python 3.12 and 3.14 integration/unit tests. Local actionlint, registry
-validation, compileall and disabled-policy dry-run also passed. A subsequent
-hardening commit adds explicit 404 required-action reporting and modern pinned
-Node 24 actions; final-head execution is recorded below once checked.
+validation, compileall and disabled-policy dry-run also passed. The hardened monitoring code with explicit 404 guidance and modern pinned
+Node 24 actions was verified in
+[audit 41021681010](https://github.com/elieassaf33/INTECH-SEO-Autopilot/actions/runs/41021681010):
+setup, tests, OIDC, all-property audit and artifact publication succeeded; only
+the health gate failed, correctly identifying exactly the five access denials.
+All 13 technical audits completed. The downloaded JSON was checked for 13
+properties, 11 clients, eight authorized properties and five explicit
+`access_denied` results. This verifies the monitoring implementation against
+real service-account credentials without broadening access or modifying data.
+
+Repository metadata inspection also confirmed there is no `seo-remediation`
+environment and no configured App/PAT remediation secret or App variables.
 
 Pending setup: protected remediation environment
 with reviewers, selected-repository GitHub App or fine-grained PAT, approved

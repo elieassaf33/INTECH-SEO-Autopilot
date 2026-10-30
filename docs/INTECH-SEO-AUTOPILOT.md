@@ -113,7 +113,7 @@ invented: an approved metadata value is mandatory. The pipeline is:
 
 1. Match a fresh (at most seven days) issue to its exact GSC property and URL.
 2. Require a confirmed-by-owner repository mapping, explicit remediation enable,
-   reviewed deployment triggers, target file and reviewed SHA-256 source hash.
+   reviewed deployment triggers bound to an exact commit, target file and reviewed SHA-256 source hash.
 3. Recheck the actual default branch, target type and current source hash.
 4. Insert one escaped tag; validate the parsed result and single-insertion invariant.
 5. Check deterministic branches for existing PRs in all states. Reuse existing
@@ -138,6 +138,7 @@ A reviewed policy has this shape (example only; do not enable blindly):
   "issue": "missing_description",
   "file": "index.html",
   "source_sha256": "64 lowercase hex characters from the reviewed file bytes",
+  "reviewed_commit": "40 lowercase hex characters from the reviewed default-branch commit",
   "approved_value": "Human-approved accurate description",
   "branch_push_reviewed": true
 }
