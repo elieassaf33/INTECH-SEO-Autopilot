@@ -25,7 +25,7 @@ def request(session, method, url, **kwargs):
             continue
         if isinstance(status, int) and status >= 400:
             # Do not persist API payloads, request headers, or credential errors.
-            reason = {401: "authentication_required", 403: "permission_denied",
+            reason = {401: "authentication_required", 403: "permission_denied", 404: "property_not_visible",
                       429: "quota_exhausted"}.get(status, "request_failed")
             raise ApiError(status, reason)
         response.raise_for_status()

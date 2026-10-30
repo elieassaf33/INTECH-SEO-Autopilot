@@ -11,8 +11,8 @@ def property_access(session, prop):
                 "permission_level": permission}
     except Exception as exc:
         result = error_status(exc)
-        if result["http_status"] == 403:
-            result["required_action"] = "Grant the configured service account access in Search Console > Settings > Users and permissions for this exact property."
+        if result["http_status"] in (403, 404):
+            result["required_action"] = "Property access denied or not visible. Verify the exact property ID, then grant the configured service account access in Search Console > Settings > Users and permissions."
         return result
 
 

@@ -112,6 +112,8 @@ def inspect(site):
         finding("homepage_unavailable", "Homepage fetch failed; do not infer missing SEO tags", final, "high", status=home["status"])
     robots_url = urljoin(final, "/robots.txt")
     robots = fetch(robots_url, hosts)
+    if robots["status"] is None or robots["status"] in (401, 403, 429) or (robots["status"] or 0) >= 500:
+        result["status"] = "partial"
     result["checks"]["robots"] = {k: v for k, v in robots.items() if k != "body"}
     robot = None
     sitemap_urls = []
@@ -132,6 +134,8 @@ def inspect(site):
 
     sitemap_url = next((u for u in sitemap_urls if urlsplit(u).hostname in hosts and urlsplit(u).scheme == "https"), urljoin(final, "/sitemap.xml"))
     sitemap = fetch(sitemap_url, hosts)
+    if sitemap["status"] is None or sitemap["status"] in (401, 403, 429) or (sitemap["status"] or 0) >= 500:
+        result["status"] = "partial"
     result["checks"]["sitemap"] = {k: v for k, v in sitemap.items() if k != "body"}
     page_urls = []
     if sitemap["status"] == 200 and not sitemap.get("truncated"):

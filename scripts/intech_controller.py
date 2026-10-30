@@ -29,7 +29,7 @@ def search_console(site):
         with session:
             access = property_access(session, prop)
             if access["status"] != "ok":
-                return {"status": "access_denied" if access.get("http_status") == 403 else "error", "access": access, "queries": []}
+                return {"status": "access_denied" if access.get("http_status") in (403, 404) else "error", "access": access, "queries": []}
             report = weekly_analysis(session, prop)
             report["access"] = access
             report["indexing"] = indexing(session, prop, site["url"].rstrip("/") + "/")
@@ -103,7 +103,7 @@ def main():
     from remediation import plan_proposals
     (OUT / "remediation-plan.json").write_text(json.dumps(plan_proposals(report, sites), indent=2), encoding="utf-8")
     (OUT / "health.json").write_text(json.dumps({"property_count": len(results),
-        "unhealthy_properties": [s["gsc_property"] for s in results if s["gsc"]["status"] not in ("ok", "no_data")]}, indent=2), encoding="utf-8")
+        "unhealthy_properties": [s["gsc_property"] for s in results if s["gsc"]["status"] not in ("ok", "no_data") or s.get("status") != "ok"]}, indent=2), encoding="utf-8")
     print("\n".join(lines))
 
 if __name__ == "__main__":

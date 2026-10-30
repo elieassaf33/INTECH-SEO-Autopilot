@@ -26,9 +26,9 @@ def plan_proposals(report, sites):
                 continue
             seen.add(key)
             blocked = ("repository_unmapped" if not site.get("repository") else
+                       "manual_canonical_or_domain_decision" if "canonical" in code else
                        "repository_source_unverified" if site.get("repository_status") != "confirmed_by_owner" else
                        "remediation_disabled" if not site.get("remediation_enabled") else
-                       "manual_canonical_or_domain_decision" if "canonical" in code else
                        "no_safe_adapter" if code not in SUPPORTED else "explicit_file_policy_required")
             plans.append({"client_id": site.get("client_id"), "gsc_property": result.get("gsc_property"),
                           "repository": site.get("repository"), "issue": code, "url": issue.get("url"),
@@ -43,7 +43,7 @@ def static_patch(source, code, value):
         raise ValueError("Dynamic templates require a separately reviewed adapter")
     parser = MetadataParser()
     parser.feed(source)
-    if len(re.findall(r"</head\s*>", source, re.I)) != 1:
+    if len(re.findall(r"</head\s*>", source, re.I)) != 1 or len(re.findall(r"<head\b", source, re.I)) != 1:
         raise ValueError("Expected exactly one head element")
     if code == "missing_description":
         if parser.description or re.search(r'<meta\b[^>]*\bname\s*=\s*[\'\"]?description', source, re.I):

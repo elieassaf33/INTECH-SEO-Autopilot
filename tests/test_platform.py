@@ -53,6 +53,14 @@ class GoogleTests(unittest.TestCase):
         self.assertEqual(result['http_status'], 403)
         self.assertIn('Users and permissions', result['required_action'])
 
+    def test_hidden_property_404_is_actionable_without_claiming_it_does_not_exist(self):
+        session = Mock()
+        session.get.return_value = response(404)
+        result = gsc_diagnostics.property_access(session, 'sc-domain:example.com')
+        self.assertEqual(result['http_status'], 404)
+        self.assertEqual(result['error_code'], 'property_not_visible')
+        self.assertIn('Verify the exact property', result['required_action'])
+
     def test_indexing_uses_read_only_inspection(self):
         session = Mock()
         session.post.return_value = response(200, {'inspectionResult': {'indexStatusResult': {'verdict': 'PASS'}}})

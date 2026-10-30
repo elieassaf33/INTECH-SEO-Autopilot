@@ -64,8 +64,24 @@ validation, and a disabled-by-default static HTML metadata proposal adapter.
 The adapter has source-hash checks, deterministic duplicate detection, controlled
 patch validation and draft PR creation; it never runs client code with tokens.
 
-Pending external validation: live Actions execution of the new implementation
-and its OIDC subject restrictions. Pending setup: protected remediation environment
+The new implementation was also executed in
+[feature-branch audit 40963315211](https://github.com/elieassaf33/INTECH-SEO-Autopilot/actions/runs/40963315211).
+OIDC succeeded without changing its trust configuration. The report contains all
+13 properties and 11 client identities; seven properties have real independent
+aggregates and successful URL Inspection, Tesla EU has authorized no-data with
+successful inspection, and the five additions are not visible to this identity
+(`sites.get` HTTP 404, versus Search Analytics HTTP 403 in the baseline). The
+artifact was uploaded before the health gate exited with exactly five unhealthy
+properties. This is an intentional failing health signal, not a successful audit
+of the denied properties.
+
+[PR test run 40963314743](https://github.com/elieassaf33/INTECH-SEO-Autopilot/actions/runs/40963314743)
+passed Python 3.12 and 3.14 integration/unit tests. Local actionlint, registry
+validation, compileall and disabled-policy dry-run also passed. A subsequent
+hardening commit adds explicit 404 required-action reporting and modern pinned
+Node 24 actions; final-head execution is recorded below once checked.
+
+Pending setup: protected remediation environment
 with reviewers, selected-repository GitHub App or fine-grained PAT, approved
 metadata policies and client CI/deployment-trigger review. Dynamic framework
 adapters and arbitrary client application test orchestration are not implemented.

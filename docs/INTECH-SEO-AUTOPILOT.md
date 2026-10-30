@@ -21,7 +21,7 @@ heuristics requiring review: clicks down 30% with a baseline of five, CTR below
 2% at positions 1-10 with 50 impressions, or ranking positions 5-20 with ten
 impressions. Declines on disappeared rows are investigation prompts only.
 
-Transient HTTP 429/5xx and transport timeouts have three bounded attempts. 403 is
+Transient HTTP 429/5xx and transport timeouts have three bounded attempts. 403 and hidden-property 404 are
 not retried or presented as empty traffic. Errors are isolated per property and
 per metric section. No-data is distinct from access-denied, partial and error.
 The workflow retains artifacts before failing its health gate when any property
@@ -48,7 +48,7 @@ Settings > Users and permissions and grant that service account access. Full use
 access is the recommended role for monitoring and URL Inspection; ownership is
 not required. Windsor authorization is a different identity and grants no ADC
 access. The verification workflow checks every registry property and emits
-`gsc-access.json`, including HTTP status and the required action on 403.
+`gsc-access.json`, including HTTP status and the required action on access denial.
 
 The five properties returned 403 in the real baseline run: `tvarikirpeja.lt`,
 `naturalusmaistas.lt`, `cardbrostcg.co.uk`, `grikiudievas.lt`, `thefurrytale.com`.
