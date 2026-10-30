@@ -1,0 +1,85 @@
+name: Automatic production SEO repairs
+on:
+  workflow_run:
+    workflows: [INTECH SEO Autopilot - all clients]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+permissions:
+  contents: read
+  actions: read
+concurrency:
+  group: seo-production-repairs
+  cancel-in-progress: false
+jobs:
+  repair:
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_repository.full_name == github.repository))
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - name: Validate repair worker
+        run: python -m unittest discover -s tests -v
+      - name: Confirm a recent successful main audit
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          gh api "repos/$GH_REPO/actions/workflows/intech-seo-controller.yml/runs?branch=main&status=completed&per_page=1" > /tmp/audit-runs.json
+          python - <<'PY'
+          import datetime as dt, json
+          runs = json.load(open('/tmp/audit-runs.json'))['workflow_runs']
+          assert runs and runs[0]['conclusion'] == 'success', 'Latest main audit must pass'
+          age = dt.datetime.now(dt.timezone.utc) - dt.datetime.fromisoformat(runs[0]['updated_at'].replace('Z', '+00:00'))
+          assert dt.timedelta(0) <= age <= dt.timedelta(hours=24), 'Successful audit must be less than 24 hours old'
+          PY
+      - name: Apply approved production metadata repairs
+        env:
+          REPAIR_KEY: ${{ secrets.SEO_REPAIR_SSH_KEY }}
+          KNOWN_HOSTS: ${{ vars.SEO_REPAIR_KNOWN_HOSTS }}
+          REPAIR_HOST: ${{ vars.SEO_REPAIR_HOST }}
+        run: |
+          test -n "$REPAIR_KEY" && test -n "$KNOWN_HOSTS" && test -n "$REPAIR_HOST"
+          mkdir -p seo-reports/production
+          install -d -m 700 "$RUNNER_TEMP/seo-ssh"
+          trap 'rm -f "$RUNNER_TEMP/seo-ssh/key"' EXIT
+          printf '%s\n' "$REPAIR_KEY" > "$RUNNER_TEMP/seo-ssh/key"
+          chmod 600 "$RUNNER_TEMP/seo-ssh/key"
+          printf '%s\n' "$KNOWN_HOSTS" > "$RUNNER_TEMP/seo-ssh/known_hosts"
+          ssh -T -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15 -o IdentitiesOnly=yes -o UserKnownHostsFile="$RUNNER_TEMP/seo-ssh/known_hosts" -i "$RUNNER_TEMP/seo-ssh/key" "root@$REPAIR_HOST" apply > seo-reports/production/results.json
+      - name: Verify installed worker and publish summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import hashlib, json, os
+          from pathlib import Path
+          path = Path('seo-reports/production/results.json')
+          assert path.exists() and path.stat().st_size, 'No production repair report received'
+          report = json.loads(path.read_text())
+          assert report['worker_sha256'] == hashlib.sha256(Path('scripts/production_repairs.py').read_bytes()).hexdigest(), 'Installed worker differs from tested code'
+          with open(os.environ['GITHUB_STEP_SUMMARY'], 'a') as out:
+              out.write('## Automatic production SEO repairs\n\n')
+              for row in report['results']:
+                  out.write('- ' + row['id'] + ': ' + row['status'] + '\n')
+              for row in report['not_enabled']:
+                  out.write('- ' + row['id'] + ': not enabled — ' + row['reason'] + '\n')
+          assert not any(r['status'] == 'blocked' for r in report['results']), 'Some repairs require source review; see artifact'
+          PY
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: seo-production-repairs-${{ github.run_id }}
+          path: seo-reports/production/
+          retention-days: 90
+          if-no-files-found: warn

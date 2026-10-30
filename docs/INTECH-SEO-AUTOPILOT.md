@@ -3,8 +3,9 @@
 ## Monitoring
 
 `seo-sites.json` contains 13 GSC properties grouped into 11 client identities.
-Every Monday at 07:00 UTC, the central workflow audits them all. Manual runs are
-read-only. No client workflow installation is needed. The schedule uses the
+Every Monday at 07:00 UTC, the central workflow audits them all. Successful main
+audits now trigger the separate automatic production metadata recovery workflow.
+No client workflow installation is needed. The schedule uses the
 default branch; unmerged PR changes are not scheduled production behavior.
 
 Reports include property-level status, access checks, homepage technical checks,
@@ -108,11 +109,65 @@ and `ainos_plauku` (`main`) as Tvari Kirpeja's production source on 30 October 2
 Photography also matches four live HTML markers. Exact deployed commits remain
 unverified; remediation stays disabled for all clients. See [verification evidence](VERIFICATION-2026-10-30.md).
 
-## Safe remediation
+## Automatic production metadata recovery
 
-Monitoring produces a blocked proposal plan; it never writes client repositories.
+The owner authorized applying and deploying fixes automatically after checks pass
+on 30 October 2026. `seo-production-repairs.yml` follows a successful central main
+audit, checks that the latest completed main audit passed within 24 hours, runs
+the test suite, and invokes a fixed command on the verified production VPS.
+Manual dispatch has the same audit and test gates. Fork and feature-branch audit
+runs cannot trigger production repair. GitHub's workflow-run behavior is described
+in its [event documentation](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_run).
+
+`production-repair-targets.json` maps nine clients / ten properties to the exact
+production roots and services. `production-repair-baselines.json` records approved
+template hashes and live checks without publishing template snapshots. Root-owned
+snapshots live in `/etc/intech-seo-repairs/manifest.json`; only a server administrator
+can update the worker or its approval scope. `production_repair_enabled` in the
+registry documents this separate capability; it does not enable the draft-PR adapter.
+
+Recovery restores title, description and canonical snippets from the approved
+template, including their original Django variables and blocks. It accepts only
+the exact approved template with one or more of those snippets missing. Arbitrary
+edits, changed values and source drift stop that client's repair and produce an
+actionable failed report; a maintainer must revalidate and install a fresh baseline
+after a normal application release. This is bounded regression repair, not an
+automatic content writer, full-site optimizer or general-purpose deployment system.
+
+CardBros additionally has an exact-source predecessor allowing the tested two-file
+homepage canonical patch to the owner-approved `.com` primary. Recovery checks both
+`.com/en/` and `.co.uk/en/`. Other-page canonicals and redirects are outside its scope.
+
+Before writing, the worker validates every source file in a client's bundle and
+backs up originals under `/var/lib/intech-seo-repairs/`. It uses atomic writes,
+preserves file owner/mode, restarts only the mapped application services, and checks
+the public HTML for nonempty title/description and the approved canonical. Failed
+verification restores original bytes and restarts the services again. It never
+checks out an entire application, installs client dependencies, migrates databases,
+or modifies media/uploads. Source snapshots prevent unrelated local changes from
+being overwritten. A process lock prevents overlapping worker runs.
+
+The GitHub credential is a dedicated SSH key with a forced command allowing only
+`apply` or `check`; forwarding, PTY and other commands are disabled. The server's
+host key is pinned. The workflow cannot upload code, choose files/services, obtain
+a general shell or alter approval snapshots using this key. Repository secret
+`SEO_REPAIR_SSH_KEY` and variables `SEO_REPAIR_HOST` / `SEO_REPAIR_KNOWN_HOSTS`
+configure transport. Worker results and exclusions are retained as 90-day Actions
+artifacts; the server also retains timestamped results and original-file backups.
+
+Not integrated: the two INTECH domains share a Netlify build and require the
+existing validated dual-language release path plus deployment credentials. Tvari
+Kirpeja's live hosting path has not been verified. Those three properties remain
+audit-only and are explicitly listed in every production worker report. Sitemap,
+robots, links, rankings, content and unknown application problems still require
+source-specific fixes. There is no claim that all audit findings can be fixed.
+
+## Separate review-gated proposal adapter
+
+Monitoring produces a blocked draft-PR proposal plan; it never writes client repositories.
 All clients start with `remediation_enabled: false`; `remediation-policies.json`
-is empty. There are no unattended SEO changes, automatic merges or deployments.
+is empty. This adapter does not merge or deploy; automatic production recovery
+above uses a separate, source-pinned path.
 
 The manual remediation workflow runs only reviewed code on central `main`, in
 the `seo-remediation` GitHub environment. Configure required reviewers and disable
