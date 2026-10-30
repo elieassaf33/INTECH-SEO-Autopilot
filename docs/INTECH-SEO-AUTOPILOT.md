@@ -119,14 +119,15 @@ Manual dispatch has the same audit and test gates. Fork and feature-branch audit
 runs cannot trigger production repair. GitHub's workflow-run behavior is described
 in its [event documentation](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#workflow_run).
 
-`production-repair-targets.json` maps nine clients / ten properties to the exact
-production roots and services. `production-repair-baselines.json` records approved
-template hashes and live checks without publishing template snapshots. Root-owned
+`production-repair-targets.json` maps nine VPS clients / ten properties to the exact
+production roots and services. The remaining two clients / three properties use
+Netlify. `production-repair-baselines.json` records approved template hashes,
+Netlify release digests and live checks without publishing template snapshots. Root-owned
 snapshots live in `/etc/intech-seo-repairs/manifest.json`; only a server administrator
 can update the worker or its approval scope. `production_repair_enabled` in the
 registry documents this separate capability; it does not enable the draft-PR adapter.
 
-Recovery restores title, description and canonical snippets from the approved
+Recovery covers all 13 properties. It restores title, description and canonical snippets from the approved
 template, including their original Django variables and blocks. It accepts only
 the exact approved template with one or more of those snippets missing. Arbitrary
 edits, changed values and source drift stop that client's repair and produce an
@@ -155,12 +156,31 @@ a general shell or alter approval snapshots using this key. Repository secret
 configure transport. Worker results and exclusions are retained as 90-day Actions
 artifacts; the server also retains timestamped results and original-file backups.
 
-Not integrated: the two INTECH domains share a Netlify build and require the
-existing validated dual-language release path plus deployment credentials. Tvari
-Kirpeja's live hosting path has not been verified. Those three properties remain
-audit-only and are explicitly listed in every production worker report. Sitemap,
-robots, links, rankings, content and unknown application problems still require
-source-specific fixes. There is no claim that all audit findings can be fixed.
+Netlify recovery uses the existing authenticated account through a root-only
+server credential file. No Netlify token is exposed to GitHub Actions. The two
+INTECH domains share approved release `6ae1bd420e58a19ef70fb695` on site
+`0d8f9627-2f50-476e-9777-b918ae107056`. Recovery compares every published file's
+digest, permits only approved missing-metadata variants, and restores the entire
+immutable approved release. It never rebuilds the shared site or publishes one
+language alone. The original redirects, headers, assets and `google-reviews`
+function are retained. Changed function bundles, added files, unrelated file
+changes, locked releases and detected concurrent deployments block recovery.
+Live checks cover all 22 deployed non-404 HTML pages across both domains.
+
+Tvari Kirpeja is verified as Netlify site
+`f13a241f-dcd7-44a5-af0a-7a84c2c3e0b4`, with production domain
+`www.tvarikirpeja.lt`. Source matched the deployed index exactly before the
+tested canonical insertion and three-page sitemap patch. Client PR #1 passed
+CI, and its draft deploy was verified before publication. Netlify's subsequent
+Git production build `6ae4b9db97f27cbe4345fddc` is the approved recovery baseline.
+All three HTML pages are checked; loss of the sitemap file can also trigger
+recovery. A failed Netlify repair restores the previous published deployment.
+
+These policies recover specific missing-metadata regressions. Robots rules,
+internal links, rankings, content improvements and unknown application problems
+still require source-specific fixes. There is no claim that every audit finding
+can be fixed automatically. A normal site release requires reviewing and
+refreshing its pinned production baseline before unattended recovery resumes.
 
 ## Separate review-gated proposal adapter
 

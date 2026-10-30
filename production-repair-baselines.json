@@ -265,14 +265,840 @@
       ]
     }
   ],
-  "not_enabled": [
+  "not_enabled": [],
+  "netlify_sites": [
     {
       "id": "intech",
-      "reason": "Netlify hosts both language domains; release credentials and validated shared build path are not configured for this worker"
+      "site_id": "0d8f9627-2f50-476e-9777-b918ae107056",
+      "deploy_id": "6ae1bd420e58a19ef70fb695",
+      "files": {
+        "/404.html": "29afcdd534334e3b76cf4479f0a40072543c7185",
+        "/_en/404.html": "113e1b3ec1b383a742b7ebcbc0ddef654afbdafe",
+        "/_en/index.html": "a9ddef9fe9cf7ca15c5747826d55b90cacbf0b38",
+        "/_en/pricing/index.html": "078588b219164aeb2ca62a596949049329ede311",
+        "/_en/privacy.html": "6c9364fffb5f381ba8bd53ea79ae3dc938f9fc9f",
+        "/_en/robots.txt": "cf7274f4fc0ef270264caef682928104b7335687",
+        "/_en/services/custom-web-development/index.html": "feba116e79138890ccbddd14f266926a9283d9f1",
+        "/_en/services/ecommerce-website-development/index.html": "a4cc90ebe5b9d0f3307f1f032ffeaa79ae13e89a",
+        "/_en/services/seo-services/index.html": "e1f91a0bbbb81b703bd2e44d9213214cf5457847",
+        "/_en/services/small-business-website-design/index.html": "5237a7e9f353f89f4eab2fc5a1fe8b26d8cb0424",
+        "/_en/services/website-maintenance/index.html": "e667df91bb88033441186cc1b1804623b8557b89",
+        "/_en/services/website-redesign/index.html": "ea163884c61913438cabbd31089ba21aaf8d4454",
+        "/_en/sitemap.xml": "4997949a3e8627b31bfef68937b22e42800d7186",
+        "/_en/work/card-bros-tcg/index.html": "3dd468361eb7b1377f37b9b9ee14ede7519a6c61",
+        "/_en/work/lb-electrical/index.html": "ba048c412988d69a600579e4d7f52edce19c62a1",
+        "/_headers": "5a6a1f6bdea0629a59004a8372d1c94570138078",
+        "/_redirects": "52e3687930e267f4b45c5388a3550d1ec7614030",
+        "/google-reviews.js": "811d773bc1769ce15a52cf16b95252f7f6fda62f",
+        "/images/alisos_fotografija.png": "557a7f4610c72f28f6e5e4486b7ee169c0d5957b",
+        "/images/alisos_fotografija.webp": "114efedfab5becde74eb638be4f6e4bb9942ca4b",
+        "/images/intech-social.png": "1bc9682444f30d17447a6e08a0304660d9771371",
+        "/images/jegaainis.png": "34576fa862439880e9846d09809ba1d6f724515b",
+        "/images/jegaainis.webp": "c925e65be459e76c965d280e1108b747f48a7968",
+        "/images/klaipedos_aliejus.png": "2f1ec55f0e03534717f0429a0eed562da7784e0f",
+        "/images/klaipedos_aliejus.webp": "ef1433e042a1e495c7b8b74fa0b2dd8a4cef9884",
+        "/images/lb_electrical.png": "82572ee009493f6eb7ecb525da6b8fe9b65e695a",
+        "/images/lb_electrical.webp": "13f2f1d062e3d39ab656c11dc6abbe6de4d7c389",
+        "/images/logo.ico": "0f2700fedda04733a436fcc5625f7f4728cec2f0",
+        "/images/logo.png": "0f2700fedda04733a436fcc5625f7f4728cec2f0",
+        "/images/logo_bg.png": "4f583aad442df40526fb463f7b40d3390e429661",
+        "/images/naturalus_maistas.png": "5360964723c947d3c938c922f9b8edb6ce937e90",
+        "/images/naturalus_maistas.webp": "aa4561ab729b9d25a113de9d09aecdb73e67743a",
+        "/images/tcg.png": "275d86c6b616b86d71ba36680fc42122da6be20d",
+        "/images/tcg.webp": "284d05d61fe8971fb7ea7e7011a654dffc065bc9",
+        "/images/tesla.png": "50a8d9808eb3a710f3cb6fd94b7cea62caf54889",
+        "/images/tesla.webp": "ef772de4647cd4114cda8810c0870eae92dff697",
+        "/images/thefurrytale.png": "85f815f339270e99fed521acff3abc01095749a6",
+        "/images/thefurrytale.webp": "305041f7e5536f6e3fbe1e634581398ac8749210",
+        "/images/tvari_kirpeja.png": "b6193a35e81e035313c8fcca5734e9f6ba6fdc97",
+        "/images/tvari_kirpeja.webp": "a39c5818ad059ad1d7d5f2121e7040300afe83f2",
+        "/index.html": "2108a88d9dd334e5e476696983d3ff254c397604",
+        "/language-navigation.js": "f323e7aebf4af48ca52e719ac028ee1e74d0a7b6",
+        "/netlify.toml": "93ac927a4e4a90fd33b8301f2b91e6ffab9c6ec3",
+        "/polish.css": "aa5f571b3c046d7356d054dc6ab2867485b6a073",
+        "/pricing/index.html": "69f2c97033b383d7833109916fd2877993369879",
+        "/privacy.html": "83e7df9cc487393e7fa6561716988f6d134fa88b",
+        "/refinements.css": "8296c0fccce0d3db9ecb0f081bcb12e83440f728",
+        "/robots.txt": "258c991960f97011db6a20137cdad1659c864f26",
+        "/script.js": "8a0ad9aca35bbc253719bc8cdd2ec2deb1762a2e",
+        "/seo-pages.css": "1ff71b6cb6d2d0b717c8fa4884feb5e5e6a52ff4",
+        "/services/custom-web-development/index.html": "297c7efd803ef8aa3d2556028a35050c8829b0e3",
+        "/services/ecommerce-website-development/index.html": "7d54fda098c33215d8aa63244b52a92b93e6e621",
+        "/services/seo-services/index.html": "c250cf42509a7ccde4953ad2782f4e16c1fee8c1",
+        "/services/small-business-website-design/index.html": "e264307cb9ac1e16442636ea97ec276cfb8b99e3",
+        "/services/website-maintenance/index.html": "3b795c0ff3e7f204b6bffe7559c70bfb9879e246",
+        "/services/website-redesign/index.html": "bb967f3fc2de097ce5f02e660ed4f5eb766ccbc0",
+        "/sitemap.xml": "0345dee0de706bcc0dd6cf2cd0bb1f5927843220",
+        "/static/vendor/readme.md": "c04aa0c1bd223fdc49b9d28f680080e0c8c8e6ee",
+        "/static/vendor/scrolltrigger-3.15.0.min.js": "05ca5ad88cef2a729db515fa20dbe3ab939551de",
+        "/static/vendor/gsap-3.15.0.min.js": "9396f256329cf554fef888293069705957f1b3e2",
+        "/static/vendor/lenis-1.3.25.min.js": "fcd60395de711f9cd0f2626649736a75133e4670",
+        "/static/vendor/lenis-license": "13fad38404f34c7e8ae92ec0e222738f7e43912b",
+        "/static/vendor/manifest.json": "cb324f6f051b6f4e2304eb279b94b6c8791b0af0",
+        "/static/vendor/tailwind-license.txt": "ef036caa5ae21879ca828630af77e2f19bf2b45b",
+        "/static/vendor/utilities.css": "699d650d53b7b191f9b5851fffe7fdea90e89ed5",
+        "/styles.css": "75dd58bc2584cb0a9dd23d5948e7cc305fc3feca",
+        "/ui.js": "d625dce69b01df23c8de888abd839a37601b206d",
+        "/work/card-bros-tcg/index.html": "d1f3af07359383c9f074875cb6e1f9e40d8623f1",
+        "/work/lb-electrical/index.html": "198488186c37380984e4cd5369e1a1e369f5be0d"
+      },
+      "metadata_variants": {
+        "/_en/index.html": [
+          "0586949a81c67422a35b2ad99bbcd42571875302",
+          "07e36d2f0fc9005032fe94d82b9096b2e6a998a8",
+          "336796b06b629d816065c36c6d1f87af824e2aab",
+          "3711573a989ddf0be15c5e4a1d0ce1b571722cce",
+          "42b6dd06b52bf8cc2bbc27cb047d7b5f9814e8b4",
+          "5599c9a20cf013c08093f8aa275f3cdaea299ee9",
+          "63cb5b0e62020ba3cc9ed37f4d3eab9c66415893",
+          "784b61e7094199d3616316ab7ceb696f2a68ace9",
+          "80b092b7751f02807303c194e471ac114c2d1841",
+          "9d5adaaf3c8219624e2c37abeb017b3b123bdad2",
+          "ac48f2a31c0fd503ae8ed8f356572069f3bfaf58",
+          "ba52804eae593499c92c58ba4b0ecb5239a7cde6",
+          "cf4e39f20cf6c52f5152f862e625ac7a571c51fb",
+          "f3bfdbc8a65614f5b988cdd3736b1847fb066098",
+          "f9cc0da66ef89e7ecdfaec498a7740af5f1e28b3"
+        ],
+        "/_en/pricing/index.html": [
+          "0bf5e39ec6806bab6c301a2c3498140685aeaad9",
+          "16f0e33ceb7280451eb08fe504fcdf2a9ef0fff0",
+          "19341fd74bdb7fa43274d5fc24e29eb60f730b07",
+          "1dfe1e9ca26d8c182df65c93f3efd98b7a7b2b2e",
+          "446b2bfc72cfc1432c23714f385d503b902fdf9e",
+          "471750c642068d96041fd72cc1535660152d322b",
+          "6ffc4a9cb824ee52b573b52ef3105c3cb7fd2139",
+          "85089b4cf00c794cfec1c1806284be82b7248366",
+          "96b3fd55b8266fe6d5bea797d02ce94a491e9280",
+          "a094db168961e3085ec027b6e32ff4efb30ff102",
+          "a3d24798ea7f2688ce8ca335f9bf20a8db14c379",
+          "a64cb6b4efd0adc3f884c5747fbfa36143219847",
+          "ba89ea8548837818eecc7a071d3c9d0ca14b87d0",
+          "d617b0573b4a257c0f0c9323f05a4ae54cb74937",
+          "d6d434a77d9a6340a95b2e0a3738782fe4126a1b"
+        ],
+        "/_en/privacy.html": [
+          "1515e9af45c166a3dc1990f86edda947035b3c69",
+          "15bed47b5e8ae3e9fa5facefc688ad3648d21014",
+          "3184124acfc7132ad07de38f96fea49190f0d255",
+          "32074aa3dde09167fb3d4f36e0b5848e62080f86",
+          "52d2c578305ce4a088ef82ea0aa5c38a44bdcf93",
+          "84bb49da764bc803e4b885c86ee2f132fd2215e1",
+          "8543ea245826b847d53f08750d7fdaf22e505e72",
+          "8716f5fb417f818f6695b71ce188555efb27141d",
+          "8c7cf5b1b6fa9487e8497a4b9bca92a2d16bcc53",
+          "95d8405caf5b812f797d7ee89ad10e764090185b",
+          "96998b92c3b4ec0383102ca7c2c715574b810755",
+          "abf9126ac34331867626bddf526a136cd52c1a3e",
+          "deb79c994daaf68ef83e4413904903535d2ddddd",
+          "e2627b9a5a542a2d95d5d15d6b8ef11938aa58a7",
+          "f6b75cd99bb5251e7ee1e1f1aa82f839425ae34e"
+        ],
+        "/_en/services/custom-web-development/index.html": [
+          "02a97d9b2cd5de8d83d354826bd73e47d4b40c2b",
+          "1eb597f3e4483b39e9f91583616303582661a02b",
+          "37b0c9b21ee1fb59c08dfeb9dddf526b70c19477",
+          "4d9974c561cf7b1978357a21de0fd2211c0b821c",
+          "5635a05863d199c9afea63a6f811c8802ac9efa0",
+          "56b9fa1ea9c8e49cbc97a9bc4681fe50413c43cd",
+          "5894239dc7761f5738c247630078ab730770dbac",
+          "64808c5e4500d8b8cf325082d6d16cafa963f555",
+          "6ffa8854b6281acff45a56f011db831d58de2e58",
+          "8c0c4fd1803762d2ed21c231b4778e13a8e24618",
+          "8e0cf1ba4ff1c81f6e9879e11be00d35968d0f59",
+          "b00ee373dcc57178839a80c3cfd60e2481861ab9",
+          "c77af8dd4cebd0ea199312b2f7231fdacf7e3248",
+          "d58594efdc1baae14bb562ba4a711e98d447af56",
+          "e6ea364bb2020ab9344cfd4eacf76ae4b722c1c2"
+        ],
+        "/_en/services/ecommerce-website-development/index.html": [
+          "3b19e55217bb49201123c32308266488f473e62b",
+          "48b9542b91f65a21049a1e9a03ff78e77f93fb3a",
+          "5344d6c4a100ccb63a33a3584c96e7d26e67ca2f",
+          "634a6ccdb8130b3b13b2e77f6fb57776b7965f42",
+          "6f2d43cce1189e826c5ab3f37d9b15c9c1dbb330",
+          "8464612142ad818d0f60a270768e27d111f702b9",
+          "89aa15a1ccc407dcd91f15df6eefade84180c2cd",
+          "9af91aa2b25216a8dd32bc31074e73390dc5f605",
+          "a2c0b91308d9b967a12b7a7437d597c1d059bf2c",
+          "b0b9db299d53c3a8d89b4342c0502937a5513af7",
+          "b335a18dcea8da91c5a5a07170b75b05820dc318",
+          "c209bd21f2eb4c762789963a66eb8a2acc25dd89",
+          "cf5ad307a62a6764878d4068f71e49bf38be6206",
+          "f97a47e6890dfa3dee288150b6de3642169dfc77",
+          "feb5a815597316a7e04ff9f395c36fea5253f125"
+        ],
+        "/_en/services/seo-services/index.html": [
+          "0bd43df38d95d23bee2a049d6d0ddc4eba79e876",
+          "12e6da839b4b8cf2c7aeeb63be9366d5d3d08ca3",
+          "135a37db1784fb93ccad8944a00cf070e90ca7d6",
+          "1e5c4d6ac99d6afe53d6234462acf6d06621c4b8",
+          "26d372b340b8beb21613fad5bf099bb292b81116",
+          "68b9f0b75d2f07328f88ebf34521c9ed68a16d59",
+          "7e72d13f658c9e120d30d6811946c511d955b0ba",
+          "8be69f02112212bfcc3dba3450be0f2c087b473d",
+          "b6aebae9ba37ec01211881ca43af5ac77e8abdb2",
+          "bc2c80ee6a66529f8bf8464f276cac2d8215f47b",
+          "ebf771a9385275f3a1365af936fcda2979c1c09e",
+          "f8f3ccaf417e693b6225b208f2893f85f05649d7",
+          "f9fd05bf26a8c51dd62a6cfc0741cd6d67872e9e",
+          "fe58b1116e29f5b8dd87ee9ae7d208cc36db34c7",
+          "ffe19f2d0b17319a448a3de73ab8dcdd9b4355b9"
+        ],
+        "/_en/services/small-business-website-design/index.html": [
+          "030cbcc3239e100abd95a57a4ce12e33b2f79aa9",
+          "0c96d147c0f324332e79e3dcbbb56d2d71bbdfb6",
+          "1f8e89de8f5b06afdd9fe417ea79afbf5b4ec4ef",
+          "3e2c7b0534c026610c10c8a111e46b94a96df4aa",
+          "42612caed0f9351fbe86b0a3b4e5891779e7208a",
+          "47b428068ff299b0f6a2fc23d97a27527ee5f761",
+          "4a9d50f8443837d33b7b2384075185afd0b27179",
+          "597f60a9c395e71d9c45dab26b6524e86f7e6cf7",
+          "8e97b410a19d5f77f0510dabc1281570c892520a",
+          "8eba948b329ba8b5c29e8a9d477e34ab3d217a8b",
+          "bdb01b6144809f74e68d84431d0f9510de6d186a",
+          "c0a6685508e773f92b9fefef946d74cb4fa8f6a9",
+          "cdeb833cf81e820d1a9366e5cb4183737391bbf8",
+          "cf4cbd785b7236be8911311e22df15f8146f8ffe",
+          "dabf01948954efca362b4834698ac0cc351fd89a"
+        ],
+        "/_en/services/website-maintenance/index.html": [
+          "32ecdff357a2715343a5d591a65779c47a0971c8",
+          "45445492fe03a144525930a936ea4c1c9127752b",
+          "468b2573b3bb0a820f5fb9d66e0d176a60e9fd0a",
+          "693434df4fe9c5e70c954972050fe06edc9568b3",
+          "7369e79fa0d31b3b65db790978b7185a3e6cee27",
+          "754db6673d7c6fe70e6e30ac76be0dfd228cbfe7",
+          "8931a674751b6adf01546e75d5f8b775eacf832e",
+          "99ce03c8618952eea14e44b4d8bc62ac2bd862d0",
+          "9c66c3586c5b756a40a886c8b7e1a2900410e032",
+          "9e637064c2e42e5abc92241dadcf0c1bb1ff49f9",
+          "b61bd15c797826bc18cdf79269fc5a0396ae2363",
+          "c7a8defa5f3639de764294ca34235e93e00a9b44",
+          "c8ab492182e93856c1e3769d4940cdd6447100b9",
+          "d1bd890cc69b5e939c2ffde21dee917872dda8b3",
+          "f1ce9d6870fe0e62c9b7fb1081ad871684ab70c8"
+        ],
+        "/_en/services/website-redesign/index.html": [
+          "072cfb4afd834273df2843ba732927d116e946de",
+          "260a91f40db7b3af458532c71277c6a15b93a09b",
+          "4264ec8d35b91b2413371ac565a2f3b58a1ebf1b",
+          "487173d1e49dde23c0999c55fb1e708efb96fdc1",
+          "583c235c50e46825b2f6e70f4b15e787636fb15b",
+          "62b5a9159bd90554c7c9a3d383896b5b16176a57",
+          "7e3c3bb73cd5d74b0a39cffd7b14bf79ab479179",
+          "831e169a85cfeadd78e3ad53a53bf2f851ef9aba",
+          "8341120d98847688448f5e99e9c8e51d64de70e1",
+          "9837e86a6a08419e0c14e73264c0b650f94c86dd",
+          "9c136f47b923bb25c993c312cf3b6a1164953e91",
+          "bfe7d14ed77fdbb890504c1b3b7014dc4ec7e04f",
+          "caf9695af31dc7613d73e83a699d41685e935dfb",
+          "e3ad8896e80e3ad6d08dc0e2af5011fa22c1c2ab",
+          "f6ae6c635abd111b795e7148b1c871554bdbe933"
+        ],
+        "/_en/work/card-bros-tcg/index.html": [
+          "25a3a710df9ba99e1ca66e379a125aeb9ce8eaf3",
+          "401f4994843b89183cce5bc9ba43154e6ae97e35",
+          "41cdce1fab09b1295ee972d2325ac1d6d47c4b64",
+          "54326f1b596e86f9da65f1c50fea882c93cddb35",
+          "5990b04f5f2d842736aea37545855c337482c5d5",
+          "91e55a2a623e580774cd67a6a7c0ca9d40f8c4af",
+          "9a3035e1bac6239cfb57fdcb502fc45150cfc188",
+          "9ebb769c573516fcf38b33d94f950b2ec41ed277",
+          "a86cb244c5b1cf8f2307727729b835663638bd38",
+          "b506cd034a1c33f63eaac9995aa82907465d5619",
+          "c07db917a31cc41caaba19c2cb97e37f133144a5",
+          "d1edab7cfaa7c9f6b85614bf9a0a70bf7358f48c",
+          "d46e413c2006299d6af4f97e5f7ca6146db10575",
+          "d546718acf9275e925e576312acd00c3660aa569",
+          "ec760279fafec08bdd2cc751556d9b99613bf36b"
+        ],
+        "/_en/work/lb-electrical/index.html": [
+          "0dd9ec0976be2957f276876a106f013a263ca501",
+          "0df7c40c22ca668417c83a90b88dbd92a51415f5",
+          "20bbc67aaa177a0a8b9423e7d05ab61d273880cb",
+          "562e74e49ee23bd684298ea744c37b007d74a911",
+          "6bdf2d77a34f9869d3b8e6829a5d4dfabb9c95a8",
+          "8916ea7ef8dd528e861e4cdf7f64a08cd523e7e9",
+          "9bb33f35cb963d9a4c4897e8c59bbbc2e48652a0",
+          "9f33fdada8a757087f3090c81cccc89a0f99d982",
+          "9f765885a409fd614f8f321056e50c4b98a50646",
+          "baf89884d96a242a2f1bc8cda12f4fd91df6825b",
+          "c2d99b937edd39de802bfdc4aac89249526251e4",
+          "dbdf483f114fb5a52760208f5f544ed195ab53d9",
+          "dc8d7dcfa249b8d8576681b54b70fa257c6678c6",
+          "eb3262003ad3fbabe98d9e73b85c170f3a7746d6",
+          "fd47dc8027483d0524ac3cd3f0eac9db4a589055"
+        ],
+        "/index.html": [
+          "054f80f8cca89b7e02deb823ccd5a82a1c7cbb1a",
+          "2d1016544e3221582c1deb3969bc084c91162d37",
+          "2fc7a9c43901e9083e4e5f01a71d980b80d4c0b0",
+          "3b81eebb71b7556b309d3ba7cee45fee2b21860e",
+          "43fbabc3bb41ce8b8623c0284bc9b3bf755da2ce",
+          "479be9d68dda76eeb072130fe2b28e7cd580d190",
+          "66907d3d6846a1fe63d03cf0fc5f7db9a5868cc7",
+          "69a0359dcfca8ba699d8bf035c75346930006e55",
+          "69e6ed6cce6e9bd6b20cdd1fa8f9435478deaedd",
+          "71a7d7b9b34e92c740193c901076c479a9eb332f",
+          "8bdf8a4c78cb27fe6022e8ac66b6916f97480f14",
+          "8d847367baeacc878d20d5a98a7f9e5a9c173ea2",
+          "9c90991b2dfa1e1b844f386c9b06a3a1ee4abe02",
+          "ac66fcd6a593f143f52bb7c030eb88fe406b4f10",
+          "f6a8d9dfd91c0ed7cb3cea3c2467cf5de9170cdf"
+        ],
+        "/pricing/index.html": [
+          "01bafc3c651b66a6f52eda9a1136609d5d461ec0",
+          "0bf8f8d497f1cc891c218b6b86deb7cf8fdea342",
+          "0df8e0d6f75c9c5b952f38d476ed730b1f947a66",
+          "0ec1f0df61fadc380fd550684f8d8fa8beb2a6eb",
+          "12a23477ad33bd7fde80edea581f32b9ab03ddb2",
+          "202914e772f977363dcbfa31f3c5d3377db4c837",
+          "337a30292119b097132391868015b72f7de8ccad",
+          "3da3ee4781ac4ec73003548f1f7624201390f0a4",
+          "42968aef8c888177bb2c535c63b3f5fef96ef9e5",
+          "51f9dc34bc02258befc3364fc49416a5ac38b818",
+          "5a4b1ac5cb55ca3b716d49f2148baba657d644d6",
+          "73f68884236659f7e7854277e75027a41c153aa2",
+          "d5e122041a38bf05cd39b26ab0dc6292d59dd2cb",
+          "e964bb4d5104fd97df9c16c19cfebd0c260d79bc",
+          "fc7bac8b883891ad97daae5b8cbc59ce7923f03a"
+        ],
+        "/privacy.html": [
+          "0bac1d7581ab66a355b0dee7549a2ded3593ba3c",
+          "1fad2c0ba7baabc690108e8b77e3dd8185c83b9b",
+          "2c7536b50cc12cd0b2726cc752ed50c602538d12",
+          "41bc9b0b4d1b846f079982b836f4ef8fe684aedc",
+          "440cada7b65830f75edaec737121592d4bb76d9e",
+          "51ae98b17ba4c22c9ac009309a5db9a0d4a7bb7d",
+          "7d6eeec3912782aab229b44030a22b52367f8a68",
+          "8092a361fa7da6622a678d3a5c81a14d59a06dc6",
+          "99138795f5c67936edac880484635f9e0d5ab530",
+          "b41467fa29d7633e85e54b7059e363351693554c",
+          "c1321cdfbc52d70eb7f341952f9e5e92e7adc0d3",
+          "cf91b3ea49d21ac1eaf6e64db60fef92e98b710f",
+          "d00f63a82e81ae8147a8381285ceba665dc94728",
+          "d508177c2c020dabd0efc6349dc1e2aa37f8e295",
+          "f3a5401b05d8c43d9539442cb94ce9e4b7d41ae9"
+        ],
+        "/services/custom-web-development/index.html": [
+          "091499407e7833d8304cd7698b4c56a697945f61",
+          "143a8077dc737633a961509e5c8886d4d8bd7a63",
+          "1e2dd95da4135c9e940d3d0b7ca1c73236c8ca1a",
+          "27eaf2c8213ea58c9cfdbeb863fbfa7794399e86",
+          "2cf6157c21c4d4e7a539cc1b040e0c5c23b8f5d2",
+          "3e847be4daa4b4a1e8d2ae55cc338578dd73e532",
+          "49ffff5e2557b6c8aebcfb92472d10f0212e7ca7",
+          "5348bdf35663a30f9abba0b019335b0d89b0049c",
+          "53a63d3588dac21fa09f7a8342c0bd7ff67451b2",
+          "573ea880c06ca250fd57c238ad700d6d3d896152",
+          "6852069e3180b15592b3dce03c239fe5006f9b2f",
+          "99c6196a91dbe597cd50cba3fd5655742d31cce8",
+          "aaacb393eda2ecead1e311a0b2bdab1e0c036536",
+          "e890eaf0515d972252cf6b1cd2279ea2f850169b",
+          "f22ae9a138048812a2c6420b5bda3043af5fff62"
+        ],
+        "/services/ecommerce-website-development/index.html": [
+          "0f6f39b9d5580bc53b729c7309210f245a216ea6",
+          "127e4a1ca18ed387e8143181fc50824cc10c3b08",
+          "1c070d59d1203eca45f1f6c628ebeb52ab60a8f8",
+          "40583d2b6097ebe0ec024657b86c317558fcfe14",
+          "4b6c5c2cb9dcf6b3c1d87ddc6109814b7b510228",
+          "768961921e2a1833d81376c475b41c4720c0452f",
+          "81d1bb80bd45863c039eabe8d04567baaa53d135",
+          "88c02d5560293653121d0cb5df96ec62df959123",
+          "8f94fec078b8bedb3a74fd01e60f0813a194cca4",
+          "a71cfb2e4eefac79f42914d2ab2dff9656b3c17a",
+          "b3aa19e521d8757503dbc956126b9d7765227b61",
+          "c9a5ef558f0afc86c499af41e326ecbc52892d6c",
+          "d8b69977e2f3b302d4bd919f36a6292ff323dd2c",
+          "f11514cea1ad9c42c094f40a5cd0c92a5214e924",
+          "f4f646c0cce955ac611ba254ac6d4cdb56630b94"
+        ],
+        "/services/seo-services/index.html": [
+          "064dac37cbec257983c0fbfcf9e453834c64f764",
+          "067a5da368c1b04b32cf27bd7117c3dc58ef4431",
+          "32cd40ee6c309562b84ac7199cce0d51cd4f1d64",
+          "3443888387687a14a6c7e1faf68dca2a6abf7a1f",
+          "47a40ee7e1520954049858d1ce22e175cf937c95",
+          "4c47c13efd65c304173ecf6f6de125424532a541",
+          "638271dbd260221f3151c85a9896a2a1cfa674b7",
+          "89721a63ff3a5b9f31456d0c508227bb9203ace0",
+          "8fbfad1d98ef17b87059c178b9cb026bec47835e",
+          "a27743b70c1be9affc5527363f6323fcf25b7109",
+          "baa4e121417a7370c78b9c5f618a3de82cfb19bf",
+          "c42bad9f624ae63caaa3de8425bcd4ca606e2354",
+          "d5a6d83ace5d456b2c7f251ec775316ce69f06c6",
+          "e34acae902ff0840b30ee290251cf01d6f9c7101",
+          "fd461c797a62e421f1b7d3c944628d77606b1da6"
+        ],
+        "/services/small-business-website-design/index.html": [
+          "2139b52424464287f3013b110c37a582ae2b887c",
+          "5015d979c2e9d55072d685a4334d8aadc6878541",
+          "5c38533ec473ad85396746f3e32800a91f357213",
+          "6999abafd0a4baa6e971213c257411665893ef80",
+          "774794e1d4b5bab9445ddfa4db16390634b4d1a8",
+          "91da48ff76dda36cabcd10cfd245ed19cb017bb3",
+          "9410b0eff7c6958aef0777a86f3c1f14cf398122",
+          "9995bbb09575f5796411c0e8a8426734a6957c92",
+          "a7616a0da15861abd6af015df72ab8e473d7f1c5",
+          "b4d7c1149e9fdc7e9c27631b213434fe877202f4",
+          "c0172f30b24cfa9da984d04538a0cc5430937389",
+          "d420b70b0600226fd2580ca0a0fe1ad99341e5fe",
+          "d433b3e8ed2994f506b9264dfa274a990663f678",
+          "de5570b58ce49e1b15593fdc8b25fb2cb5dfacb1",
+          "e3647b27f79ea6db9ece2518b1662fdc558296c1"
+        ],
+        "/services/website-maintenance/index.html": [
+          "2d9c86cefdcc239a18c29058b7313cac6ed518ed",
+          "35847c3435d24ae60eb0c412e33f9f64c68abdb2",
+          "37e51fb6580df92e2ddec8141bda393bc85e6622",
+          "3886c622a9c64b801678061a86234ad99f3113fc",
+          "47d8364d3a01445b2e5a7112e5eaf0436e08efec",
+          "70ef4ed590428d7cf46c17217a66bdd4949c415e",
+          "77083f73bcc20f48a9e86cd5ba3ea29d37031e13",
+          "8129b26edd61de1c6fc8f78513aed5e4d450df9e",
+          "a773305c7f7e96be9f4c3b7d5596354731760e7d",
+          "bc08ce80e2e88edcde61b6d1806d953dc4862856",
+          "d52fd94b5d53e2276e2f86c0802116d611f3cfde",
+          "e4081c4bc798749f498cbef676a2167d978bac0e",
+          "f139109abf726fde61bd5197a29c7aa6b2840fb1",
+          "f654536e52215a468802bd9cf49a9e2206ca53b6",
+          "f9aa43d38327191bb3705a719982d2da39d52587"
+        ],
+        "/services/website-redesign/index.html": [
+          "03151c893d0e8523b6bfe0c3f8bdbe36826529bb",
+          "0c41d9a5b69fc810259cc69bd4e04b6f1802585b",
+          "241882e22ec18986446ad36e31b7e9f49a842e1f",
+          "33336de2c8fc3f7ccfac9739308be7d49e050f41",
+          "3a71d28a2b68e5b8ad44211db5a7bfdb60eae0b2",
+          "4ef686f9706cd3533817c82f1c3b37ad01c41db6",
+          "62936746d35f5c1133ea3e85fb67055bebadf664",
+          "6646a5c0d174569ff9d316cc0ce063fa381cca0f",
+          "72cde2c7e0e4636868480ebdc2857f629b4c0e48",
+          "d5cd46228e3c111d2e1e13208e8574302c3a11ca",
+          "ddeccc52b4a64ffd277258779735b0b53b8cb755",
+          "ea0a3a1f932a32e8e452527f17b5f8e6c3b76c82",
+          "fc98175d99042c82eaac7f5fbbfc65dc64d0e106",
+          "fd371f5e6f9a78c4916b3c2e392dbe71e8bdddf6",
+          "ff41063a4050cd1540a7fd679e3630c455d56bd4"
+        ],
+        "/work/card-bros-tcg/index.html": [
+          "27e8defda83e3eeefb73db73821429a0801b5d37",
+          "2b63050cae1c4db0d57199b305948b123e2bac66",
+          "3c61cac77d632efae12c5a04350a363a23f5f09a",
+          "43b0d08ce6ca2068299769cfb34d595f63f969b7",
+          "5159c85497996364449affb25c7125215830d9d5",
+          "5c179035acf90f07d0d4fd69afeac00d35eb4a42",
+          "704ef4f96c25b5997f3faad663f313edfc1d1ee9",
+          "8011c367fef0057a9b0ee62e4de036fc5d4b26a1",
+          "82b469e84e56682f3068d1cff4bc825a708a8e99",
+          "bc0610cda475eadf729974c40b5f948f4c0ee499",
+          "c39b770c73f1dee8436ea812bc6c2fa1ff2ac9e2",
+          "cf294c80bafedb0013bf032609daf536707a8b8d",
+          "d07fb52ecf85c2a683d29745e925ecf1035468c9",
+          "d68d5d1fcd9640abd32a3b2eb3838ed94fd32fee",
+          "f4db9c10be23098e744f01a7a36691857697c87d"
+        ],
+        "/work/lb-electrical/index.html": [
+          "16c657f349dba6c52cab3c43fbece9c89d389875",
+          "2ed8f7d8c611a4a04cba336c878b147620120c31",
+          "48ea1fb184de799086aff475c3a23bb21af8914b",
+          "72ac3a1687833598501d292cbbba160c7196a05f",
+          "76b75882b06db4c41fcde62a0c6f62209eaa1011",
+          "7d39bbe62642beca52afe01a0e78406b26598169",
+          "80613cbf56d5250ccf227a1eaaf15067b26155b4",
+          "84ff86a9fc93403eefa2d343ebd4be2ddffe8ae2",
+          "96cc8ef4420452a0fef49a7a2632e7d8b1ad99be",
+          "a329429e238a0726d5447a99f8de4c060be0d9ef",
+          "b1cf7452a8f37a015f970381ff0bc082609e602b",
+          "b5863cfff14d428652734fda65960ed455d0e3c9",
+          "b7355a2414d4e7a8964f28b51a55b8a38dbb8be9",
+          "e46454bb24a92ad3a7605ac1a47fb9083ed0c3a9",
+          "ecaf5eb5a1add22443a7b0309dca4681cabb02f5"
+        ]
+      },
+      "recoverable_files": [],
+      "functions": {
+        "google-reviews": "efa989f042625f06dd451fdf63cf890291e0ea9623bd0c887a5b27d868d9b01e"
+      },
+      "checks": [
+        {
+          "url": "https://getintech.eu/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.eu/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.eu/pricing/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.eu/pricing/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.eu/privacy.html",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.eu/privacy.html"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.eu/services/custom-web-development/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.eu/services/custom-web-development/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.eu/services/ecommerce-website-development/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.eu/services/ecommerce-website-development/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.eu/services/seo-services/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.eu/services/seo-services/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.eu/services/small-business-website-design/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.eu/services/small-business-website-design/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.eu/services/website-maintenance/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.eu/services/website-maintenance/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.eu/services/website-redesign/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.eu/services/website-redesign/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.eu/work/card-bros-tcg/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.eu/work/card-bros-tcg/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.eu/work/lb-electrical/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.eu/work/lb-electrical/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.lt/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.lt/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.lt/pricing/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.lt/pricing/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.lt/privacy.html",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.lt/privacy.html"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.lt/services/custom-web-development/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.lt/services/custom-web-development/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.lt/services/ecommerce-website-development/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.lt/services/ecommerce-website-development/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.lt/services/seo-services/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.lt/services/seo-services/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.lt/services/small-business-website-design/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.lt/services/small-business-website-design/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.lt/services/website-maintenance/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.lt/services/website-maintenance/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.lt/services/website-redesign/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.lt/services/website-redesign/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.lt/work/card-bros-tcg/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.lt/work/card-bros-tcg/"
+            ]
+          }
+        },
+        {
+          "url": "https://getintech.lt/work/lb-electrical/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://getintech.lt/work/lb-electrical/"
+            ]
+          }
+        }
+      ]
     },
     {
       "id": "tvarikirpeja-lt",
-      "reason": "Production deployment host/path is not verified; canonical and sitemap need a separate tested policy"
+      "site_id": "f13a241f-dcd7-44a5-af0a-7a84c2c3e0b4",
+      "deploy_id": "6ae4b9db97f27cbe4345fddc",
+      "files": {
+        "/95d2fea6-ddf4-419d-989f-c27abcbd46a9.jpg": "8861d19a698847f8a3ee9cfba470885ed2765868",
+        "/img_1440.jpg": "fc399673bf3b9b3efa05b6cbdfbb011aa9bf0b7b",
+        "/privacy-audit.md": "59fb4b3c5fb878abd351d9cb97fbb9e00fc4cd3e",
+        "/readme.md": "18a1221bf3c9dfe4604aa7a2ae6f561a99ded1e4",
+        "/aina.jpg": "1d18885f26448d712372e49ff31041ab3c4dd830",
+        "/aina_cropped.jpg": "a34cada39de847f2af1226799bee0b6c0eeb5554",
+        "/ainos_plauku.code-workspace": "6874fba33a5edd16a2f27bb0162e3e44553f6c08",
+        "/analyze_logo_colors.py": "a75044c42476e774d3e3d4143d571f88771fdc26",
+        "/apple-touch-icon.png": "0023774aa25a66308f876dbb04a77010d2452bbf",
+        "/assets/vendor/readme.md": "96dd09f45584f2fec8d0a0480d3541f3096676d6",
+        "/assets/vendor/emailjs/email.min.js": "3d7499d713898a2798f449d8b3528d4094475208",
+        "/assets/vendor/fontawesome/css/all.min.css": "07228d1fa3245ee156a27a353f45758a3207849f",
+        "/assets/vendor/fontawesome/webfonts/fa-brands-400.ttf": "7fc8906350833c191df8a31d8c55c4e960bb04ba",
+        "/assets/vendor/fontawesome/webfonts/fa-brands-400.woff2": "7fdc6b3926b1dd023f9f2ad7d53bc22694694281",
+        "/assets/vendor/fontawesome/webfonts/fa-regular-400.ttf": "8042dc30cb29081ad07cbfbf855ff711cc23fb65",
+        "/assets/vendor/fontawesome/webfonts/fa-regular-400.woff2": "ffd3b574cb7db4e2cd0cc2ea9214f0bb8989207f",
+        "/assets/vendor/fontawesome/webfonts/fa-solid-900.ttf": "ff92141685e6c9fceb06feda0760086a0c390978",
+        "/assets/vendor/fontawesome/webfonts/fa-solid-900.woff2": "2e4280929d4d76fc0e31601c98f167f14630c209",
+        "/assets/vendor/fontawesome/webfonts/fa-v4compatibility.ttf": "fbf72ecb9d7828c2e8504451c13e05d7a018eb29",
+        "/assets/vendor/fontawesome/webfonts/fa-v4compatibility.woff2": "4dcd1d7b2bda7da7c181015011490e46e23c3969",
+        "/assets/vendor/fonts/font-00.woff2": "9f10d2948d17ed748663d1acfb100fa9cec8e92e",
+        "/assets/vendor/fonts/font-01.woff2": "520cd39b1b5bb249f2f7587505f0e3711be52c90",
+        "/assets/vendor/fonts/font-02.woff2": "404038f1a5087fd7e1241182f717806eaa8c21e4",
+        "/assets/vendor/fonts/font-03.woff2": "a63797c1e1c137082b7a58f6ee58ccb8640ac51e",
+        "/assets/vendor/fonts/font-04.woff2": "a5ec54920b589ebe2af3bc3bb7754a476db68abf",
+        "/assets/vendor/fonts/font-05.woff2": "83c9b6204609578b4caac2bcd2de582d8ec7b489",
+        "/assets/vendor/fonts/font-06.woff2": "e510419bc627aadc5f0b39d1bd1661ec252411ed",
+        "/assets/vendor/fonts/font-07.woff2": "99a7c18e5b3d2969af30be24c2b180e9d0aec548",
+        "/assets/vendor/fonts/font-08.woff2": "daeff530b773fd9ef9c50a803021a2cfba76083a",
+        "/assets/vendor/fonts/font-09.woff2": "af2482c394a5115463b16dcae9d2429f56665a4d",
+        "/assets/vendor/fonts/font-10.woff2": "d38fbadd1b1ceccffbfb43f677698f3a7112f0b4",
+        "/assets/vendor/fonts/font-11.woff2": "9ff50f57949d388b146ff84a4c3d5ca027816acb",
+        "/assets/vendor/fonts/font-12.woff2": "52230241f4fc23d508444b37b92bfdcb6dd96595",
+        "/assets/vendor/fonts/font-13.woff2": "205228bc618a378a36ef6200894c10aa1decda09",
+        "/assets/vendor/fonts/font-14.woff2": "e57daae78e76c8944e97edecfa656f8608e09db5",
+        "/assets/vendor/fonts/font-15.woff2": "ea12964a22c83d28a3afb1c29ad45ee75e7e2d52",
+        "/assets/vendor/fonts/font-16.woff2": "6a5e89b2f9b47f5a2fb11831479c02b4eebe3089",
+        "/assets/vendor/fonts/font-17.woff2": "41ca6b7e4818eb81531d8006ff7ddd971c640879",
+        "/assets/vendor/fonts/fonts.css": "7dd074cb3a4deea65fe90de81db0ce3332545e95",
+        "/assets/vendor/licenses/emailjs-license.txt": "4c4c28e748f063e879987e7bc4d8d6eabf39029d",
+        "/assets/vendor/licenses/fontawesome-license.txt": "6add661cd2fc3d9aa6d41ed55458a37cf267941a",
+        "/assets/vendor/licenses/montserrat-ofl.txt": "c6e5a0782514a498ac406c73aee2c0fe4170188b",
+        "/assets/vendor/licenses/playfairdisplay-ofl.txt": "e997375e22668c444135764f63ddae74fc617985",
+        "/assets/vendor/licenses/roboto-ofl.txt": "8bb4fe6d98df62b3a8d082c438b393d961ca94a6",
+        "/assets/vendor/manifest.json": "c44e4f40da36780636c7e7fd3244d9b9fb72be81",
+        "/favicon.png": "a6d9090ba2d728db40c35ea8cc20d23dabc65f3c",
+        "/index.html": "b3338cc41595547c93fedf8ee2c19b2ad1028082",
+        "/legal-navigation.js": "e0b34436eed02449a1f24936f9d4207ce95e652f",
+        "/logo.png": "e6502c5f381ef9c8524b6d0ce8b948e5ec0caf2e",
+        "/logo_cropped.png": "efe550d7c05de02a196add6051ec7b28c8ad4fb7",
+        "/martyna_cropped.jpg": "2319b359420ee692ce25bd553576817c0114b834",
+        "/nuotrauka1.jpg": "39fb79a59a1b3bda92017ab5a1b56983e113a27c",
+        "/nuotrauka10.jpg": "fb195d2c78c75129f66a95e5ada21d3c88044c48",
+        "/nuotrauka11.jpg": "97c65a54db4940bb7fcd19043f698b3898b74ffe",
+        "/nuotrauka12.jpg": "f2c7b76887abab22a630058edbf6279c3d66dc77",
+        "/nuotrauka13.jpg": "e791b51fe1cfbcc1c6bcddb552b418cd8bfc01df",
+        "/nuotrauka14.jpg": "e3081c1d49f847501e41409a8f4beae8a58abc37",
+        "/nuotrauka15.jpg": "5565a85fe4cda35c95a627aae1946c2af3d82a27",
+        "/nuotrauka16.jpg": "e6adf8cce445ceed4a54805847dd2366b2cadd4f",
+        "/nuotrauka17.jpg": "385eb0437ae7a685a45061fbeee137b1d48a0237",
+        "/nuotrauka18.jpg": "8861d19a698847f8a3ee9cfba470885ed2765868",
+        "/nuotrauka2.jpg": "129227d0fa001daa6983e03f6d47c5473d21ef67",
+        "/nuotrauka3.jpg": "2b863606502e250a11212a7720d39c89b9622aa1",
+        "/nuotrauka4.jpg": "830d4b5ee540829773de533b277884fb7c10d47c",
+        "/nuotrauka5.jpg": "57e3761cd25809a6234fa4831b1698f92342b8b0",
+        "/nuotrauka6.jpg": "1ed49d9ab1ffb6713b3a9e77ebd012be1a889e73",
+        "/nuotrauka7.jpg": "43bb91dc65d722dbd9cc41d8cf5bf1ab7f948de7",
+        "/nuotrauka8.jpg": "c7977c954d62bd90ba540525bc3ac26d9e9c6533",
+        "/nuotrauka9.jpeg": "def7a8b444f9b8731eaa7a805b6d1b57f492def2",
+        "/photo.py": "da39a3ee5e6b4b0d3255bfef95601890afd80709",
+        "/privacy-ui.js": "d26ab8e33ff9ee66d0fa8c6c8ec0693d5fb30527",
+        "/privacy.css": "1b12253dec9524e4fd24514e86d2761e7122b3e6",
+        "/privatumo-politika.html": "df8d63fabe9c1687e8a59d8dfe11a775ea6aaed8",
+        "/script.js": "f8d32fa836d0d7f261fb579692f6b7bdfb049e38",
+        "/sitemap.xml": "77693f624acf7d80f4572b69d6084e834eb36a97",
+        "/slapuku-politika.html": "27975c38a40ad09097277d30b30e54d505252d48",
+        "/styles.css": "adcc9af96c959d7719287374c7c3190764f51803",
+        "/tests/privacy.cjs": "4bc3b93d17393b693778f5a58c3b17d9a0e584c8",
+        "/tests/test_seo.py": "1ed7a9f7754becb7d32ecb748aa4b075fe7f0f65",
+        "/tools/build-legal-pages.py": "5bc243b8e736ca945297eb9bd7a4ba1cf45ea404",
+        "/tools/vendor-assets.py": "ab8b3b0399db99b86c21a28d020111c848d82813",
+        "/translations.js": "621c39c7f809fbcb17a90e4f8e1c0c42ba0c868f",
+        "/virselis.jpg": "7a855aed433cd19b2118b34b1675f016a7fbc52f"
+      },
+      "metadata_variants": {
+        "/index.html": [
+          "19481312654f85114f6537ea24f24e109432cff9",
+          "2e691f15a3ba2e845f66509d3e13b21b25b6ce47",
+          "342ff52cfd201902be968203ecc2d501c6e2d4f0",
+          "3847406ca65ecd30529e23132a951a33aab0492c",
+          "41df5b664c5ea43c1f011e8763416fdb403e2b95",
+          "4b8f59944aebcc8b532cb07d49120ec57e0d872f",
+          "524dc930ea61cdb74f1209ff932184f692aa98b1",
+          "56406970211061776203b3af5a51fb253e884084",
+          "61aa296363ed64751e7b099a243ce4d885b51909",
+          "70e2eecb6a6988e1036e6d15c4287e51dc5a27b3",
+          "728e26d40ba54983327b051199e2800031e0026a",
+          "7d8c9a0b58d0285c6ef188f13ad7759c531bf242",
+          "832285bf4570162519c350d8da3f74454fd08b7f",
+          "8cc49f6873d95defd6481284d0364ce5d6e37519",
+          "8e1f28f7ad184153bcaed80583241d2ac35a4ba2",
+          "c661acebde20575cc4dfda14d3d9cae27c90a66d",
+          "c8455a746f2b9cb3f6cea47df6dd7afff358d980",
+          "c96143c5b62c539cba23f4caf823106d8d4da2fe",
+          "ca601efd0028ac4ae6c796b4fc79f7e7d1ead2c4",
+          "d94f4346378addb9ee6300fda34ab0e411f1843a",
+          "d983ea481485ee90aedb64c8f7f4da6b12e7101c",
+          "f0be0a3526a8fe08bbd2f23f7ca3c268fe90455f",
+          "f2539a1feaa1626b6f116e4f73d04cdf6064e571"
+        ],
+        "/privatumo-politika.html": [
+          "36f155eac1c6011a71e86558dcfa39a6c2e6646a",
+          "eaca3b6a31766897fdf79568254ab7bc6eb1a1e6"
+        ],
+        "/slapuku-politika.html": [
+          "2bdf873da1d74e896393836e6d1b32b5bc8bf3c1",
+          "37745f1652d785fa93dbc3cca003ad9462836988"
+        ]
+      },
+      "recoverable_files": [
+        "/sitemap.xml"
+      ],
+      "functions": {},
+      "checks": [
+        {
+          "url": "https://www.tvarikirpeja.lt/",
+          "expected": {
+            "title": true,
+            "description": true,
+            "canonical": [
+              "https://www.tvarikirpeja.lt/"
+            ]
+          }
+        },
+        {
+          "url": "https://www.tvarikirpeja.lt/privatumo-politika.html",
+          "expected": {
+            "title": true,
+            "canonical": []
+          }
+        },
+        {
+          "url": "https://www.tvarikirpeja.lt/slapuku-politika.html",
+          "expected": {
+            "title": true,
+            "canonical": []
+          }
+        }
+      ]
     }
   ]
 }
