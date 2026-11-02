@@ -1,0 +1,80 @@
+[
+  {
+    "name": "LB Electrical",
+    "gsc_property": "sc-domain:lbelectrical.uk",
+    "target_id": "lbelectrical-uk",
+    "url": "https://www.lbelectrical.uk/"
+  },
+  {
+    "name": "INTECH Lithuania",
+    "gsc_property": "sc-domain:getintech.lt",
+    "target_id": "intech",
+    "url": "https://getintech.lt/"
+  },
+  {
+    "name": "INTECH Europe",
+    "gsc_property": "sc-domain:getintech.eu",
+    "target_id": "intech",
+    "url": "https://getintech.eu/"
+  },
+  {
+    "name": "Alisos Fotografija",
+    "gsc_property": "sc-domain:alisosfotografija.lt",
+    "target_id": "alisosfotografija-lt",
+    "url": "https://www.alisosfotografija.lt/"
+  },
+  {
+    "name": "Klaipedos Aliejus",
+    "gsc_property": "sc-domain:klaipedosaliejus.lt",
+    "target_id": "klaipedosaliejus-lt",
+    "url": "https://klaipedosaliejus.lt/"
+  },
+  {
+    "name": "Jegaainis",
+    "gsc_property": "sc-domain:jegaainis.lt",
+    "target_id": "jegaainis-lt",
+    "url": "https://jegaainis.lt/"
+  },
+  {
+    "name": "CardBros TCG",
+    "gsc_property": "sc-domain:cardbrostcg.com",
+    "target_id": "cardbros-tcg",
+    "url": "https://cardbrostcg.com/en/"
+  },
+  {
+    "name": "Tesla EU",
+    "gsc_property": "sc-domain:teslaeu.eu",
+    "target_id": "teslaeu-eu",
+    "url": "https://teslaeu.eu/en/"
+  },
+  {
+    "name": "Tvari Kirpeja",
+    "gsc_property": "sc-domain:tvarikirpeja.lt",
+    "target_id": "tvarikirpeja-lt",
+    "url": "https://www.tvarikirpeja.lt/"
+  },
+  {
+    "name": "Naturalus Maistas",
+    "gsc_property": "sc-domain:naturalusmaistas.lt",
+    "target_id": "naturalusmaistas-lt",
+    "url": "https://naturalusmaistas.lt/"
+  },
+  {
+    "name": "CardBros TCG UK",
+    "gsc_property": "sc-domain:cardbrostcg.co.uk",
+    "target_id": "cardbros-tcg",
+    "url": "https://cardbrostcg.co.uk/en/"
+  },
+  {
+    "name": "Grikiu Dievas",
+    "gsc_property": "sc-domain:grikiudievas.lt",
+    "target_id": "grikiudievas-lt",
+    "url": "https://grikiudievas.lt/lt/"
+  },
+  {
+    "name": "The Furry Tale",
+    "gsc_property": "sc-domain:thefurrytale.com",
+    "target_id": "thefurrytale-com",
+    "url": "https://thefurrytale.com/"
+  }
+]

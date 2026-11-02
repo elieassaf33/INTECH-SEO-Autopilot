@@ -1,0 +1,245 @@
+[
+  {
+    "gsc_property": "sc-domain:lbelectrical.uk",
+    "client_id": "lbelectrical-uk",
+    "url": "https://www.lbelectrical.uk/",
+    "display_path": "/",
+    "checks": [
+      "https://www.lbelectrical.uk/"
+    ],
+    "slot_id": "sc-domain:lbelectrical.uk",
+    "css_class": "container",
+    "provider": "vps",
+    "root": "/opt/lb-electrical",
+    "file": "templates/home.html",
+    "kind": "django",
+    "base_sha256": "dd29bdcdee3b6af69c10344b5681be2f1de8de9f884acdd4530926c5f034e418",
+    "services": [
+      "lb-electrical.service"
+    ]
+  },
+  {
+    "gsc_property": "sc-domain:getintech.lt",
+    "client_id": "intech",
+    "url": "https://getintech.lt/",
+    "display_path": "/",
+    "checks": [
+      "https://getintech.lt/"
+    ],
+    "slot_id": "sc-domain:getintech.lt",
+    "css_class": "container",
+    "provider": "netlify",
+    "site_id": "0d8f9627-2f50-476e-9777-b918ae107056",
+    "file": "/index.html",
+    "kind": "static",
+    "base_sha256": "0bea33da858cc62303e6538b53c159d36d3856c052836560664f72ea59214eac"
+  },
+  {
+    "gsc_property": "sc-domain:getintech.eu",
+    "client_id": "intech",
+    "url": "https://getintech.eu/",
+    "display_path": "/",
+    "checks": [
+      "https://getintech.eu/"
+    ],
+    "slot_id": "sc-domain:getintech.eu",
+    "css_class": "container",
+    "provider": "netlify",
+    "site_id": "0d8f9627-2f50-476e-9777-b918ae107056",
+    "file": "/_en/index.html",
+    "kind": "static",
+    "base_sha256": "c2e6dc9cbe2d2f253f593f3b8bb8fe942176b74f6b9d076b514a53469f8de63e"
+  },
+  {
+    "gsc_property": "sc-domain:alisosfotografija.lt",
+    "client_id": "alisosfotografija-lt",
+    "url": "https://www.alisosfotografija.lt/",
+    "display_path": "/",
+    "checks": [
+      "https://www.alisosfotografija.lt/"
+    ],
+    "slot_id": "sc-domain:alisosfotografija.lt",
+    "css_class": "container",
+    "provider": "vps",
+    "root": "/var/www/alisos_foto_django",
+    "file": "templates/gallery/home.html",
+    "kind": "django",
+    "base_sha256": "3a6f2f84b8736347459524bbaf0ad3f053efe4a496bef258f7e251b3a8f80f0d",
+    "services": [
+      "alisos.service"
+    ]
+  },
+  {
+    "gsc_property": "sc-domain:klaipedosaliejus.lt",
+    "client_id": "klaipedosaliejus-lt",
+    "url": "https://klaipedosaliejus.lt/",
+    "display_path": "/",
+    "checks": [
+      "https://klaipedosaliejus.lt/"
+    ],
+    "slot_id": "sc-domain:klaipedosaliejus.lt",
+    "css_class": "container",
+    "provider": "vps",
+    "root": "/var/www/klaipedos_aliejus",
+    "file": "templates/shop/home.html",
+    "kind": "django",
+    "base_sha256": "725ff4ef0325e26021c3b03402a9ad29f0ac85bbad3487564332e90719201be6",
+    "services": [
+      "klaipeda.service"
+    ]
+  },
+  {
+    "gsc_property": "sc-domain:jegaainis.lt",
+    "client_id": "jegaainis-lt",
+    "url": "https://jegaainis.lt/",
+    "display_path": "/",
+    "checks": [
+      "https://jegaainis.lt/"
+    ],
+    "slot_id": "sc-domain:jegaainis.lt",
+    "css_class": "mx-auto max-w-7xl px-5 py-10 sm:px-8 lg:px-10",
+    "provider": "vps",
+    "root": "/var/www/jegaainis/jegaainis",
+    "file": "shop/templates/shop/product_list.html",
+    "kind": "django",
+    "base_sha256": "0370229731d6146ba7cb953e694b90bfff548ba365fd54547063c7fd78146694",
+    "services": [
+      "gunicorn-jegaainis.service"
+    ]
+  },
+  {
+    "gsc_property": "sc-domain:cardbrostcg.com",
+    "client_id": "cardbros-tcg",
+    "url": "https://cardbrostcg.com/en/",
+    "display_path": "/en/",
+    "checks": [
+      "https://cardbrostcg.com/en/",
+      "https://cardbrostcg.co.uk/en/"
+    ],
+    "slot_id": "cardbros-shared-home",
+    "css_class": "container",
+    "provider": "vps",
+    "root": "/var/www/card_bros_tcg/pokemon",
+    "file": "cards/templates/cards/home.html",
+    "kind": "django",
+    "base_sha256": "b518336639d4a130127642898754797966c489fd3bff1a7f68e35e4feb84b05d",
+    "services": [
+      "card_bros_tcg.service",
+      "gunicorn.service"
+    ]
+  },
+  {
+    "gsc_property": "sc-domain:teslaeu.eu",
+    "client_id": "teslaeu-eu",
+    "url": "https://teslaeu.eu/en/",
+    "display_path": "/en/",
+    "checks": [
+      "https://teslaeu.eu/en/"
+    ],
+    "slot_id": "sc-domain:teslaeu.eu",
+    "css_class": "container",
+    "provider": "vps",
+    "root": "/var/www/teslaeu",
+    "file": "frontend/templates/home.html",
+    "kind": "django",
+    "base_sha256": "0fccfe8cb505a659121dfc257f34559e8a36f891f1c5b029c7baab7b410e1d13",
+    "services": [
+      "teslaeu.service"
+    ]
+  },
+  {
+    "gsc_property": "sc-domain:tvarikirpeja.lt",
+    "client_id": "tvarikirpeja-lt",
+    "url": "https://www.tvarikirpeja.lt/",
+    "display_path": "/",
+    "checks": [
+      "https://www.tvarikirpeja.lt/"
+    ],
+    "slot_id": "sc-domain:tvarikirpeja.lt",
+    "css_class": "container",
+    "provider": "netlify",
+    "site_id": "f13a241f-dcd7-44a5-af0a-7a84c2c3e0b4",
+    "file": "/index.html",
+    "kind": "static",
+    "base_sha256": "74764484b0394fa85e3c621768c3af36f8ddc3e980e416e1b6e1448d901cf1d7"
+  },
+  {
+    "gsc_property": "sc-domain:naturalusmaistas.lt",
+    "client_id": "naturalusmaistas-lt",
+    "url": "https://naturalusmaistas.lt/",
+    "display_path": "/",
+    "checks": [
+      "https://naturalusmaistas.lt/"
+    ],
+    "slot_id": "sc-domain:naturalusmaistas.lt",
+    "css_class": "mx-auto max-w-7xl px-5 py-10 sm:px-8 lg:px-10",
+    "provider": "vps",
+    "root": "/var/www/naturalus_maistas",
+    "file": "shop/templates/shop/product_list.html",
+    "kind": "django",
+    "base_sha256": "7a2accc3546bcebab3e2d06bf9da29c586d5d512fe9e766a60fa34264fcf43f8",
+    "services": [
+      "naturalusmaistas.service"
+    ]
+  },
+  {
+    "gsc_property": "sc-domain:cardbrostcg.co.uk",
+    "client_id": "cardbros-tcg",
+    "url": "https://cardbrostcg.co.uk/en/",
+    "display_path": "/en/",
+    "checks": [
+      "https://cardbrostcg.com/en/",
+      "https://cardbrostcg.co.uk/en/"
+    ],
+    "slot_id": "cardbros-shared-home",
+    "css_class": "container",
+    "provider": "vps",
+    "root": "/var/www/card_bros_tcg/pokemon",
+    "file": "cards/templates/cards/home.html",
+    "kind": "django",
+    "base_sha256": "b518336639d4a130127642898754797966c489fd3bff1a7f68e35e4feb84b05d",
+    "services": [
+      "card_bros_tcg.service",
+      "gunicorn.service"
+    ],
+    "alias_of": "sc-domain:cardbrostcg.com"
+  },
+  {
+    "gsc_property": "sc-domain:grikiudievas.lt",
+    "client_id": "grikiudievas-lt",
+    "url": "https://grikiudievas.lt/lt/",
+    "display_path": "/lt/",
+    "checks": [
+      "https://grikiudievas.lt/lt/"
+    ],
+    "slot_id": "sc-domain:grikiudievas.lt",
+    "css_class": "container",
+    "provider": "vps",
+    "root": "/var/www/grikiu_dievas/grikiu_dievas",
+    "file": "templates/main/home.html",
+    "kind": "django",
+    "base_sha256": "4eb9e5277b1d17eea77f92473d9001ba1886e2fb9a516ec1134a6dc373a6c8ca",
+    "services": [
+      "grikiu_dievas.service"
+    ]
+  },
+  {
+    "gsc_property": "sc-domain:thefurrytale.com",
+    "client_id": "thefurrytale-com",
+    "url": "https://thefurrytale.com/",
+    "display_path": "/",
+    "checks": [
+      "https://thefurrytale.com/"
+    ],
+    "slot_id": "sc-domain:thefurrytale.com",
+    "css_class": "container",
+    "provider": "vps",
+    "root": "/var/www/thefurrytale/thefurrytale",
+    "file": "templates/shop/home.html",
+    "kind": "django",
+    "base_sha256": "1da20919c77fba779399dc5ed8794a1854f08aa140f8fca369816257f3f9486a",
+    "services": [
+      "thefurrytale.service"
+    ]
+  }
+]
