@@ -6,8 +6,19 @@ properties, and configured repository secret `OPENAI_API_KEY` on 30 October 2026
 `weekday-keyword-growth.yml` runs Tuesdays and Thursdays at 07:30 UTC (09:30
 Lithuania winter time, 10:30 summer time), independently of the owner's PC. It
 requires the latest completed main audit to have passed within the past seven
-days. Manual dispatch defaults to research-only; `publish: true` enables the
-same bounded production publisher. `limit` allows a small credential smoke test.
+days. Manual dispatch defaults to research-only. Production publishing is
+disabled until the restricted server worker is installed and verified; then set
+the repository Actions variable `SEO_GROWTH_PUBLISH_ENABLED` to `true`. Scheduled
+runs are skipped while the variable is unset. Manual `publish: true` also
+requires the variable. `limit` allows a small credential smoke test.
+
+The first research-only run confirmed keyword research works. The first
+one-property publishing test was denied by the server's restricted SSH worker
+(`Only the installed SEO worker is allowed`, exit code 126); no website was
+changed. Do not enable the variable until an administrator has installed and
+allowlisted the bounded `growth` command on that server. Afterward, manually
+dispatch with `limit: 1` and `publish: true` to verify one live update before
+relying on the scheduled all-property publisher.
 
 For each property, the job combines actual Search Console queries from the latest
 weekly report with the current original homepage and one AI web search. Search
@@ -46,9 +57,10 @@ function/runtime drift, locked deployments and concurrent releases stop that tar
 
 Successful verified updates refresh the root-owned recovery manifest to accept
 only the new approved source/release. Monday's repair workflow therefore does not
-restore old copy over a legitimate weekday update. The production SSH key allows
-only `apply`, `check`, and the bounded `growth` command, without a general shell,
-arbitrary uploads, paths, service commands, or executable model output.
+restore old copy over a legitimate weekday update. Once installed, the bounded
+`growth` command must be allowlisted by the restricted production SSH worker; it
+must not grant a general shell, arbitrary uploads, paths, service commands, or
+executable model output.
 
 Publication history, original-file backups and Netlify rollback receipts are
 retained under `/var/lib/intech-seo-repairs/`. GitHub retains complete research and
