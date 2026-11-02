@@ -20,7 +20,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   growth:
-    if: github.ref == 'refs/heads/main'
+    if: github.ref == 'refs/heads/main' && (github.event_name != 'schedule' || vars.SEO_GROWTH_PUBLISH_ENABLED == 'true')
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:
@@ -32,6 +32,11 @@ jobs:
           python-version: '3.12'
       - run: pip install -r requirements.txt
       - run: python -m unittest discover -s tests -v
+      - name: Require production publisher enablement
+        if: inputs.publish && vars.SEO_GROWTH_PUBLISH_ENABLED != 'true'
+        run: |
+          echo "Publishing is disabled until the restricted server growth worker is installed and verified; enable SEO_GROWTH_PUBLISH_ENABLED only afterward." >&2
+          exit 1
       - name: Download latest completed successful main audit
         env:
           GH_TOKEN: ${{ github.token }}
@@ -59,7 +64,7 @@ jobs:
           fi
           python scripts/keyword_research.py --audit "$audit_report" --limit "$RESEARCH_LIMIT"
       - name: Publish checked content through restricted server worker
-        if: always() && (github.event_name == 'schedule' || inputs.publish)
+        if: always() && vars.SEO_GROWTH_PUBLISH_ENABLED == 'true' && (github.event_name == 'schedule' || inputs.publish)
         env:
           REPAIR_KEY: ${{ secrets.SEO_REPAIR_SSH_KEY }}
           KNOWN_HOSTS: ${{ vars.SEO_REPAIR_KNOWN_HOSTS }}
