@@ -46,11 +46,12 @@ def collect(client,output):
     output=Path(output);output.mkdir(parents=True,exist_ok=True);sources=[]
     tasks=[('intech-seo-controller.yml',{'report.json':'audit.json'}),
            ('weekday-keyword-growth.yml',{'proposals.json':'research.json','publication.json':'publication.json'}),
-           ('seo-insights.yml',{'performance.json':'previous-performance.json'})]
+           ('seo-insights.yml',{'performance.json':'previous-performance.json'}),
+           ('seo-production-repairs.yml',{})]
     for workflow,names in tasks:
         try:
             run=client.latest(workflow)
-            if run:client.download(run['id'],names,output)
+            if run and names:client.download(run['id'],names,output)
             sources.append({'workflow':workflow,'run':run})
         except Exception:sources.append({'workflow':workflow,'status':'unavailable'})
     (output/'sources.json').write_text(json.dumps(sources,indent=2),encoding='utf-8')
