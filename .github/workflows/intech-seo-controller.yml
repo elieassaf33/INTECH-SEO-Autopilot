@@ -5,35 +5,72 @@ on:
     - cron: '0 7 * * 1'
 permissions:
   contents: read
+  actions: read
   id-token: write
 jobs:
   weekly-audit:
     runs-on: ubuntu-latest
     timeout-minutes: 30
+    concurrency:
+      group: intech-weekly-seo
+      cancel-in-progress: false
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Install Search Console client
-        run: pip install google-auth requests
-      - name: Check scripts
-        run: python -m py_compile scripts/intech_controller.py scripts/intech_register.py scripts/seo_multisite.py
+      - name: Install report dependencies
+        run: python -m pip install --disable-pip-version-check -r requirements.txt
+      - name: Run audit regression tests
+        run: python -m unittest discover -s tests -v
+      - name: Check Python modules
+        run: python -m py_compile scripts/intech_controller.py scripts/intech_register.py scripts/seo_multisite.py scripts/gsc_client.py scripts/recommendations.py scripts/restore_history.py scripts/keyword_discovery.py scripts/metadata_publisher.py
       - name: Authenticate to Google Cloud (keyless)
-        if: ${{ vars.GCP_WIF_PROVIDER != '' && vars.GCP_SERVICE_ACCOUNT != '' }}
+        continue-on-error: true
         uses: google-github-actions/auth@v2
         with:
-          workload_identity_provider: ${{ vars.GCP_WIF_PROVIDER }}
-          service_account: ${{ vars.GCP_SERVICE_ACCOUNT }}
-          token_format: access_token
+          workload_identity_provider: projects/110513102800/locations/global/workloadIdentityPools/intech-github/providers/github
+          service_account: intech-seo-autopilot@intech-seo-autopilot.iam.gserviceaccount.com
+          create_credentials_file: true
+          export_environment_variables: true
+      - name: Restore prior weekly history
+        continue-on-error: true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python -m scripts.restore_history
       - name: Audit all registered clients
         env:
           GCP_USE_ADC: 'true'
-        run: python scripts/intech_controller.py
-      - name: Publish weekly report
+        run: python -m scripts.intech_controller
+      - name: Apply configured title and description updates
+        continue-on-error: true
+        env:
+          SEO_PUBLISH_TOKEN: ${{ secrets.SEO_PUBLISH_TOKEN }}
+        run: python -m scripts.metadata_publisher --apply
+      - name: Add report summary to Actions run
+        if: always()
+        run: |
+          if [ -f seo-reports/weekly/index.md ]; then
+            cat seo-reports/weekly/index.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+          if [ -f seo-reports/weekly/publishing.md ]; then
+            cat seo-reports/weekly/publishing.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+      - name: Publish weekly reports
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: intech-weekly-seo-report
-          path: seo-reports/controller/
+          path: seo-reports/weekly/
+          if-no-files-found: warn
+          retention-days: 90
+      - name: Publish cumulative historical data
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: intech-seo-history
+          path: seo-reports/history/*.jsonl
+          if-no-files-found: warn
           retention-days: 90

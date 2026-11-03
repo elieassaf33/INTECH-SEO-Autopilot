@@ -18,6 +18,22 @@ on:
         description: Search Console property, e.g. sc-domain:example.com (optional)
         required: false
         type: string
+      country:
+        description: ISO country code (use EU when no single country applies)
+        required: true
+        type: string
+      languages:
+        description: Comma-separated language codes, e.g. en-GB or lt-LT
+        required: true
+        type: string
+      business_type:
+        description: Client business category
+        required: true
+        type: string
+      keywords:
+        description: Comma-separated seed topics (not search-volume data)
+        required: false
+        type: string
 permissions:
   contents: write
   pull-requests: write
@@ -37,6 +53,10 @@ jobs:
           CLIENT_URL: ${{ inputs.website }}
           CLIENT_REPO: ${{ inputs.github_repo }}
           CLIENT_GSC: ${{ inputs.gsc_property }}
+          CLIENT_COUNTRY: ${{ inputs.country }}
+          CLIENT_LANGUAGES: ${{ inputs.languages }}
+          CLIENT_BUSINESS_TYPE: ${{ inputs.business_type }}
+          CLIENT_KEYWORDS: ${{ inputs.keywords }}
         run: python scripts/intech_register.py
       - name: Open onboarding PR
         env:

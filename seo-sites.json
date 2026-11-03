@@ -1,30 +1,106 @@
-[
-  {
-    "name": "LB Electrical",
-    "url": "https://www.lbelectrical.uk"
+{
+  "schema_version": 1,
+  "notes": {
+    "keywords": "Seed topics for free autocomplete keyword discovery; not search-volume data.",
+    "gsc_property": "Set only to an exact Search Console siteUrl returned by the existing authenticated properties list.",
+    "repository": "Only known website source repositories are listed. Never infer a client's repository from its domain."
   },
-  {
-    "name": "INTECH Lithuania",
-    "url": "https://getintech.lt"
-  },
-  {
-    "name": "INTECH Europe",
-    "url": "https://getintech.eu"
-  },
-  {
-    "name": "Alisos Fotografija",
-    "url": "https://alisosfotografija.lt"
-  },
-  {
-    "name": "Klaipedos Aliejus",
-    "url": "https://klaipedosaliejus.lt"
-  },
-  {
-    "name": "Jegaainis",
-    "url": "https://jegaainis.lt"
-  },
-  {
-    "name": "CardBros TCG",
-    "url": "https://cardbrostcg.com"
-  }
-]
+  "sites": [
+    {
+      "id": "lb-electrical",
+      "name": "LB Electrical",
+      "url": "https://www.lbelectrical.uk",
+      "domain": "lbelectrical.uk",
+      "country": "GB",
+      "languages": ["en-GB"],
+      "business_type": "electrical services",
+      "keywords": ["electrician", "electrical services", "electrical testing", "emergency electrician"],
+      "gsc_property": "sc-domain:lbelectrical.uk",
+      "repository": "elieassaf33/LB_Electrical"
+    },
+    {
+      "id": "alisos-fotografija",
+      "name": "Alisos Fotografija",
+      "url": "https://alisosfotografija.lt",
+      "domain": "alisosfotografija.lt",
+      "country": "LT",
+      "languages": ["lt-LT"],
+      "business_type": "photography services",
+      "keywords": ["fotografija", "fotografas", "šeimos fotosesija", "vestuvių fotografija"],
+      "gsc_property": "sc-domain:alisosfotografija.lt",
+      "repository": null
+    },
+    {
+      "id": "jegaainis",
+      "name": "Jegaainis",
+      "url": "https://jegaainis.lt",
+      "domain": "jegaainis.lt",
+      "country": "LT",
+      "languages": ["lt-LT"],
+      "business_type": "food and nuts e-commerce",
+      "keywords": ["riešutai", "džiovinti vaisiai", "užkandžiai", "maisto prekės"],
+      "gsc_property": "sc-domain:jegaainis.lt",
+      "repository": null
+    },
+    {
+      "id": "klaipedos-aliejus",
+      "name": "Klaipedos Aliejus",
+      "url": "https://klaipedosaliejus.lt",
+      "domain": "klaipedosaliejus.lt",
+      "country": "LT",
+      "languages": ["lt-LT"],
+      "business_type": "natural oils and food e-commerce",
+      "keywords": ["natūralus aliejus", "šalto spaudimo aliejus", "maisto produktai"],
+      "gsc_property": "sc-domain:klaipedosaliejus.lt",
+      "repository": null
+    },
+    {
+      "id": "tesla-eu",
+      "name": "Tesla EU",
+      "url": "https://teslaeu.eu",
+      "domain": "teslaeu.eu",
+      "country": "EU",
+      "languages": ["multilingual"],
+      "business_type": "Tesla vehicle sales",
+      "keywords": ["Tesla for sale Europe", "Tesla electric cars", "Tesla vehicles"],
+      "gsc_property": "sc-domain:teslaeu.eu",
+      "repository": null
+    },
+    {
+      "id": "cardbros-tcg",
+      "name": "CardBros TCG",
+      "url": "https://cardbrostcg.com",
+      "domain": "cardbrostcg.com",
+      "country": "GB",
+      "languages": ["en-GB"],
+      "business_type": "trading card e-commerce",
+      "keywords": ["trading cards", "collectible card games", "TCG cards", "trading card shop"],
+      "gsc_property": "sc-domain:cardbrostcg.com",
+      "repository": null
+    },
+    {
+      "id": "getintech-lt",
+      "name": "INTECH Lithuania",
+      "url": "https://getintech.lt",
+      "domain": "getintech.lt",
+      "country": "LT",
+      "languages": ["lt-LT"],
+      "business_type": "digital agency services",
+      "keywords": ["skaitmeninė agentūra", "internetinių svetainių kūrimas", "SEO paslaugos"],
+      "gsc_property": "sc-domain:getintech.lt",
+      "repository": null
+    },
+    {
+      "id": "getintech-eu",
+      "name": "INTECH Europe",
+      "url": "https://getintech.eu",
+      "domain": "getintech.eu",
+      "country": "EU",
+      "languages": ["en"],
+      "business_type": "digital agency services",
+      "keywords": ["digital agency", "web development", "SEO services", "digital marketing"],
+      "gsc_property": "sc-domain:getintech.eu",
+      "repository": null
+    }
+  ]
+}

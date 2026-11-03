@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "scope": "titles_and_meta_descriptions_only",
+  "targets": {
+    "lb-electrical": {
+      "repository": "elieassaf33/LB_Electrical",
+      "git_branch": "main",
+      "path": "core/context_processors.py",
+      "function": "site_metadata",
+      "branch": "else",
+      "deployment_on_push_verified": false,
+      "baseline": {
+        "title": "Electrical Services Across Southern England | LB Electrical",
+        "description": "Electrical services across Hampshire, Dorset, Wiltshire, Surrey and West Sussex. EICRs, rewiring, repairs and installations. Ask LB Electrical for a quote."
+      },
+      "variants": [
+        {
+          "keywords": [
+            "electrical testing and inspection"
+          ],
+          "title": "Electrical Services & Testing | LB Electrical",
+          "description": "Electrical testing and inspection, rewiring, repairs and installations across Hampshire, Dorset, Wiltshire, Surrey and West Sussex. Contact LB Electrical."
+        }
+      ]
+    }
+  }
+}

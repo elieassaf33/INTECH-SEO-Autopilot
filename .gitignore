@@ -1,0 +1,5 @@
+__pycache__/
+*.py[cod]
+.venv/
+seo-reports/
+gha-creds-*.json
