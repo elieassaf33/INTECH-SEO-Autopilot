@@ -75,7 +75,10 @@ def main():
             atomic_write(Path(a.manifest),(json.dumps(updated,indent=2)+'\n').encode())
         results=process(json.loads(raw),json.loads(Path(a.targets).read_text()),manifest,state,a.apply,persist=persist)
         report={'generated_at':dt.datetime.now(dt.timezone.utc).isoformat(),'scope':'metadata_only','apply':a.apply,
-                'worker_sha256':digest(Path(__file__).read_bytes()),'results':results}
+                'worker_sha256':digest(Path(__file__).read_bytes()),
+                'dependencies_sha256':{name:digest(Path(__file__).with_name(name).read_bytes()) for name in
+                    ('free_metadata.py','keyword_publisher.py','keyword_content.py','production_repairs.py','technical_audit.py')},
+                'targets_sha256':digest(Path(a.targets).read_bytes()),'results':results}
         payload=json.dumps(report,ensure_ascii=False,indent=2)
         (state/'metadata-latest.json').write_text(payload)
         (state/dt.datetime.now(dt.timezone.utc).strftime('metadata-report-%Y%m%dT%H%M%S%f.json')).write_text(payload)
