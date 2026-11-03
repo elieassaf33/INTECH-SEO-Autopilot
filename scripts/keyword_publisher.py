@@ -140,9 +140,10 @@ def publish_netlify(target, proposal, manifest, state, patcher=None, verifier=No
     if required_functions - {desired_functions[name] for name in archives} or draft.get('required_edge_functions') or draft.get('required_server'):
         raise ValueError('Draft could not preserve the existing runtime bundles')
     for name, archive in archives.items():
-        if desired_functions[name] in required_functions:
-            runtime = function_signature(current)[name][2]
-            client.request('deploys/' + draft['id'] + '/functions/' + quote(name, safe='') + '?runtime=' + quote(runtime, safe=''), 'PUT', archive, True)
+        # A cache hit may otherwise select the platform's newer runtime. Pin it
+        # on every draft, even when the source archive is already cached.
+        runtime = function_signature(current)[name][2]
+        client.request('deploys/' + draft['id'] + '/functions/' + quote(name, safe='') + '?runtime=' + quote(runtime, safe=''), 'PUT', archive, True)
     required = set(draft.get('required', []))
     if required - {sha}: raise ValueError('Draft requires unexpected unchanged assets')
     if sha in required:

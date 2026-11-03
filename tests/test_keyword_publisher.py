@@ -78,7 +78,7 @@ class PublisherTests(unittest.TestCase):
         self.assertNotIn('region',payload['functions_config']['reviews'])
         self.assertNotIn('memory',payload['functions_config']['reviews'])
 
-    def test_netlify_reuploads_only_pinned_unchanged_function_source(self):
+    def test_netlify_cache_hit_still_pins_runtime_with_unchanged_source(self):
         import io,zipfile
         manifest,current,ready,old,new_sha=self.fixture();client=Mock()
         source=b'exports.handler = async () => ({statusCode: 200});'
@@ -94,7 +94,7 @@ class PublisherTests(unittest.TestCase):
             manifest['netlify_sites'][0]['function_archives']={'reviews':{
                 'path':str(archive),'sha256':bundle_sha,'source_entry':'reviews.js','source_sha256':hashlib.sha256(source).hexdigest()}}
             client.request.side_effect=[{'published_deploy':current},[{'path':k,'sha':v} for k,v in manifest['netlify_sites'][0]['files'].items()],old,
-                {'id':'new','required':[new_sha],'required_functions':[bundle_sha]},{},b'',ready,{'published_deploy':current},{},
+                {'id':'new','required':[new_sha],'required_functions':[]},{},b'',ready,{'published_deploy':current},{},
                 {'published_deploy':ready},[{'path':'/index.html','sha':new_sha},{'path':'/asset.js','sha':'unchanged'}]]
             with patch.object(publisher,'NetlifyContent',return_value=client),patch.object(publisher,'verify'),patch.object(publisher,'verify_content'):
                 result=publisher.publish_netlify({**self.target,'file':'/index.html'},self.proposal,manifest,Path(temp))

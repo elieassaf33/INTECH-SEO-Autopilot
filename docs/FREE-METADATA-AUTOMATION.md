@@ -53,3 +53,6 @@ Artifacts `free-keyword-metadata-<run-id>` contain `proposals.json` (ideas, sele
 copy, skipped/blocked results) and `publication.json` (verified updates, cooldowns,
 backups and failures). Runs execute on GitHub and the VPS; the owner's computer
 need not be running. Evaluation is weekly; changes occur only when suitable.
+
+Installed worker, dependency and target-file hashes must match the tested checkout.
+[Verification evidence](METADATA-VERIFICATION-2026-11-03.md).
