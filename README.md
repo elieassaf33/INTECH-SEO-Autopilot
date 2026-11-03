@@ -13,3 +13,8 @@ See [setup, safeguards and limits](docs/INTECH-SEO-AUTOPILOT.md) and
 [verified status and blockers](docs/VERIFICATION-2026-10-30.md).
 
 Tests: `python -m unittest discover -s tests -v`.
+
+After each successful Monday audit, free keyword discovery evaluates all 13
+properties and the restricted metadata worker can update supported **titles and
+meta descriptions only**. Visible page text is preserved. The former paid AI
+content workflow is replaced. See [free metadata automation](docs/FREE-METADATA-AUTOMATION.md).

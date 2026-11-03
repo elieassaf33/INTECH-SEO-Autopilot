@@ -1,0 +1,448 @@
+[
+  {
+    "gsc_property": "sc-domain:lbelectrical.uk",
+    "client_id": "lbelectrical-uk",
+    "url": "https://www.lbelectrical.uk/",
+    "display_path": "/",
+    "checks": [
+      "https://www.lbelectrical.uk/"
+    ],
+    "slot_id": "sc-domain:lbelectrical.uk",
+    "css_class": "container",
+    "provider": "vps",
+    "root": "/opt/lb-electrical",
+    "file": "templates/base.html",
+    "kind": "django",
+    "base_sha256": "7d6699bcb68f84a42d5e400ed9c43f37ab07fd49d8d233e08c28dd7711393976",
+    "services": [
+      "lb-electrical.service"
+    ],
+    "original_tags": {
+      "title": "<title>{{ seo_title }}</title>",
+      "description": "<meta name=\"description\" content=\"{{ seo_description }}\">"
+    },
+    "name": "LB Electrical",
+    "language": "en",
+    "country": "GB",
+    "keywords": [
+      "electrician",
+      "electrical services",
+      "electrical testing",
+      "emergency electrician"
+    ],
+    "metadata_baseline": {
+      "title": "Electrical Services Across Southern England | LB Electrical",
+      "description": "Electrical services across Hampshire, Dorset, Wiltshire, Surrey and West Sussex. EICRs, rewiring, repairs and installations. Ask LB Electrical for a quote."
+    }
+  },
+  {
+    "gsc_property": "sc-domain:getintech.lt",
+    "client_id": "intech",
+    "url": "https://getintech.lt/",
+    "display_path": "/",
+    "checks": [
+      "https://getintech.lt/"
+    ],
+    "slot_id": "sc-domain:getintech.lt",
+    "css_class": "container",
+    "provider": "netlify",
+    "site_id": "0d8f9627-2f50-476e-9777-b918ae107056",
+    "file": "/index.html",
+    "kind": "static",
+    "base_sha256": "0bea33da858cc62303e6538b53c159d36d3856c052836560664f72ea59214eac",
+    "original_tags": {
+      "title": "<title>Internetinių svetainių kūrimas | INTECH</title>",
+      "description": "<meta content=\"Svetainių kūrimas nuo 299 €: BUSINESS verslo svetainė iki 5 puslapių. START nuo 199 €, el. parduotuvės nuo 599 €. Sprendimai smulkiam Lietuvos verslui.\" name=\"description\"/>"
+    },
+    "name": "INTECH Lithuania",
+    "language": "lt",
+    "country": "LT",
+    "keywords": [
+      "skaitmeninė agentūra",
+      "internetinių svetainių kūrimas",
+      "SEO paslaugos"
+    ],
+    "metadata_baseline": {
+      "title": "Internetinių svetainių kūrimas | INTECH",
+      "description": "Svetainių kūrimas nuo 299 €: BUSINESS verslo svetainė iki 5 puslapių. START nuo 199 €, el. parduotuvės nuo 599 €. Sprendimai smulkiam Lietuvos verslui."
+    }
+  },
+  {
+    "gsc_property": "sc-domain:getintech.eu",
+    "client_id": "intech",
+    "url": "https://getintech.eu/",
+    "display_path": "/",
+    "checks": [
+      "https://getintech.eu/"
+    ],
+    "slot_id": "sc-domain:getintech.eu",
+    "css_class": "container",
+    "provider": "netlify",
+    "site_id": "0d8f9627-2f50-476e-9777-b918ae107056",
+    "file": "/_en/index.html",
+    "kind": "static",
+    "base_sha256": "c2e6dc9cbe2d2f253f593f3b8bb8fe942176b74f6b9d076b514a53469f8de63e",
+    "original_tags": {
+      "title": "<title>Custom Website Development &amp; Digital Solutions | INTECH</title>",
+      "description": "<meta content=\"BUSINESS websites from €299, one-page websites from €199 and online shops from €599. Scoped website development for small businesses.\" name=\"description\"/>"
+    },
+    "name": "INTECH Europe",
+    "language": "en",
+    "country": "EU",
+    "keywords": [
+      "digital agency",
+      "web development",
+      "SEO services",
+      "digital marketing"
+    ],
+    "metadata_baseline": {
+      "title": "Custom Website Development & Digital Solutions | INTECH",
+      "description": "BUSINESS websites from €299, one-page websites from €199 and online shops from €599. Scoped website development for small businesses."
+    }
+  },
+  {
+    "gsc_property": "sc-domain:alisosfotografija.lt",
+    "client_id": "alisosfotografija-lt",
+    "url": "https://www.alisosfotografija.lt/",
+    "display_path": "/",
+    "checks": [
+      "https://www.alisosfotografija.lt/"
+    ],
+    "slot_id": "sc-domain:alisosfotografija.lt",
+    "css_class": "container",
+    "provider": "vps",
+    "root": "/var/www/alisos_foto_django",
+    "file": "templates/base.html",
+    "kind": "django",
+    "base_sha256": "2bb04f2e9707be81f71414295923aaeb061fa1c6dbdcd80df4930153ee75ada7",
+    "services": [
+      "alisos.service"
+    ],
+    "original_tags": {
+      "title": "<title>{% block title %}{{ seo_title }}{% endblock %}</title>",
+      "description": "<meta name=\"description\" content=\"{% block meta_description %}{{ seo_description }}{% endblock %}\">"
+    },
+    "name": "Alisos Fotografija",
+    "language": "lt",
+    "country": "LT",
+    "keywords": [
+      "fotografija",
+      "fotografas",
+      "šeimos fotosesija",
+      "vestuvių fotografija"
+    ],
+    "metadata_baseline": {
+      "title": "Fotografė Klaipėdoje | Alisos Fotografija",
+      "description": "Natūralios asmeninės, šeimos, porų ir švenčių fotosesijos Klaipėdoje. Peržiūrėkite darbus, kainas ir rezervuokite fotosesiją."
+    }
+  },
+  {
+    "gsc_property": "sc-domain:klaipedosaliejus.lt",
+    "client_id": "klaipedosaliejus-lt",
+    "url": "https://klaipedosaliejus.lt/",
+    "display_path": "/",
+    "checks": [
+      "https://klaipedosaliejus.lt/"
+    ],
+    "slot_id": "sc-domain:klaipedosaliejus.lt",
+    "css_class": "container",
+    "provider": "vps",
+    "root": "/var/www/klaipedos_aliejus",
+    "file": "templates/shop/base.html",
+    "kind": "django",
+    "base_sha256": "2daa04b4262f6973a22b278f43a775d0e52971eb0e348f64ee272100898d56b7",
+    "services": [
+      "klaipeda.service"
+    ],
+    "original_tags": {
+      "title": "<title>{{ seo.title|default:'Klaipėdos krašto aliejus' }}</title>",
+      "description": "<meta name=\"description\" content=\"{{ seo.description }}\">"
+    },
+    "name": "Klaipedos Aliejus",
+    "language": "lt",
+    "country": "LT",
+    "keywords": [
+      "natūralus aliejus",
+      "šalto spaudimo aliejus",
+      "maisto produktai"
+    ],
+    "metadata_baseline": {
+      "title": "Šalto spaudimo aliejus Klaipėdoje | Klaipėdos krašto aliejus",
+      "description": "Šviežiai spaustas aliejus, skaidulos ir kiti produktai iš Klaipėdos. Atraskite Jolantos Tebelškienės spaudyklėlę Tilžės 51 ir pateikite užsakymo užklausą."
+    }
+  },
+  {
+    "gsc_property": "sc-domain:jegaainis.lt",
+    "client_id": "jegaainis-lt",
+    "url": "https://jegaainis.lt/",
+    "display_path": "/",
+    "checks": [
+      "https://jegaainis.lt/"
+    ],
+    "slot_id": "sc-domain:jegaainis.lt",
+    "css_class": "mx-auto max-w-7xl px-5 py-10 sm:px-8 lg:px-10",
+    "provider": "vps",
+    "root": "/var/www/jegaainis/jegaainis",
+    "file": "shop/templates/shop/base.html",
+    "kind": "django",
+    "base_sha256": "b69c14b0f0dc0d752e61914ce0549f7e0ecc70032d9c63b7c557ab87ece71ece",
+    "services": [
+      "gunicorn-jegaainis.service"
+    ],
+    "original_tags": {
+      "title": "<title>{% block title %}{{ seo.title|default:'Jėga Ainis' }}{% endblock %}</title>",
+      "description": "<meta name=\"description\" content=\"{{ seo.description }}\">"
+    },
+    "name": "Jegaainis",
+    "language": "lt",
+    "country": "LT",
+    "keywords": [
+      "riešutai",
+      "džiovinti vaisiai",
+      "užkandžiai",
+      "maisto prekės"
+    ],
+    "metadata_baseline": {
+      "title": "Riešutai, džiovinti vaisiai ir sėklos | Jėga Ainis",
+      "description": "Riešutai, džiovinti vaisiai, sėklos, prieskoniai ir aliejai internetu. Peržiūrėkite Jėga Ainis asortimentą, dydžius, kainas ir pristatymo informaciją."
+    }
+  },
+  {
+    "gsc_property": "sc-domain:cardbrostcg.com",
+    "client_id": "cardbros-tcg",
+    "url": "https://cardbrostcg.com/en/",
+    "display_path": "/en/",
+    "checks": [
+      "https://cardbrostcg.com/en/",
+      "https://cardbrostcg.co.uk/en/"
+    ],
+    "slot_id": "cardbros-shared-home",
+    "css_class": "container",
+    "provider": "vps",
+    "root": "/var/www/card_bros_tcg/pokemon",
+    "file": "cards/templates/cards/base.html",
+    "kind": "django",
+    "base_sha256": "00742e351123d523c781933f79ff24e097ad7e4637e457f440875337d76f3705",
+    "services": [
+      "card_bros_tcg.service",
+      "gunicorn.service"
+    ],
+    "original_tags": {
+      "title": "<title>Card Bros TCG – Pokémon Cards, Boosters & Sealed Products</title>",
+      "description": "<meta name=\"description\" content=\"Buy authentic Pokémon cards, booster packs, singles, and sealed products. Fast shipping all around the world. Discover rare pulls and premium TCG accessories at Card Bros TCG.\">"
+    },
+    "name": "CardBros TCG",
+    "language": "en",
+    "country": "GB",
+    "keywords": [
+      "trading cards",
+      "collectible card games",
+      "TCG cards",
+      "trading card shop"
+    ],
+    "metadata_baseline": {
+      "title": "Card Bros TCG – Pokémon Cards, Boosters & Sealed Products",
+      "description": "Buy authentic Pokémon cards, booster packs, singles, and sealed products. Fast shipping all around the world. Discover rare pulls and premium TCG accessories at Card Bros TCG."
+    }
+  },
+  {
+    "gsc_property": "sc-domain:teslaeu.eu",
+    "client_id": "teslaeu-eu",
+    "url": "https://teslaeu.eu/en/",
+    "display_path": "/en/",
+    "checks": [
+      "https://teslaeu.eu/en/"
+    ],
+    "slot_id": "sc-domain:teslaeu.eu",
+    "css_class": "container",
+    "provider": "vps",
+    "root": "/var/www/teslaeu",
+    "file": "frontend/templates/base.html",
+    "kind": "django",
+    "base_sha256": "e739b2188f4d01d34d95b97bdb3b5f774f0ca4d232b9271bc622a3a63400004e",
+    "services": [
+      "teslaeu.service"
+    ],
+    "original_tags": {
+      "title": "<title>{{ seo_title }}</title>",
+      "description": "<meta name=\"description\" content=\"{{ seo_description }}\" />"
+    },
+    "name": "Tesla EU",
+    "language": "en",
+    "country": "EU",
+    "keywords": [
+      "Tesla for sale Europe",
+      "Tesla electric cars",
+      "Tesla vehicles"
+    ],
+    "metadata_baseline": {
+      "title": "Tesla for Sale in Europe | TeslaEU",
+      "description": "Explore used Tesla Model 3, Model Y, Model S and Model X. Compare prices, mileage and equipment across our current inventory."
+    }
+  },
+  {
+    "gsc_property": "sc-domain:tvarikirpeja.lt",
+    "client_id": "tvarikirpeja-lt",
+    "url": "https://www.tvarikirpeja.lt/",
+    "display_path": "/",
+    "checks": [
+      "https://www.tvarikirpeja.lt/"
+    ],
+    "slot_id": "sc-domain:tvarikirpeja.lt",
+    "css_class": "container",
+    "provider": "netlify",
+    "site_id": "f13a241f-dcd7-44a5-af0a-7a84c2c3e0b4",
+    "file": "/index.html",
+    "kind": "static",
+    "base_sha256": "74764484b0394fa85e3c621768c3af36f8ddc3e980e416e1b6e1448d901cf1d7",
+    "original_tags": {
+      "title": "<title>Tvari kirpėja Klaipėdoje | Kirpimas ir plaukų priežiūra</title>",
+      "description": "<meta name=\"description\" content=\"Tvari kirpėja Klaipėdoje – profesionalus moterų, vyrų ir vaikų kirpimas, dažymas bei natūrali plaukų priežiūra. Susisiekite ir rezervuokite laiką.\">"
+    },
+    "name": "Tvari Kirpeja",
+    "language": "lt",
+    "country": "LT",
+    "keywords": [
+      "Tvari kirpėja"
+    ],
+    "metadata_baseline": {
+      "title": "Tvari kirpėja Klaipėdoje | Kirpimas ir plaukų priežiūra",
+      "description": "Tvari kirpėja Klaipėdoje – profesionalus moterų, vyrų ir vaikų kirpimas, dažymas bei natūrali plaukų priežiūra. Susisiekite ir rezervuokite laiką."
+    }
+  },
+  {
+    "gsc_property": "sc-domain:naturalusmaistas.lt",
+    "client_id": "naturalusmaistas-lt",
+    "url": "https://naturalusmaistas.lt/",
+    "display_path": "/",
+    "checks": [
+      "https://naturalusmaistas.lt/"
+    ],
+    "slot_id": "sc-domain:naturalusmaistas.lt",
+    "css_class": "mx-auto max-w-7xl px-5 py-10 sm:px-8 lg:px-10",
+    "provider": "vps",
+    "root": "/var/www/naturalus_maistas",
+    "file": "shop/templates/shop/base.html",
+    "kind": "django",
+    "base_sha256": "3604e40d8dd09a7dc36b6c2911d1a54f14564bcc064021e9359faed03983fa7f",
+    "services": [
+      "naturalusmaistas.service"
+    ],
+    "original_tags": {
+      "title": "<title>{% block title %}Naturalus Maistas | Atrinkti produktai kasdienai{% endblock %}</title>",
+      "description": "<meta\n      name=\"description\"\n      content=\"{% block meta_description %}Atrinkti riešutai, džiovinti vaisiai, sėklos ir prieskoniai. Kokybiški produktai jūsų kasdieniam stalui.{% endblock %}\"\n    >"
+    },
+    "name": "Naturalus Maistas",
+    "language": "lt",
+    "country": "LT",
+    "keywords": [
+      "Natūralūs riešutai,"
+    ],
+    "metadata_baseline": {
+      "title": "Natūralūs riešutai, vaisiai ir sėklos | Naturalus Maistas",
+      "description": "Atraskite kruopščiai atrinktus riešutus, džiovintus vaisius, sėklas, kruopas ir prieskonius. Užsisakykite internetu, pristatome visoje Lietuvoje."
+    }
+  },
+  {
+    "gsc_property": "sc-domain:cardbrostcg.co.uk",
+    "client_id": "cardbros-tcg",
+    "url": "https://cardbrostcg.co.uk/en/",
+    "display_path": "/en/",
+    "checks": [
+      "https://cardbrostcg.com/en/",
+      "https://cardbrostcg.co.uk/en/"
+    ],
+    "slot_id": "cardbros-shared-home",
+    "css_class": "container",
+    "provider": "vps",
+    "root": "/var/www/card_bros_tcg/pokemon",
+    "file": "cards/templates/cards/base.html",
+    "kind": "django",
+    "base_sha256": "00742e351123d523c781933f79ff24e097ad7e4637e457f440875337d76f3705",
+    "services": [
+      "card_bros_tcg.service",
+      "gunicorn.service"
+    ],
+    "alias_of": "sc-domain:cardbrostcg.com",
+    "original_tags": {
+      "title": "<title>Card Bros TCG – Pokémon Cards, Boosters & Sealed Products</title>",
+      "description": "<meta name=\"description\" content=\"Buy authentic Pokémon cards, booster packs, singles, and sealed products. Fast shipping all around the world. Discover rare pulls and premium TCG accessories at Card Bros TCG.\">"
+    },
+    "name": "CardBros TCG UK",
+    "language": "en",
+    "country": "LT",
+    "keywords": [
+      "Card Bros"
+    ],
+    "metadata_baseline": {
+      "title": "Card Bros TCG – Pokémon Cards, Boosters & Sealed Products",
+      "description": "Buy authentic Pokémon cards, booster packs, singles, and sealed products. Fast shipping all around the world. Discover rare pulls and premium TCG accessories at Card Bros TCG."
+    }
+  },
+  {
+    "gsc_property": "sc-domain:grikiudievas.lt",
+    "client_id": "grikiudievas-lt",
+    "url": "https://grikiudievas.lt/lt/",
+    "display_path": "/lt/",
+    "checks": [
+      "https://grikiudievas.lt/lt/"
+    ],
+    "slot_id": "sc-domain:grikiudievas.lt",
+    "css_class": "container",
+    "provider": "vps",
+    "root": "/var/www/grikiu_dievas/grikiu_dievas",
+    "file": "templates/base.html",
+    "kind": "django",
+    "base_sha256": "35ce6a6b4ee48407be470a3b84246e0abce1043df70e804a5569de6c6b091c88",
+    "services": [
+      "grikiu_dievas.service"
+    ],
+    "original_tags": {
+      "title": "<title>{% block title %}{{ seo.title }}{% endblock %}</title>",
+      "description": "<meta name=\"description\" content=\"{{ seo.description }}\">"
+    },
+    "name": "Grikiu Dievas",
+    "language": "lt",
+    "country": "LT",
+    "keywords": [
+      "Riešutai, šilajitas"
+    ],
+    "metadata_baseline": {
+      "title": "Riešutai, šilajitas ir džiovinti vaisiai | Grikių Dievas",
+      "description": "Riešutai, šilajitas iš Nepalo ir džiovinti vaisiai internetu. Atraskite Grikių Dievo produktus, palyginkite kainas ir pasirinkite norimą pakuotę."
+    }
+  },
+  {
+    "gsc_property": "sc-domain:thefurrytale.com",
+    "client_id": "thefurrytale-com",
+    "url": "https://thefurrytale.com/",
+    "display_path": "/",
+    "checks": [
+      "https://thefurrytale.com/"
+    ],
+    "slot_id": "sc-domain:thefurrytale.com",
+    "css_class": "container",
+    "provider": "vps",
+    "root": "/var/www/thefurrytale/thefurrytale",
+    "file": "templates/shop/base.html",
+    "kind": "django",
+    "base_sha256": "b28d19f9665d579c463715050fcf0cbab816584e7e9bec62536c554372b5f26a",
+    "services": [
+      "thefurrytale.service"
+    ],
+    "original_tags": {
+      "title": "<title>{% block title %}{{ seo_title }}{% endblock %}</title>",
+      "description": "<meta name=\"description\" content=\"{% block meta_description %}{{ seo_description }}{% endblock %}\">"
+    },
+    "name": "The Furry Tale",
+    "language": "en",
+    "country": "LT",
+    "keywords": [
+      "Pet Supplies"
+    ],
+    "metadata_baseline": {
+      "title": "Pet Supplies for Cats & Dogs in Lithuania | The Furry Tale",
+      "description": "Explore cat and dog essentials from The Furry Tale, a pet shop based in Lithuania. Browse feeding, walking, grooming and travel products and send a preorder enquiry."
+    }
+  }
+]
