@@ -18,3 +18,8 @@ After each successful Monday audit, free keyword discovery evaluates all 13
 properties and the restricted metadata worker can update supported **titles and
 meta descriptions only**. Visible page text is preserved. The former paid AI
 content workflow is replaced. See [free metadata automation](docs/FREE-METADATA-AUTOMATION.md).
+
+Daily health checks cover 31 configured pages. GitHub issues notify the owner of
+incidents, and a private offline HTML dashboard shows keyword opportunities,
+metadata history and 28-day Search Console comparisons.
+See [monitoring and dashboard](docs/SEO-INSIGHTS.md).

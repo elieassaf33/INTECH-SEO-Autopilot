@@ -79,7 +79,7 @@ jobs:
           from pathlib import Path
           report=json.loads(Path('seo-reports/metadata/publication.json').read_text())
           assert report['scope']=='metadata_only'
-          expected={'free_metadata.py','keyword_publisher.py','keyword_content.py','production_repairs.py','technical_audit.py'}
+          expected={'free_metadata.py','keyword_publisher.py','keyword_content.py','production_repairs.py','technical_audit.py','metadata_pages.py','change_history.py'}
           assert set(report['dependencies_sha256'])==expected
           for name, digest in report['dependencies_sha256'].items():
               assert digest==hashlib.sha256((Path('scripts')/name).read_bytes()).hexdigest(), 'Installed dependency differs: '+name
