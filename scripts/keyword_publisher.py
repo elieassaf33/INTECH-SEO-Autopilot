@@ -59,14 +59,16 @@ def verify_content(target, proposal):
             time.sleep(5)
 
 
-def publish_vps(target, proposal, manifest, state):
+def publish_vps(target, proposal, manifest, state, patcher=None, verifier=None):
+    patcher = patcher or patch_content
+    verifier = verifier or verify_content
     root = Path(target['root']).resolve(strict=True)
     path = root / target['file']
     if path.is_symlink() or not path.resolve(strict=True).is_relative_to(root):
         raise ValueError('Unapproved source path')
     bundle = next(b for b in manifest['bundles'] if b['id'] == target['client_id'])
     verify(bundle['checks'])
-    old = path.read_bytes(); desired = patch_content(old.decode(), target, proposal).encode()
+    old = path.read_bytes(); desired = patcher(old.decode(), target, proposal).encode()
     backup = state / ('growth-' + dt.datetime.now(dt.timezone.utc).strftime('%Y%m%dT%H%M%S%f'))
     backup.mkdir(); (backup / 'original.html').write_bytes(old)
     (backup / 'receipt.json').write_text(json.dumps({'root': str(root), 'file': target['file'],
@@ -74,7 +76,7 @@ def publish_vps(target, proposal, manifest, state):
     try:
         if path.read_bytes() != old: raise ValueError('Source changed during publication')
         atomic_write(path, desired); reload_services(target['services'])
-        verify(bundle['checks']); verify_content(target, proposal)
+        verify(bundle['checks']); verifier(target, proposal)
     except Exception:
         if path.read_bytes() != desired: raise RuntimeError('Concurrent source change; inspect backup ' + str(backup))
         atomic_write(path, old); reload_services(target['services'])
@@ -93,7 +95,9 @@ def function_signature(deploy):
     return {f['n']: (f['d'], f.get('m'), f.get('r'), f.get('rg')) for f in deploy.get('available_functions', [])}
 
 
-def publish_netlify(target, proposal, manifest, state):
+def publish_netlify(target, proposal, manifest, state, patcher=None, verifier=None):
+    patcher = patcher or patch_content
+    verifier = verifier or verify_content
     policy = next(p for p in manifest['netlify_sites'] if p['site_id'] == target['site_id'])
     client = NetlifyContent(manifest['netlify_token_path']); prefix = 'sites/' + target['site_id']
     current = client.request(prefix)['published_deploy']
@@ -104,7 +108,7 @@ def publish_netlify(target, proposal, manifest, state):
         raise ValueError('Netlify source/functions changed since approved baseline')
     old = client.request(prefix + '/files' + target['file'], raw=True)
     if hashlib.sha1(old).hexdigest() != files[target['file']]: raise ValueError('Netlify source digest mismatch')
-    desired = patch_content(old.decode(), target, proposal).encode(); sha = hashlib.sha1(desired).hexdigest()
+    desired = patcher(old.decode(), target, proposal).encode(); sha = hashlib.sha1(desired).hexdigest()
     files[target['file']] = sha
     config = {}
     for f in current.get('available_functions', []):
@@ -135,7 +139,7 @@ def publish_netlify(target, proposal, manifest, state):
                                     'old_sha1': hashlib.sha1(old).hexdigest(), 'new_sha1': sha}))
     try:
         client.request(prefix + '/deploys/' + draft['id'] + '/restore', 'POST', {})
-        verify(policy['checks']); verify_content(target, proposal)
+        verify(policy['checks']); verifier(target, proposal)
         live = client.request(prefix)['published_deploy']
         actual = {f['path']: f['sha'] for f in client.request(prefix + '/files')}
         if live['id'] != draft['id'] or actual != files or function_signature(live) != function_signature(current):
