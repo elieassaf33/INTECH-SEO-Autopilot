@@ -10,11 +10,14 @@ from technical_audit import fetch
 
 class Head(HTMLParser):
     def __init__(self):
-        super().__init__(); self.head=False; self.title=False; self.values={'title':'','description':''}
+        super().__init__(); self.head=False; self.title=False; self.values={'title':'','description':''};self.canonicals=[];self.noindex=False
     def handle_starttag(self, tag, attrs):
         attrs=dict(attrs)
         if tag=='head': self.head=True
         if self.head and tag=='title': self.title=True
+        if self.head and tag=='link' and 'canonical' in attrs.get('rel','').lower().split():self.canonicals.append(attrs.get('href',''))
+        if self.head and tag=='meta' and attrs.get('name','').lower() in ('robots','googlebot'):
+            self.noindex=self.noindex or bool(set(re.split(r'[\s,]+',attrs.get('content','').lower())) & {'noindex','none'})
         if self.head and tag=='meta' and attrs.get('name','').lower()=='description':
             self.values['description']=attrs.get('content','')
     def handle_endtag(self, tag):
@@ -30,7 +33,9 @@ def context(url):
     if response.get('status')!=200 or response.get('truncated'):
         raise ValueError('Current homepage unavailable or incomplete')
     parser=Head(); parser.feed(response['body'].decode('utf-8'))
-    return {**page_context(url),**parser.values}
+    from urllib.parse import urljoin
+    return {**page_context(url),**parser.values,'canonical':urljoin(url,parser.canonicals[0]) if len(parser.canonicals)==1 else None,
+            'indexable':not parser.noindex and not bool(set(re.split(r'[\s,:]+',response.get('x_robots_tag','').lower())) & {'noindex','none'})}
 
 
 def suggestions(seed, language, country):
@@ -97,8 +102,10 @@ def copy_for(keyword, target, page):
 
 
 def validate(proposal,target,page):
-    if proposal.get('scope')!='metadata_only' or set(proposal)-{'gsc_property','status','scope','keyword','title','description','reason','ideas','errors'}:
+    if proposal.get('scope')!='metadata_only' or set(proposal)-{'gsc_property','status','scope','keyword','title','description','reason','ideas','errors','target_id','url'}:
         raise ValueError('Only metadata proposals are accepted')
+    if proposal.get('target_id',target.get('target_id',target['gsc_property']))!=target.get('target_id',target['gsc_property']) or proposal.get('url',target['url'])!=target['url']:
+        raise ValueError('Proposal does not match its configured page')
     if not eligible(proposal['keyword'],target):
         raise ValueError('Keyword is outside the configured homepage topics')
     desired=copy_for(proposal['keyword'],target,page)
@@ -108,34 +115,5 @@ def validate(proposal,target,page):
 
 
 def patch_metadata(source,target,proposal):
-    import hashlib
-    originals=target['original_tags']
-    restored=source
-    for field in ('title','description'):
-        start='<!-- INTECH META '+field.upper()+' START -->'
-        end='<!-- INTECH META '+field.upper()+' END -->'
-        if start in restored or end in restored:
-            if restored.count(start)!=1 or restored.count(end)!=1 or restored.index(start)>restored.index(end):
-                raise ValueError('Ambiguous metadata markers')
-            restored=re.sub(re.escape(start)+r'.*?'+re.escape(end),lambda m:originals[field],restored,count=1,flags=re.S)
-    if hashlib.sha256(restored.encode()).hexdigest()!=target['base_sha256']:
-        raise ValueError('Source changed outside managed metadata')
-    result=restored
-    for field in ('title','description'):
-        old=originals[field]
-        if result.count(old)!=1: raise ValueError('Metadata tag is missing or ambiguous')
-        if field=='title':
-            match=re.fullmatch(r'(<title\b[^>]*>)(.*?)(</title>)',old,re.I|re.S)
-        else:
-            match=re.fullmatch(r'(<meta\b[^>]*\bcontent=")(.*?)("[^>]*>)',old,re.I|re.S)
-        if not match: raise ValueError('Unsupported metadata tag syntax')
-        value=html.escape(proposal[field],quote=True)
-        if target['kind']=='django':
-            path=target['display_path']
-            if not re.fullmatch(r'/[a-zA-Z0-9/_-]*',path): raise ValueError('Invalid homepage path')
-            value="{% if request.path == '"+path+"' %}"+value+'{% else %}'+match[2]+'{% endif %}'
-        tag=match[1]+value+match[3]
-        block='<!-- INTECH META '+field.upper()+' START -->'+tag+'<!-- INTECH META '+field.upper()+' END -->'
-        result=result.replace(old,block,1)
-    # Everything outside these two tag regions came from the unchanged source.
-    return result
+    from metadata_pages import patch
+    return patch(source,target,proposal)

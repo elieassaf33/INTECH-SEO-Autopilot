@@ -15,8 +15,8 @@ def research(target,audit,fetch=suggestions,get_context=context):
         except Exception:
             errors.append({'seed':seed,'error':'Autocomplete unavailable'})
     output={'gsc_property':target['gsc_property'],'status':'no_suitable_keyword','scope':'metadata_only',
-            'ideas':list(ideas.values()),'errors':errors}
-    observed={r.get('query','').casefold():r.get('impressions',0) for r in audit.get('gsc',{}).get('queries',[])}
+            'ideas':list(ideas.values()),'errors':errors,'target_id':target.get('target_id',target['gsc_property']),'url':target['url']}
+    observed={(r.get('keyword') or r.get('query','')).casefold():r.get('impressions',0) for r in audit.get('gsc',{}).get('queries',[]) if r.get('page',target['url'])==target['url']}
     candidates=sorted(ideas.values(),key=lambda r:(-observed.get(r['keyword'].casefold(),0),r['keyword']))
     for item in candidates:
         # A homepage keeps its broad topic. Product-specific autocomplete expansions
@@ -41,13 +41,15 @@ def main():
     age=dt.datetime.now(dt.timezone.utc)-dt.datetime.fromisoformat(audit['generated_at'])
     if not dt.timedelta(0)<=age<=dt.timedelta(days=7): raise ValueError('Audit must be at most seven days old')
     indexed={s['gsc_property']:s for s in audit['sites']};results=[]
-    for target in json.loads(Path(args.targets).read_text(encoding='utf-8'))[:max(1,min(args.limit,13))]:
+    targets=json.loads(Path(args.targets).read_text(encoding='utf-8'))
+    selected=list(dict.fromkeys(t['gsc_property'] for t in targets))[:max(1,min(args.limit,13))]
+    for target in [t for t in targets if t['gsc_property'] in selected]:
         try:
             item=indexed[target['gsc_property']]
             if item.get('gsc',{}).get('status') not in ('ok','no_data'): raise ValueError('Audit access is incomplete')
             results.append(research(target,item))
         except Exception:
-            results.append({'gsc_property':target['gsc_property'],'status':'blocked','reason':'Site context or audit unavailable','scope':'metadata_only'})
+            results.append({'gsc_property':target['gsc_property'],'status':'blocked','reason':'Site context or audit unavailable','scope':'metadata_only','target_id':target.get('target_id',target['gsc_property']),'url':target['url']})
     report={'generated_at':dt.datetime.now(dt.timezone.utc).isoformat(),'scope':'metadata_only','results':results}
     out=Path(args.output);out.parent.mkdir(parents=True,exist_ok=True);out.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
     print(json.dumps([{'property':r['gsc_property'],'status':r['status'],'ideas':len(r.get('ideas',[]))} for r in results]))

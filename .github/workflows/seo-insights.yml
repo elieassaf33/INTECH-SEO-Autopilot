@@ -1,0 +1,122 @@
+name: Daily SEO health and private dashboard
+on:
+  schedule:
+    - cron: '15 6 * * *'
+  workflow_dispatch:
+  workflow_run:
+    workflows: [INTECH SEO Autopilot - all clients, Weekly free keyword discovery and metadata updates, Automatic production SEO repairs]
+    types: [completed]
+    branches: [main]
+permissions:
+  contents: read
+  actions: read
+  issues: write
+  id-token: write
+concurrency:
+  group: seo-insights
+  cancel-in-progress: false
+jobs:
+  insights:
+    if: >-
+      github.ref == 'refs/heads/main' &&
+      (github.event_name != 'workflow_run' ||
+       github.event.workflow_run.name == 'Weekly free keyword discovery and metadata updates' ||
+       github.event.workflow_run.conclusion != 'success')
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@6d4fd22b20465ccc0f7354476588e8df7c9ca0e0 # v7.1.0
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -m unittest discover -s tests -v
+      - name: Collect latest audit, discovery and performance cache
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python scripts/github_reports.py
+      - name: Read installed change history
+        continue-on-error: true
+        env:
+          REPAIR_KEY: ${{ secrets.SEO_REPAIR_SSH_KEY }}
+          KNOWN_HOSTS: ${{ vars.SEO_REPAIR_KNOWN_HOSTS }}
+          REPAIR_HOST: ${{ vars.SEO_REPAIR_HOST }}
+        run: |
+          install -d -m 700 "$RUNNER_TEMP/seo-insights-ssh"
+          trap 'rm -f "$RUNNER_TEMP/seo-insights-ssh/key"' EXIT
+          printf '%s\n' "$REPAIR_KEY" > "$RUNNER_TEMP/seo-insights-ssh/key"
+          chmod 600 "$RUNNER_TEMP/seo-insights-ssh/key"
+          printf '%s\n' "$KNOWN_HOSTS" > "$RUNNER_TEMP/seo-insights-ssh/known_hosts"
+          ssh -T -o BatchMode=yes -o StrictHostKeyChecking=yes -o ConnectTimeout=15 -o IdentitiesOnly=yes -o UserKnownHostsFile="$RUNNER_TEMP/seo-insights-ssh/known_hosts" -i "$RUNNER_TEMP/seo-insights-ssh/key" "root@$REPAIR_HOST" insights > seo-reports/insights/history.tmp.json
+          python - <<'PY'
+          import hashlib,json
+          from pathlib import Path
+          p=Path('seo-reports/insights/history.tmp.json');report=json.loads(p.read_text())
+          assert report['exporter_sha256']==hashlib.sha256(Path('scripts/insights_export.py').read_bytes()).hexdigest()
+          assert report['history_module_sha256']==hashlib.sha256(Path('scripts/change_history.py').read_bytes()).hexdigest()
+          assert report['targets_sha256']==hashlib.sha256(Path('metadata-targets.json').read_bytes()).hexdigest()
+          p.replace(p.with_name('history.json'))
+          PY
+      - name: Authenticate for read-only performance collection
+        continue-on-error: true
+        uses: google-github-actions/auth@7c6bc770dae815cd3e89ee6cdf493a5fab2cc093 # v3
+        with:
+          workload_identity_provider: projects/110513102800/locations/global/workloadIdentityPools/intech-github/providers/github
+          service_account: intech-seo-autopilot@intech-seo-autopilot.iam.gserviceaccount.com
+          create_credentials_file: true
+          export_environment_variables: true
+      - name: Evaluate mature metadata changes
+        continue-on-error: true
+        env:
+          GCP_USE_ADC: 'true'
+        run: |
+          if [ ! -s seo-reports/insights/history.json ]; then
+            printf '%s\n' '{"status":"unavailable","changes":[]}' > seo-reports/insights/history.json
+          fi
+          python scripts/change_performance.py --history seo-reports/insights/history.json --previous seo-reports/insights/previous-performance.json
+      - name: Check public pages and publishing workflows
+        continue-on-error: true
+        run: python scripts/daily_health.py
+      - name: Notify through managed GitHub issue
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          SEO_ALERT_ASSIGNEE: ${{ github.repository_owner }}
+        run: python scripts/seo_alerts.py
+      - name: Build private interactive report
+        if: always()
+        run: python scripts/build_dashboard.py
+      - name: Add dashboard summary
+        if: always()
+        run: |
+          python - <<'PY'
+          import json,os
+          from pathlib import Path
+          p=Path('seo-reports/insights/health.json')
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as out:
+              out.write('## Private SEO dashboard\n\nDownload **seo-insights-dashboard** from this run and open **index.html**. It works offline and makes no external requests.\n\n')
+              if p.exists():
+                  report=json.loads(p.read_text())
+                  out.write(str(report['healthy_pages'])+' / '+str(report['page_count'])+' pages healthy. Active incidents: '+str(len(report['incidents']))+'\n')
+              out.write('\nMetadata comparisons use 28-day page totals. New changes remain pending until enough final Google data is available.\n')
+          PY
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: seo-insights-dashboard-${{ github.run_id }}
+          path: seo-reports/insights/
+          retention-days: 90
+          if-no-files-found: error
+      - name: Enforce monitoring delivery
+        if: always()
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          root=Path('seo-reports/insights')
+          assert (root/'index.html').exists(), 'Dashboard was not generated'
+          assert (root/'notifications.json').exists(), 'Alert delivery did not complete'
+          assert (root/'health.json').exists(), 'Health checks did not complete'
+          PY

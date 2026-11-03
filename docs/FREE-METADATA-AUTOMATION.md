@@ -8,18 +8,17 @@ path uses no OpenAI API, paid keyword API, or language model.
 Each site uses at most four autocomplete seed requests, localized by language and
 country. This public, undocumented endpoint is best effort. Ideas and failures
 are retained in the workflow artifact; suggestions are not search-volume data.
-Only broad configured topics and their online/service variants may change a
-homepage. Product-specific and unrelated expansions remain ideas for future
-page-specific policies. A candidate's full phrase must already occur in that
-site's current visible source text. No opportunity means no change.
+Configured homepage, service, category and product policies select relevant
+phrases for that exact page. A candidate's full phrase must already occur in that
+page's current visible source text. No opportunity means no change.
 
 Changes are limited to the existing title and description tags. Existing title
 wording is retained; a supported keyword can be added only when it fits the
 length limit. Descriptions combine the supported phrase with complete sentences
 from the site's pinned existing description, with numbers checked against current
 visible facts. Visible page text, H1s, links, canonicals, structured data, product
-records and checkout remain unchanged. Other Django paths retain their original
-metadata through a homepage-only conditional. The two CardBros domains share one
+records and checkout remain unchanged. Django templates use per-path title and description rules; unconfigured paths
+retain their original metadata. The two CardBros domains share one
 physical slot and are not written twice.
 
 `metadata-targets.json` pins each source, original metadata tags, source digest,
@@ -38,8 +37,8 @@ re-uploads a root-pinned archive whose function source matches the deployed Git
 commit. The archive and source entry are hash-checked; memory, Node runtime and
 region must match production before a draft can be published. The upload explicitly selects the existing Node.js runtime rather than Netlify's
 newer default. Site environment variables are preserved. A successful change
-rebases the approved recovery manifest so Monday recovery does not undo it. Each
-physical site has a seven-day cooldown. These are production source updates, not
+rebases the approved recovery manifest so Monday recovery does not undo it. Each page is held unchanged through its 28-day measurement window plus three
+days for final Search Console data. These are production source updates, not
 commits to the client repositories; future client releases must reconcile source
 and refresh the pinned baseline.
 
@@ -56,3 +55,5 @@ need not be running. Evaluation is weekly; changes occur only when suitable.
 
 Installed worker, dependency and target-file hashes must match the tested checkout.
 [Verification evidence](METADATA-VERIFICATION-2026-11-03.md).
+
+See [daily monitoring and measured results](SEO-INSIGHTS.md) for alerts, page coverage and the private dashboard.
