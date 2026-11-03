@@ -32,8 +32,12 @@ unsupported phrases and failed checks stop that site without stopping others.
 The existing dedicated SSH secret and pinned host settings are reused. No new
 personal access token or client-repository write access is needed. Publication
 backs up exact source, writes only the two managed tag regions, verifies live
-metadata, and rolls back on failure. Netlify retains unchanged assets and runtime
-functions and restores its previous deployment if checks fail. A successful change
+metadata, and rolls back on failure. Netlify retains unchanged assets and function source, and restores its previous
+deployment if checks fail. When its function cache is unavailable, the worker
+re-uploads a root-pinned archive whose function source matches the deployed Git
+commit. The archive and source entry are hash-checked; memory, Node runtime and
+region must match production before a draft can be published. The upload explicitly selects the existing Node.js runtime rather than Netlify's
+newer default. Site environment variables are preserved. A successful change
 rebases the approved recovery manifest so Monday recovery does not undo it. Each
 physical site has a seven-day cooldown. These are production source updates, not
 commits to the client repositories; future client releases must reconcile source

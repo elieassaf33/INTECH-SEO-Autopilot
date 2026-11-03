@@ -41,6 +41,11 @@ class MetadataOnlyTests(unittest.TestCase):
         self.assertIsNone(result['ideas'][0]['search_volume'])
         self.assertNotIn('paragraph',result)
 
+    def test_current_best_candidate_is_not_replaced_by_a_weaker_one(self):
+        current={**self.page,**copy_for(self.keyword,self.target,self.page)}
+        result=research(self.target,{},fetch=lambda *a:[self.keyword],get_context=lambda u:current)
+        self.assertEqual(result['status'],'unchanged')
+
     def test_discovery_failure_is_explicit(self):
         def fail(*args):raise TimeoutError()
         self.assertEqual(research(self.target,{},fetch=fail,get_context=lambda u:self.page)['status'],'blocked')
@@ -48,6 +53,11 @@ class MetadataOnlyTests(unittest.TestCase):
     def test_arbitrary_copy_and_visible_text_fields_are_rejected(self):
         for change in ({'title':'Guaranteed free repairs'},{'paragraph':'Injected visible text'},{'scope':'content'}):
             with self.assertRaises(ValueError):validate({**self.proposal,**change},self.target,self.page)
+
+    def test_worker_enforces_broad_homepage_topics_independently(self):
+        proposal={**self.proposal,'keyword':'is offered here'}
+        with self.assertRaisesRegex(ValueError,'homepage topics'):
+            validate(proposal,self.target,self.page)
 
     def test_keyword_requires_the_entire_phrase_in_source(self):
         self.assertFalse(supported('inspection electrical testing',self.page))

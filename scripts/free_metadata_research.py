@@ -3,7 +3,7 @@ import argparse
 import datetime as dt
 import json
 from pathlib import Path
-from free_metadata import context,suggestions,copy_for
+from free_metadata import context,suggestions,copy_for,eligible
 
 
 def research(target,audit,fetch=suggestions,get_context=context):
@@ -21,12 +21,12 @@ def research(target,audit,fetch=suggestions,get_context=context):
     for item in candidates:
         # A homepage keeps its broad topic. Product-specific autocomplete expansions
         # remain ideas until there is a dedicated page policy.
-        allowed={seed.casefold() for seed in target['keywords']}
-        allowed|={seed.casefold()+' '+suffix for seed in target['keywords'] for suffix in ('online','internetu','services','paslaugos')}
-        if item['keyword'].casefold() not in allowed: continue
+        if not eligible(item['keyword'],target): continue
         try: copy=copy_for(item['keyword'],target,page)
         except ValueError: continue
-        if copy['title']==page['title'] and copy['description']==page['description']: continue
+        if copy['title']==page['title'] and copy['description']==page['description']:
+            output.update(status='unchanged',keyword=item['keyword'],**copy)
+            return output
         output.update(status='approved',keyword=item['keyword'],**copy)
         return output
     if errors and len(errors)==len(target['keywords'][:4]):

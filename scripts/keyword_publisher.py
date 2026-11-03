@@ -112,13 +112,37 @@ def publish_netlify(target, proposal, manifest, state, patcher=None, verifier=No
     files[target['file']] = sha
     config = {}
     for f in current.get('available_functions', []):
-        config[f['n']] = {k: f[v] for k, v in [('display_name', 'dn'), ('generator', 'g'), ('build_data', 'bd'),
-                         ('memory', 'm'), ('region', 'rg'), ('priority', 'p')] if f.get(v) is not None}
-    payload = {'files': files, 'functions': policy['functions'], 'functions_config': config, 'draft': True,
+        config[f['n']] = {k: f[v] for k, v in [('display_name', 'dn'), ('generator', 'g'), ('build_data', 'bd')] if f.get(v) is not None}
+    # Root-owned archives can re-upload an unchanged function source when Netlify
+    # no longer caches its old bundle. No function code is accepted from Actions.
+    archives = {}
+    desired_functions = dict(policy['functions'])
+    for name, approved in policy.get('function_archives', {}).items():
+        import io, zipfile
+        archive = Path(approved['path']).read_bytes()
+        if hashlib.sha256(archive).hexdigest() != approved['sha256']:
+            raise ValueError('Pinned function archive changed')
+        with zipfile.ZipFile(io.BytesIO(archive)) as zipped:
+            if hashlib.sha256(zipped.read(approved['source_entry'])).hexdigest() != approved['source_sha256']:
+                raise ValueError('Function source differs from the deployed Git source')
+        desired_functions[name] = approved['sha256']
+        archives[name] = archive
+    expected_signature = function_signature(current)
+    expected_signature = {name: (desired_functions[name], *values[1:]) for name, values in expected_signature.items()}
+    payload = {'files': files, 'functions': desired_functions, 'functions_config': config, 'draft': True,
                'function_schedules': current.get('function_schedules', [])}
+    if archives:
+        runtimes = {function_signature(current)[name][2] for name in archives}
+        if len(runtimes) != 1 or not re.fullmatch(r'nodejs[0-9]+[.]x', next(iter(runtimes))):
+            raise ValueError('Cannot preserve mixed or unsupported function runtimes')
     draft = client.request(prefix + '/deploys?draft=true&title=Checked%20keyword%20content', 'POST', payload)
-    if draft.get('required_functions') or draft.get('required_edge_functions') or draft.get('required_server'):
+    required_functions = set(draft.get('required_functions') or [])
+    if required_functions - {desired_functions[name] for name in archives} or draft.get('required_edge_functions') or draft.get('required_server'):
         raise ValueError('Draft could not preserve the existing runtime bundles')
+    for name, archive in archives.items():
+        if desired_functions[name] in required_functions:
+            runtime = function_signature(current)[name][2]
+            client.request('deploys/' + draft['id'] + '/functions/' + quote(name, safe='') + '?runtime=' + quote(runtime, safe=''), 'PUT', archive, True)
     required = set(draft.get('required', []))
     if required - {sha}: raise ValueError('Draft requires unexpected unchanged assets')
     if sha in required:
@@ -128,7 +152,7 @@ def publish_netlify(target, proposal, manifest, state, patcher=None, verifier=No
         if draft['state'] == 'ready': break
         if draft['state'] == 'error': raise ValueError('Draft processing failed')
         time.sleep(2)
-    if draft['state'] != 'ready' or function_signature(draft) != function_signature(current):
+    if draft['state'] != 'ready' or function_signature(draft) != expected_signature:
         raise ValueError('Draft runtime differs from current production')
     if client.request(prefix)['published_deploy']['id'] != current['id']:
         raise ValueError('Production advanced during draft validation')
@@ -142,14 +166,14 @@ def publish_netlify(target, proposal, manifest, state, patcher=None, verifier=No
         verify(policy['checks']); verifier(target, proposal)
         live = client.request(prefix)['published_deploy']
         actual = {f['path']: f['sha'] for f in client.request(prefix + '/files')}
-        if live['id'] != draft['id'] or actual != files or function_signature(live) != function_signature(current):
+        if live['id'] != draft['id'] or actual != files or function_signature(live) != expected_signature:
             raise ValueError('Published source/runtime differs from checked draft')
     except Exception:
         if client.request(prefix)['published_deploy']['id'] != draft['id']:
             raise RuntimeError('Concurrent release; manual Netlify review required')
         client.request(prefix + '/deploys/' + current['id'] + '/restore', 'POST', {})
         raise RuntimeError('Netlify keyword publication rolled back to ' + current['id'])
-    policy['files'] = files; policy['deploy_id'] = draft['id']
+    policy['files'] = files; policy['deploy_id'] = draft['id']; policy['functions'] = desired_functions
     head = desired.decode().split('</head>')[0]
     snippets = re.findall(r'<title\b[^>]*>.*?</title>|<meta\b[^>]*name=[\'\"]description[\'\"][^>]*>|<link\b[^>]*rel=[\'\"]canonical[\'\"][^>]*>', head, re.S | re.I)
     policy['metadata_variants'][target['file']] = sorted({hashlib.sha1(v).hexdigest()

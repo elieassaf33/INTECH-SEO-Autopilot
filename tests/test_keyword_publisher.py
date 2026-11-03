@@ -61,6 +61,47 @@ class PublisherTests(unittest.TestCase):
         self.assertEqual(manifest['netlify_sites'][0]['deploy_id'],'new')
         request=client.request.call_args_list[3].args[2]
         self.assertTrue(request['draft']);self.assertEqual(request['files']['/asset.js'],'unchanged')
+        self.assertFalse(any('region' in value for value in request['functions_config'].values()))
+
+    def test_netlify_reuses_functions_without_requesting_paid_runtime_overrides(self):
+        manifest,current,ready,old,new_sha=self.fixture();client=Mock()
+        function={'n':'reviews','d':'existing-bundle','m':1024,'r':'nodejs22.x','rg':'cmh','dn':'reviews'}
+        current['available_functions']=[function];ready['available_functions']=[function.copy()]
+        manifest['netlify_sites'][0]['functions']={'reviews':'existing-bundle'}
+        client.request.side_effect=[{'published_deploy':current},[{'path':k,'sha':v} for k,v in manifest['netlify_sites'][0]['files'].items()],old,
+                                   {'id':'new','required':[new_sha]},b'',ready,{'published_deploy':current},{},
+                                   {'published_deploy':ready},[{'path':'/index.html','sha':new_sha},{'path':'/asset.js','sha':'unchanged'}]]
+        with tempfile.TemporaryDirectory() as temp,patch.object(publisher,'NetlifyContent',return_value=client),patch.object(publisher,'verify'),patch.object(publisher,'verify_content'):
+            publisher.publish_netlify({**self.target,'file':'/index.html'},self.proposal,manifest,Path(temp))
+        payload=client.request.call_args_list[3].args[2]
+        self.assertEqual(payload['functions'],{'reviews':'existing-bundle'})
+        self.assertNotIn('region',payload['functions_config']['reviews'])
+        self.assertNotIn('memory',payload['functions_config']['reviews'])
+
+    def test_netlify_reuploads_only_pinned_unchanged_function_source(self):
+        import io,zipfile
+        manifest,current,ready,old,new_sha=self.fixture();client=Mock()
+        source=b'exports.handler = async () => ({statusCode: 200});'
+        stream=io.BytesIO()
+        with zipfile.ZipFile(stream,'w') as archive:archive.writestr('reviews.js',source)
+        data=stream.getvalue();bundle_sha=hashlib.sha256(data).hexdigest()
+        function={'n':'reviews','d':'old-bundle','m':1024,'r':'nodejs22.x','rg':'cmh'}
+        current['available_functions']=[function]
+        ready['available_functions']=[{**function,'d':bundle_sha}]
+        manifest['netlify_sites'][0]['functions']={'reviews':'old-bundle'}
+        with tempfile.TemporaryDirectory() as temp:
+            archive=Path(temp)/'function.zip';archive.write_bytes(data)
+            manifest['netlify_sites'][0]['function_archives']={'reviews':{
+                'path':str(archive),'sha256':bundle_sha,'source_entry':'reviews.js','source_sha256':hashlib.sha256(source).hexdigest()}}
+            client.request.side_effect=[{'published_deploy':current},[{'path':k,'sha':v} for k,v in manifest['netlify_sites'][0]['files'].items()],old,
+                {'id':'new','required':[new_sha],'required_functions':[bundle_sha]},{},b'',ready,{'published_deploy':current},{},
+                {'published_deploy':ready},[{'path':'/index.html','sha':new_sha},{'path':'/asset.js','sha':'unchanged'}]]
+            with patch.object(publisher,'NetlifyContent',return_value=client),patch.object(publisher,'verify'),patch.object(publisher,'verify_content'):
+                result=publisher.publish_netlify({**self.target,'file':'/index.html'},self.proposal,manifest,Path(temp))
+            self.assertEqual(result['status'],'published')
+            self.assertEqual(client.request.call_args_list[4].args[0],'deploys/new/functions/reviews?runtime=nodejs22.x')
+            self.assertNotIn('environment',client.request.call_args_list[3].args[2])
+            self.assertEqual(manifest['netlify_sites'][0]['functions']['reviews'],bundle_sha)
 
     def test_netlify_runtime_drift_is_rejected_before_publication(self):
         manifest,current,ready,old,new_sha=self.fixture();client=Mock()
