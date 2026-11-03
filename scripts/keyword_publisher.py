@@ -95,6 +95,16 @@ def function_signature(deploy):
     return {f['n']: (f['d'], f.get('m'), f.get('r'), f.get('rg')) for f in deploy.get('available_functions', [])}
 
 
+def fresh_metadata_upload(desired):
+    # A unique inert marker keeps an HTML upload pending while the unchanged
+    # function bundle is uploaded with its explicitly preserved Node runtime.
+    # Fully cached deploys can become immutable before that upload is accepted.
+    marker=b'<!-- INTECH META TITLE END -->'
+    if desired.count(marker)!=1:raise ValueError('Missing bounded metadata upload region')
+    import secrets
+    return desired.replace(marker,b'<!-- INTECH DEPLOY '+secrets.token_hex(16).encode()+b' -->'+marker,1)
+
+
 def publish_netlify(target, proposal, manifest, state, patcher=None, verifier=None):
     patcher = patcher or patch_content
     verifier = verifier or verify_content
@@ -127,6 +137,9 @@ def publish_netlify(target, proposal, manifest, state, patcher=None, verifier=No
                 raise ValueError('Function source differs from the deployed Git source')
         desired_functions[name] = approved['sha256']
         archives[name] = archive
+    if archives and b'<!-- INTECH META TITLE END -->' in desired:
+        desired = fresh_metadata_upload(desired); sha = hashlib.sha1(desired).hexdigest()
+        files[target['file']] = sha
     expected_signature = function_signature(current)
     expected_signature = {name: (desired_functions[name], *values[1:]) for name, values in expected_signature.items()}
     payload = {'files': files, 'functions': desired_functions, 'functions_config': config, 'draft': True,

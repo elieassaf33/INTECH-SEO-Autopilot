@@ -132,3 +132,14 @@ class DashboardTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             output,data=build(directory,targets=[])
             self.assertEqual(data['performance'],{});self.assertIn('Awaiting sufficient data',output)
+
+class NetlifyMetadataCacheTests(unittest.TestCase):
+    def test_fresh_upload_changes_only_managed_title_region(self):
+        from keyword_publisher import fresh_metadata_upload
+        original=b'<head><!-- INTECH META TITLE START --><title>Title</title><!-- INTECH META TITLE END --></head><body>Unchanged</body>'
+        first=fresh_metadata_upload(original);second=fresh_metadata_upload(original)
+        self.assertNotEqual(first,second)
+        import re
+        self.assertEqual(re.sub(rb'<!-- INTECH DEPLOY [a-f0-9]{32} -->',b'',first),original)
+        with self.assertRaises(ValueError):fresh_metadata_upload(b'<title>Unmanaged</title>')
+
