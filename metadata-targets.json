@@ -303,7 +303,10 @@
     "language": "lt",
     "country": "LT",
     "keywords": [
-      "Tvari kirpėja"
+      "kirpimas",
+      "plaukų dažymas",
+      "plaukų priežiūra",
+      "kirpėja Klaipėdoje"
     ],
     "metadata_baseline": {
       "title": "Tvari kirpėja Klaipėdoje | Kirpimas ir plaukų priežiūra",
@@ -336,7 +339,10 @@
     "language": "lt",
     "country": "LT",
     "keywords": [
-      "Natūralūs riešutai,"
+      "riešutai",
+      "džiovinti vaisiai",
+      "sėklos",
+      "prieskoniai"
     ],
     "metadata_baseline": {
       "title": "Natūralūs riešutai, vaisiai ir sėklos | Naturalus Maistas",
@@ -370,9 +376,12 @@
     },
     "name": "CardBros TCG UK",
     "language": "en",
-    "country": "LT",
+    "country": "GB",
     "keywords": [
-      "Card Bros"
+      "trading cards",
+      "collectible card games",
+      "TCG cards",
+      "trading card shop"
     ],
     "metadata_baseline": {
       "title": "Card Bros TCG – Pokémon Cards, Boosters & Sealed Products",
@@ -405,7 +414,10 @@
     "language": "lt",
     "country": "LT",
     "keywords": [
-      "Riešutai, šilajitas"
+      "riešutai",
+      "džiovinti vaisiai",
+      "šilajitas",
+      "riešutai internetu"
     ],
     "metadata_baseline": {
       "title": "Riešutai, šilajitas ir džiovinti vaisiai | Grikių Dievas",

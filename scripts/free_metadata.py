@@ -61,17 +61,25 @@ def supported(keyword, page):
     return re.search(r'(?<!\w)'+re.escape(normalized(keyword).casefold())+r'(?!\w)',page['text'].casefold()) is not None
 
 
+def eligible(keyword,target):
+    allowed={seed.casefold() for seed in target['keywords']}
+    allowed|={seed.casefold()+' '+suffix for seed in target['keywords'] for suffix in ('online','internetu','services','paslaugos')}
+    return keyword.casefold() in allowed
+
+
 def copy_for(keyword, target, page):
     if not supported(keyword,page): raise ValueError('Keyword is not supported by current visible site text')
     baseline=target['metadata_baseline']
+    display=keyword[0].upper()+keyword[1:]
+    display=re.sub(r'\b(seo|tcg|eicr|ev)\b',lambda m:m[0].upper(),display,flags=re.I)
     title=baseline['title']
     if keyword.casefold() not in title.casefold():
-        candidate=keyword[0].upper()+keyword[1:]+' | '+title
+        candidate=display+' | '+title
         if len(candidate)<=70: title=candidate
     if len(title)>70: raise ValueError('Candidate title is too long')
     description=baseline['description']
     if keyword.casefold() not in description.casefold():
-        prefix=keyword[0].upper()+keyword[1:]+'. '
+        prefix=display+'. '
         sentences=re.split(r'(?<=[.!?])\s+',description)
         selected=''
         for sentence in sentences:
@@ -91,6 +99,8 @@ def copy_for(keyword, target, page):
 def validate(proposal,target,page):
     if proposal.get('scope')!='metadata_only' or set(proposal)-{'gsc_property','status','scope','keyword','title','description','reason','ideas','errors'}:
         raise ValueError('Only metadata proposals are accepted')
+    if not eligible(proposal['keyword'],target):
+        raise ValueError('Keyword is outside the configured homepage topics')
     desired=copy_for(proposal['keyword'],target,page)
     if any(proposal.get(k)!=v for k,v in desired.items()):
         raise ValueError('Proposed copy differs from deterministic supported metadata')
