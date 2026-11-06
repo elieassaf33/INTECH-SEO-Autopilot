@@ -23,6 +23,9 @@ pages before recording changes. Its prepared migration is research-only unless
 `scripts/install_product_metadata.py --apply` is explicitly run by an administrator.
 Product canonicals use the reviewed `.com` primary on both domains; legacy
 unprefixed card URLs permanently redirect to the corresponding English page.
+Daily monitoring also follows published pages from the verified change journal,
+bounded to 100 additional URLs on already configured property hosts. This adds
+the corrected product pages without granting them automatic copy-edit policies.
 
 On 6 November 2026 the INTECH Netlify baseline was reconciled with deployed
 commit `346748151a351ec373cb25045c2d7c3d36fa83d5`. Six configured pages were

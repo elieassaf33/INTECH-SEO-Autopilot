@@ -6,6 +6,7 @@ sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 from click_opportunities import opportunities
 from click_page_audit import targets,check
 from unittest.mock import patch
+from daily_health import monitoring_targets
 
 
 class ClickOpportunityTests(unittest.TestCase):
@@ -36,6 +37,15 @@ class ClickOpportunityTests(unittest.TestCase):
         with patch('click_page_audit.fetch',return_value=response):
             row=check({'url':'https://alias.test/en/','primary_origin':'https://primary.test'})
         self.assertEqual(row['issues'],[])
+
+    def test_published_pages_are_monitored_only_on_their_registered_property_host(self):
+        configured=[{'url':'https://example.com/','gsc_property':'p'}]
+        history={'changes':[
+            {'status':'published','gsc_property':'p','url':'https://example.com/product/11/'},
+            {'status':'published','gsc_property':'p','url':'https://foreign.test/'},
+            {'status':'failed','gsc_property':'p','url':'https://example.com/failed/'}]}
+        selected=monitoring_targets(configured,history)
+        self.assertEqual({t['url'] for t in selected},{'https://example.com/','https://example.com/product/11/'})
 
 
 if __name__=='__main__':unittest.main()

@@ -70,13 +70,30 @@ def run(targets,workflows=None,history=None,now=None,checker=check_page):
 def load(path,default):return json.loads(Path(path).read_text(encoding='utf-8')) if Path(path).exists() else default
 
 
+def monitoring_targets(configured,history,max_extra=100):
+    """Keep published landing pages monitored even outside automatic copy policies."""
+    result=list(configured);known={t['url'] for t in configured}
+    hosts={}
+    for target in configured:hosts.setdefault(target['gsc_property'],set()).add(urlsplit(target['url']).hostname)
+    extra=0
+    for record in reversed(history.get('changes',[])):
+        if record.get('status')!='published' or record.get('url') in known:continue
+        url=record.get('url','');parsed=urlsplit(url);prop=record.get('gsc_property')
+        if parsed.scheme!='https' or parsed.hostname not in hosts.get(prop,set()) or parsed.username or parsed.password or parsed.query or parsed.fragment or parsed.port not in (None,443):continue
+        if extra>=max_extra:break
+        result.append({'url':url,'gsc_property':prop,'target_id':record.get('target_id',prop),'name':prop})
+        known.add(url);extra+=1
+    return result
+
+
 def main():
     p=argparse.ArgumentParser();p.add_argument('--directory',default='seo-reports/insights');p.add_argument('--targets',default='metadata-targets.json');a=p.parse_args()
     directory=Path(a.directory);directory.mkdir(parents=True,exist_ok=True)
     sources=load(directory/'sources.json',[])
     # Previous dashboard retrieval is a cache, not a workflow health dependency.
     sources=[r for r in sources if r['workflow']!='seo-insights.yml']
-    report=run(load(a.targets,[]),sources,load(directory/'history.json',{'status':'unavailable'}))
+    history=load(directory/'history.json',{'status':'unavailable'})
+    report=run(monitoring_targets(load(a.targets,[]),history),sources,history)
     performance=load(directory/'performance.json',{})
     if performance.get('credentials_status')=='unavailable' or any(r.get('status')=='error' for r in performance.get('results',[])):
         report['incidents'].append({'key':'performance:unavailable','code':'performance_unavailable','message':'Search Console change-performance collection needs attention.'})
