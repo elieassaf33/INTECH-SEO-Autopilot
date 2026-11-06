@@ -65,6 +65,18 @@ class WeeklyAnalysisTests(unittest.TestCase):
             self.assertEqual(controller.search_console({'gsc_property': 'p'})['status'], 'not_configured')
         self.assertEqual(controller.search_console({})['status'], 'not_configured')
 
+    def test_search_demand_uses_28_final_days_without_changing_weekly_windows(self):
+        with patch.object(gsc,'fetch_rows',return_value=([row()],False)) as fetch:
+            result=gsc.search_demand(object(),'p',dt.date(2026,11,6))
+        self.assertEqual(result['period'],['2026-10-07','2026-11-03'])
+        self.assertEqual(fetch.call_args.args[2],(dt.date(2026,10,7),dt.date(2026,11,3)))
+        self.assertEqual(gsc.demand_queries({'search_demand':result})[0]['keyword'],'electrician')
+
+    def test_demand_failure_falls_back_to_weekly_queries(self):
+        with patch.object(gsc,'fetch_rows',side_effect=RuntimeError('Unavailable')):
+            result=gsc.search_demand(object(),'p')
+        self.assertEqual(gsc.demand_queries({'search_demand':result,'queries':[{'keyword':'weekly'}]}),[{'keyword':'weekly'}])
+
     def test_multiple_clients_and_failure_isolation(self):
         import tempfile
         import json

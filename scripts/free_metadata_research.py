@@ -4,6 +4,7 @@ import datetime as dt
 import json
 from pathlib import Path
 from free_metadata import context,suggestions,copy_for,eligible
+from gsc_analysis import demand_queries
 
 
 def select_properties(targets, limit=0):
@@ -23,7 +24,7 @@ def research(target,audit,fetch=suggestions,get_context=context):
     output={'gsc_property':target['gsc_property'],'status':'no_suitable_keyword','scope':'metadata_only',
             'ideas':list(ideas.values()),'errors':errors,'target_id':target.get('target_id',target['gsc_property']),'url':target['url']}
     observed={}
-    for row in audit.get('gsc',{}).get('queries',[]):
+    for row in demand_queries(audit.get('gsc',{})):
         term=(row.get('keyword') or row.get('query','')).strip()
         if row.get('page')!=target['url'] or not term:continue
         observed[term.casefold()]=row.get('impressions',0)

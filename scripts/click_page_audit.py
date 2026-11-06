@@ -6,6 +6,7 @@ from pathlib import Path
 from urllib.parse import urljoin,urlsplit
 from free_metadata import Head
 from technical_audit import fetch
+from gsc_analysis import demand_queries
 
 
 def check(target):
@@ -37,7 +38,7 @@ def targets(audit,configured):
     for site in audit.get('sites',[]):
         host=urlsplit(site['base_url']).hostname.removeprefix('www.')
         scores={}
-        for row in site.get('gsc',{}).get('queries',[]):
+        for row in demand_queries(site.get('gsc',{})):
             url=row['page'];parts=urlsplit(url)
             if parts.scheme not in ('http','https') or (parts.hostname or '').removeprefix('www.')!=host or parts.username or parts.password:continue
             scores[url]=scores.get(url,0)+row.get('impressions',0)

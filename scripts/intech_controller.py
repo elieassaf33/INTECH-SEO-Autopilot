@@ -4,7 +4,7 @@ import datetime as dt
 import json
 import os
 from pathlib import Path
-from gsc_analysis import weekly_analysis
+from gsc_analysis import weekly_analysis,search_demand
 from technical_audit import inspect
 from client_registry import load_registry
 from gsc_diagnostics import property_access, indexing
@@ -34,6 +34,7 @@ def search_console(site):
             if access["status"] != "ok":
                 return {"status": "access_denied" if access.get("http_status") in (403, 404) else "error", "access": access, "identity": identity, "queries": []}
             report = weekly_analysis(session, prop)
+            report['search_demand'] = search_demand(session, prop)
             report["access"] = access
             report["identity"] = identity
             report["indexing"] = indexing(session, prop, site["url"].rstrip("/") + "/")

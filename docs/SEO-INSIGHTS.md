@@ -12,6 +12,9 @@ Metadata discovery considers eligible exact-page Search Console queries even
 when autocomplete is unavailable. All configured properties are researched by
 default; a positive manual limit restricts the number, while zero means all.
 Existing source validation and publication cooldowns remain enforced.
+Opportunity ranking and metadata discovery use a separate 28-day final-data
+query window where available, falling back to weekly query data on collection
+failure. Existing weekly comparisons retain their seven-day periods.
 
 The weekly Monday audit discovers keywords for free and evaluates titles and
 meta descriptions across 31 source-verified pages on 13 Search Console properties.

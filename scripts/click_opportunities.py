@@ -2,13 +2,14 @@
 import argparse
 import json
 from pathlib import Path
+from gsc_analysis import demand_queries
 
 
 def opportunities(audit, limit=10):
     clients=[]
     for site in audit.get('sites',[]):
         pages={}
-        for row in site.get('gsc',{}).get('queries',[]):
+        for row in demand_queries(site.get('gsc',{})):
             impressions=row.get('impressions',0)
             position=row.get('position')
             if impressions<10 or position is None or not 1<=position<=20:continue

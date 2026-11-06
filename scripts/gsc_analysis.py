@@ -111,3 +111,21 @@ def weekly_analysis(session, prop, today=None):
                         "partial" if "error" in statuses else
                         "no_data" if all(s == "no_data" for s in statuses) else "ok")
     return result
+
+
+def search_demand(session, prop, today=None):
+    """A longer demand window for sparse sites, separate from weekly comparisons."""
+    end=periods(today)[0][1]
+    period=(end-dt.timedelta(days=27),end)
+    result={'period':[d.isoformat() for d in period]}
+    try:
+        rows,capped=fetch_rows(session,prop,period)
+        queries,_=analyze(rows,[])
+        return {**result,'status':'ok' if rows else 'no_data','queries':queries,'row_cap_reached':capped}
+    except Exception as exc:
+        return {**result,**error_status(exc),'queries':[]}
+
+
+def demand_queries(gsc):
+    demand=gsc.get('search_demand',{})
+    return demand['queries'] if demand.get('status')=='ok' else gsc.get('queries',[])
