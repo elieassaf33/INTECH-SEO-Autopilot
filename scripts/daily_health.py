@@ -9,6 +9,7 @@ import time
 from urllib.parse import urlsplit
 from production_repairs import Metadata
 from technical_audit import fetch
+from business_priorities import load_priorities,priority_targets
 
 
 class HealthParser(Metadata):
@@ -93,7 +94,7 @@ def main():
     # Previous dashboard retrieval is a cache, not a workflow health dependency.
     sources=[r for r in sources if r['workflow']!='seo-insights.yml']
     history=load(directory/'history.json',{'status':'unavailable'})
-    report=run(monitoring_targets(load(a.targets,[]),history),sources,history)
+    report=run(monitoring_targets(load(a.targets,[])+priority_targets(load_priorities()),history),sources,history)
     performance=load(directory/'performance.json',{})
     if performance.get('credentials_status')=='unavailable' or any(r.get('status')=='error' for r in performance.get('results',[])):
         report['incidents'].append({'key':'performance:unavailable','code':'performance_unavailable','message':'Search Console change-performance collection needs attention.'})

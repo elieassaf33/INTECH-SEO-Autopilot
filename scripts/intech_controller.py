@@ -9,6 +9,7 @@ from technical_audit import inspect
 from client_registry import load_registry
 from gsc_diagnostics import property_access, indexing
 from gsc_api import error_status
+from business_priorities import load_priorities
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "seo-sites.json"
@@ -46,6 +47,8 @@ def search_console(site):
 
 def main():
     sites = load_registry(REGISTRY)
+    priorities=load_priorities()
+    sites.sort(key=lambda s:priorities.get(s.get('gsc_property'),{}).get('priority',1000))
     OUT.mkdir(parents=True, exist_ok=True)
     results = []
     for site in sites:

@@ -8,6 +8,15 @@ high-exposure URLs per property, checking HTTP errors, missing metadata, noindex
 directives and HTML canonical differences. Reviewed primary origins are respected.
 Findings require review and do not modify page content.
 
+Owner priorities in `business-priorities.json` put getintech.lt website projects
+and Alisos personal/family sessions first. Their selected service, pricing and
+enquiry/booking pages remain in opportunity reports even with sparse search data,
+receive daily checks, and appear in the dashboard's Business priorities table.
+Audits and limited discovery runs process these properties first. Other clients
+remain monitored. Priority pages do not gain automatic publishing permission.
+Booking enquiries and project enquiries are business goals, not measured
+conversions or inferred revenue; Search Console supplies neither of those values.
+
 Metadata discovery considers eligible exact-page Search Console queries even
 when autocomplete is unavailable. All configured properties are researched by
 default; a positive manual limit restricts the number, while zero means all.

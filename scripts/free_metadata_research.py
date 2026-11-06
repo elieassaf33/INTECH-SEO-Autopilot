@@ -5,10 +5,12 @@ import json
 from pathlib import Path
 from free_metadata import context,suggestions,copy_for,eligible
 from gsc_analysis import demand_queries
+from business_priorities import load_priorities
 
 
-def select_properties(targets, limit=0):
+def select_properties(targets, limit=0,priorities=None):
     properties=list(dict.fromkeys(t['gsc_property'] for t in targets))
+    if priorities:properties.sort(key=lambda p:priorities.get(p,{}).get('priority',1000))
     if limit<0:raise ValueError('Property limit must be zero (all) or positive')
     return properties[:limit] if limit else properties
 
@@ -57,7 +59,7 @@ def main():
     if not dt.timedelta(0)<=age<=dt.timedelta(days=7): raise ValueError('Audit must be at most seven days old')
     indexed={s['gsc_property']:s for s in audit['sites']};results=[]
     targets=json.loads(Path(args.targets).read_text(encoding='utf-8'))
-    selected=select_properties(targets,args.limit)
+    selected=select_properties(targets,args.limit,load_priorities())
     for target in [t for t in targets if t['gsc_property'] in selected]:
         try:
             item=indexed[target['gsc_property']]

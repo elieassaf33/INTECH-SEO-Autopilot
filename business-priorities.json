@@ -1,0 +1,71 @@
+{
+  "goal": "qualified_enquiries_and_bookings",
+  "sites": {
+    "sc-domain:getintech.lt": {
+      "name": "INTECH Lithuania",
+      "priority": 1,
+      "conversion": "website_project_enquiry",
+      "pages": [
+        {
+          "url": "https://getintech.lt/services/small-business-website-design/",
+          "role": "service",
+          "label": "Verslo svetainių kūrimas"
+        },
+        {
+          "url": "https://getintech.lt/pricing/",
+          "role": "pricing",
+          "label": "Svetainių kūrimo kainos"
+        },
+        {
+          "url": "https://getintech.lt/",
+          "role": "enquiry",
+          "label": "Pagrindinis puslapis ir projekto užklausa"
+        },
+        {
+          "url": "https://getintech.lt/services/website-redesign/",
+          "role": "service",
+          "label": "Svetainių atnaujinimas"
+        },
+        {
+          "url": "https://getintech.lt/services/custom-web-development/",
+          "role": "service",
+          "label": "Individualūs internetiniai sprendimai"
+        }
+      ],
+      "focus": "website_builds"
+    },
+    "sc-domain:alisosfotografija.lt": {
+      "name": "Alisos Fotografija",
+      "priority": 1,
+      "conversion": "photo_session_booking_enquiry",
+      "pages": [
+        {
+          "url": "https://www.alisosfotografija.lt/kategorija/seimos/",
+          "role": "service",
+          "label": "Šeimos fotosesijos Klaipėdoje"
+        },
+        {
+          "url": "https://www.alisosfotografija.lt/kategorija/asmenines/",
+          "role": "service",
+          "label": "Asmeninės fotosesijos Klaipėdoje"
+        },
+        {
+          "url": "https://www.alisosfotografija.lt/kainos/",
+          "role": "pricing",
+          "label": "Fotosesijų kainos"
+        },
+        {
+          "url": "https://www.alisosfotografija.lt/kontaktai/",
+          "role": "booking",
+          "label": "Fotosesijos rezervacija"
+        },
+        {
+          "url": "https://www.alisosfotografija.lt/",
+          "role": "enquiry",
+          "label": "Fotografė Klaipėdoje"
+        }
+      ],
+      "focus": "personal_and_family_photo_sessions"
+    }
+  }
+}

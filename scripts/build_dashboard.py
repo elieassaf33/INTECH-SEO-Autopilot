@@ -3,6 +3,7 @@ import argparse
 import datetime as dt
 import json
 from pathlib import Path
+from business_priorities import load_priorities
 
 ROOT=Path(__file__).resolve().parents[1]
 
@@ -17,6 +18,7 @@ def build(directory,targets=None):
         for t in (targets if targets is not None else load(ROOT/'metadata-targets.json',[]))]}
     for name,default in [('audit',{}),('health',{}),('history',{}),('performance',{}),('research',{}),('publication',{}),('notifications',{})]:
         data[name]=load(directory/(name+'.json'),default)
+    data['business_priorities']=load_priorities()
     payload=json.dumps(data,ensure_ascii=True,separators=(',',':')).replace('<','\\u003c').replace('>','\\u003e').replace('&','\\u0026')
     template=(ROOT/'assets/seo-dashboard.html').read_text(encoding='utf-8-sig')
     if template.count('__SEO_DATA__')!=1:raise ValueError('Dashboard template marker is ambiguous')

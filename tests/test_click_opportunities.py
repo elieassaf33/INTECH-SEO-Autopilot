@@ -7,9 +7,28 @@ from click_opportunities import opportunities
 from click_page_audit import targets,check
 from unittest.mock import patch
 from daily_health import monitoring_targets
+from business_priorities import load_priorities,priority_targets
+from free_metadata_research import select_properties
+import json,tempfile
 
 
 class ClickOpportunityTests(unittest.TestCase):
+    def test_commercial_pages_remain_visible_with_no_search_data(self):
+        priorities={'p':{'name':'Priority business','priority':1,'conversion':'booking_enquiry','pages':[
+            {'url':'https://example.com/family/','role':'service','label':'Family sessions'}]}}
+        report=opportunities({'sites':[{'name':'Other','gsc_property':'other','gsc':{}},
+            {'name':'Priority business','gsc_property':'p','gsc':{'status':'no_data'}}]},priorities=priorities)
+        self.assertEqual(report['sites'][0]['name'],'Priority business')
+        self.assertEqual(report['sites'][0]['pages'][0]['url'],'https://example.com/family/')
+        self.assertEqual(report['sites'][0]['pages'][0]['priority_score'],0)
+        self.assertEqual(select_properties([{'gsc_property':'other'},{'gsc_property':'p'}],1,priorities),['p'])
+
+    def test_business_configuration_rejects_a_foreign_landing_page(self):
+        with tempfile.TemporaryDirectory() as directory:
+            p=Path(directory)/'priorities.json'
+            p.write_text(json.dumps({'sites':{'p':{'priority':1,'pages':[{'url':'https://foreign.test/'}]}}}))
+            with self.assertRaises(ValueError):load_priorities(p,[{'url':'https://example.com','gsc_property':'p'}])
+
     def test_ranks_page_demand_and_excludes_queries_without_a_ctr_gap(self):
         rows=[{'page':'https://example.com/service','keyword':'service','impressions':1000,'clicks':1,'position':6,'ctr':.001},
               {'page':'https://example.com/','keyword':'brand','impressions':1000,'clicks':500,'position':1,'ctr':.5},

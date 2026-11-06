@@ -7,6 +7,7 @@ from urllib.parse import urljoin,urlsplit
 from free_metadata import Head
 from technical_audit import fetch
 from gsc_analysis import demand_queries
+from business_priorities import load_priorities,priority_targets
 
 
 def check(target):
@@ -50,7 +51,7 @@ def targets(audit,configured):
 
 def main():
     p=argparse.ArgumentParser();p.add_argument('--audit',required=True);p.add_argument('--targets',default='metadata-targets.json');p.add_argument('--output',required=True);a=p.parse_args()
-    audit=json.loads(Path(a.audit).read_text(encoding='utf-8'));configured=json.loads(Path(a.targets).read_text(encoding='utf-8'))
+    audit=json.loads(Path(a.audit).read_text(encoding='utf-8'));configured=json.loads(Path(a.targets).read_text(encoding='utf-8'))+priority_targets(load_priorities())
     with ThreadPoolExecutor(max_workers=4) as pool:pages=list(pool.map(check,targets(audit,configured)))
     report={'scope':'read_only','pages':pages,'checked_pages':len(pages),'pages_needing_review':sum(bool(r['issues']) for r in pages)}
     output=Path(a.output);output.parent.mkdir(parents=True,exist_ok=True);output.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
