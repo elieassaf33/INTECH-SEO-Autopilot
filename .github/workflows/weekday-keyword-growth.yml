@@ -12,8 +12,8 @@ on:
         description: Apply checked titles and descriptions (never visible page text)
       limit:
         type: string
-        default: '13'
-        description: Maximum properties to research (1-13)
+        default: '0'
+        description: Maximum properties to research (0 means all configured properties)
 permissions:
   contents: read
   actions: read
@@ -52,7 +52,7 @@ jobs:
           gh run download "$run_id" --pattern 'intech-weekly-seo-report-*' --dir seo-reports/metadata/audit
       - name: Discover free keywords and prepare metadata only
         env:
-          RESEARCH_LIMIT: ${{ inputs.limit || '13' }}
+          RESEARCH_LIMIT: ${{ inputs.limit || '0' }}
         run: |
           audit_report=$(find seo-reports/metadata/audit -type f -name report.json -print -quit)
           test -n "$audit_report"

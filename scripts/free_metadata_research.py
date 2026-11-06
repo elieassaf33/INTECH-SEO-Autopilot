@@ -6,6 +6,12 @@ from pathlib import Path
 from free_metadata import context,suggestions,copy_for,eligible
 
 
+def select_properties(targets, limit=0):
+    properties=list(dict.fromkeys(t['gsc_property'] for t in targets))
+    if limit<0:raise ValueError('Property limit must be zero (all) or positive')
+    return properties[:limit] if limit else properties
+
+
 def research(target,audit,fetch=suggestions,get_context=context):
     page=get_context(target['url']); ideas={}; errors=[]
     for seed in target['keywords'][:4]:
@@ -16,7 +22,15 @@ def research(target,audit,fetch=suggestions,get_context=context):
             errors.append({'seed':seed,'error':'Autocomplete unavailable'})
     output={'gsc_property':target['gsc_property'],'status':'no_suitable_keyword','scope':'metadata_only',
             'ideas':list(ideas.values()),'errors':errors,'target_id':target.get('target_id',target['gsc_property']),'url':target['url']}
-    observed={(r.get('keyword') or r.get('query','')).casefold():r.get('impressions',0) for r in audit.get('gsc',{}).get('queries',[]) if r.get('page',target['url'])==target['url']}
+    observed={}
+    for row in audit.get('gsc',{}).get('queries',[]):
+        term=(row.get('keyword') or row.get('query','')).strip()
+        if row.get('page')!=target['url'] or not term:continue
+        observed[term.casefold()]=row.get('impressions',0)
+        if eligible(term,target):
+            ideas.setdefault(term.casefold(),{'keyword':term,'source':'google_search_console','search_volume':None})
+    # Actual page demand takes precedence over autocomplete; autocomplete failure
+    # must not prevent using an observed, independently validated search phrase.
     candidates=sorted(ideas.values(),key=lambda r:(-observed.get(r['keyword'].casefold(),0),r['keyword']))
     for item in candidates:
         # A homepage keeps its broad topic. Product-specific autocomplete expansions
@@ -35,14 +49,14 @@ def research(target,audit,fetch=suggestions,get_context=context):
 
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--audit',required=True);p.add_argument('--limit',type=int,default=13)
+    p=argparse.ArgumentParser();p.add_argument('--audit',required=True);p.add_argument('--limit',type=int,default=0,help='Maximum properties; zero researches all configured properties')
     p.add_argument('--targets',default='metadata-targets.json');p.add_argument('--output',default='seo-reports/metadata/proposals.json')
     args=p.parse_args();audit=json.loads(Path(args.audit).read_text(encoding='utf-8'))
     age=dt.datetime.now(dt.timezone.utc)-dt.datetime.fromisoformat(audit['generated_at'])
     if not dt.timedelta(0)<=age<=dt.timedelta(days=7): raise ValueError('Audit must be at most seven days old')
     indexed={s['gsc_property']:s for s in audit['sites']};results=[]
     targets=json.loads(Path(args.targets).read_text(encoding='utf-8'))
-    selected=list(dict.fromkeys(t['gsc_property'] for t in targets))[:max(1,min(args.limit,13))]
+    selected=select_properties(targets,args.limit)
     for target in [t for t in targets if t['gsc_property'] in selected]:
         try:
             item=indexed[target['gsc_property']]

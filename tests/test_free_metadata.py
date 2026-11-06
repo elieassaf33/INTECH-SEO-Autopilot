@@ -3,7 +3,7 @@ from pathlib import Path
 from unittest.mock import patch
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]/'scripts'))
 from free_metadata import patch_metadata,copy_for,validate,supported
-from free_metadata_research import research
+from free_metadata_research import research,select_properties
 from metadata_worker import process
 
 
@@ -49,6 +49,24 @@ class MetadataOnlyTests(unittest.TestCase):
     def test_discovery_failure_is_explicit(self):
         def fail(*args):raise TimeoutError()
         self.assertEqual(research(self.target,{},fetch=fail,get_context=lambda u:self.page)['status'],'blocked')
+
+    def test_observed_page_query_survives_autocomplete_outage(self):
+        def fail(*args):raise TimeoutError()
+        audit={'gsc':{'queries':[{'keyword':self.keyword,'page':self.target['url'],'impressions':100}]}}
+        result=research(self.target,audit,fetch=fail,get_context=lambda u:self.page)
+        self.assertEqual(result['status'],'approved')
+        self.assertEqual(result['keyword'],self.keyword)
+
+    def test_observed_query_on_another_page_is_not_used(self):
+        audit={'gsc':{'queries':[{'keyword':self.keyword,'page':'https://example.com/other','impressions':100}]}}
+        result=research(self.target,audit,fetch=lambda *a:[],get_context=lambda u:self.page)
+        self.assertEqual(result['status'],'no_suitable_keyword')
+
+    def test_all_properties_are_selected_without_thirteen_site_ceiling(self):
+        targets=[{'gsc_property':str(i)} for i in range(20)]
+        self.assertEqual(len(select_properties(targets)),20)
+        self.assertEqual(len(select_properties(targets,15)),15)
+        with self.assertRaises(ValueError):select_properties(targets,-1)
 
     def test_arbitrary_copy_and_visible_text_fields_are_rejected(self):
         for change in ({'title':'Guaranteed free repairs'},{'paragraph':'Injected visible text'},{'scope':'content'}):

@@ -1,5 +1,18 @@
 ﻿# Daily monitoring and measured SEO results
 
+The weekly audit also produces `click-opportunities.md` and
+`click-page-audit.md` in its private report artifact. Opportunities rank observed
+query/page demand using heuristic CTR bands; scores are priorities, not click
+forecasts. Live checks include every configured metadata page and up to three
+high-exposure URLs per property, checking HTTP errors, missing metadata, noindex
+directives and HTML canonical differences. Reviewed primary origins are respected.
+Findings require review and do not modify page content.
+
+Metadata discovery considers eligible exact-page Search Console queries even
+when autocomplete is unavailable. All configured properties are researched by
+default; a positive manual limit restricts the number, while zero means all.
+Existing source validation and publication cooldowns remain enforced.
+
 The weekly Monday audit discovers keywords for free and evaluates titles and
 meta descriptions across 31 source-verified pages on 13 Search Console properties.
 Coverage includes homepages, services, categories and products. Visible text is

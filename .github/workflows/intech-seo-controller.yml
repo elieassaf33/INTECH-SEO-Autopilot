@@ -37,6 +37,10 @@ jobs:
           GCP_USE_ADC: 'true'
           GSC_MONITOR_IDENTITY: intech-seo-autopilot@intech-seo-autopilot.iam.gserviceaccount.com
         run: python scripts/intech_controller.py
+      - name: Rank search click opportunities for every client
+        run: python scripts/click_opportunities.py --audit seo-reports/controller/report.json --output seo-reports/controller/click-opportunities.json
+      - name: Check configured and high-exposure search landing pages
+        run: python scripts/click_page_audit.py --audit seo-reports/controller/report.json --output seo-reports/controller/click-page-audit.json
       - name: Publish weekly report
         if: always()
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
