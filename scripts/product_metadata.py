@@ -5,6 +5,8 @@ from metadata_pages import tag_parts
 
 
 def prepare(source,target):
+    if any('card.name' in tag for tag in target['original_tags'].values()):
+        raise ValueError('Product metadata is already installed')
     restored=source
     updated=source
     tags={}

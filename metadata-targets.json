@@ -51,10 +51,10 @@
     "site_id": "0d8f9627-2f50-476e-9777-b918ae107056",
     "file": "/index.html",
     "kind": "static",
-    "base_sha256": "0bea33da858cc62303e6538b53c159d36d3856c052836560664f72ea59214eac",
+    "base_sha256": "d0ec2f0b8c4251b28f84023c55c79dff7f00e896716b67d3adb560477a11a122",
     "original_tags": {
       "title": "<title>Internetinių svetainių kūrimas | INTECH</title>",
-      "description": "<meta content=\"Svetainių kūrimas nuo 299 €: BUSINESS verslo svetainė iki 5 puslapių. START nuo 199 €, el. parduotuvės nuo 599 €. Sprendimai smulkiam Lietuvos verslui.\" name=\"description\"/>"
+      "description": "<meta content=\"Susisiekite dėl kainos. Verslo svetainės, vieno puslapio svetainės ir el. parduotuvės.\" name=\"description\"/>"
     },
     "name": "INTECH Lithuania",
     "language": "lt",
@@ -66,7 +66,7 @@
     ],
     "metadata_baseline": {
       "title": "Internetinių svetainių kūrimas | INTECH",
-      "description": "Svetainių kūrimas nuo 299 €: BUSINESS verslo svetainė iki 5 puslapių. START nuo 199 €, el. parduotuvės nuo 599 €. Sprendimai smulkiam Lietuvos verslui."
+      "description": "Susisiekite dėl kainos. Verslo svetainės, vieno puslapio svetainės ir el. parduotuvės."
     },
     "target_id": "sc-domain:getintech.lt",
     "page_type": "homepage"
@@ -85,10 +85,10 @@
     "site_id": "0d8f9627-2f50-476e-9777-b918ae107056",
     "file": "/_en/index.html",
     "kind": "static",
-    "base_sha256": "c2e6dc9cbe2d2f253f593f3b8bb8fe942176b74f6b9d076b514a53469f8de63e",
+    "base_sha256": "95ba7f0cf82fcefff308c79263c01d53ca74142d20365d82f5a16b4ec0d1e096",
     "original_tags": {
       "title": "<title>Custom Website Development &amp; Digital Solutions | INTECH</title>",
-      "description": "<meta content=\"BUSINESS websites from €299, one-page websites from €199 and online shops from €599. Scoped website development for small businesses.\" name=\"description\"/>"
+      "description": "<meta content=\"Contact for pricing for business websites, landing pages and online shops. Request a tailored quote.\" name=\"description\"/>"
     },
     "name": "INTECH Europe",
     "language": "en",
@@ -101,7 +101,7 @@
     ],
     "metadata_baseline": {
       "title": "Custom Website Development & Digital Solutions | INTECH",
-      "description": "BUSINESS websites from €299, one-page websites from €199 and online shops from €599. Scoped website development for small businesses."
+      "description": "Contact for pricing for business websites, landing pages and online shops. Request a tailored quote."
     },
     "target_id": "sc-domain:getintech.eu",
     "page_type": "homepage"
@@ -611,7 +611,7 @@
     },
     "target_id": "sc-domain:getintech.lt::/services/ecommerce-website-development/",
     "page_type": "service",
-    "base_sha256": "414cc2e69631610089a036db9e3f5a3180286f130493425f27a4745a8c02f454",
+    "base_sha256": "b7fc8ffa8943eb2c9806f2397e71742f1afffaeaf3c4fc99c7a52368c80c48cc",
     "original_tags": {
       "title": "<title>Elektroninių parduotuvių kūrimas | INTECH</title>",
       "description": "<meta content=\"Elektroninę parduotuvę planuojame pagal jūsų prekes ir pirkėjų poreikius. Deriname katalogo struktūrą, prekių informaciją ir pirkimo kelią, tuomet sutariame mokėjimų bei pristatymo integracijas.\" name=\"description\"/>"

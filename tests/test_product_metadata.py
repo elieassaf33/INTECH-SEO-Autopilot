@@ -34,3 +34,4 @@ class ProductMetadataTests(unittest.TestCase):
         self.assertIn('Next homepage',render(later,'/en/'))
         self.assertIn('Example | Card Bros TCG',render(later,'/en/card/11/',card={'name':'Example'}))
         self.assertIn('card.name',baseline)
+        with self.assertRaisesRegex(ValueError,'already installed'):prepare(updated,{**target,**policy})

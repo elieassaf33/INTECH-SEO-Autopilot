@@ -24,6 +24,13 @@ pages before recording changes. Its prepared migration is research-only unless
 Product canonicals use the reviewed `.com` primary on both domains; legacy
 unprefixed card URLs permanently redirect to the corresponding English page.
 
+On 6 November 2026 the INTECH Netlify baseline was reconciled with deployed
+commit `346748151a351ec373cb25045c2d7c3d36fa83d5`. Six configured pages were
+revalidated, and the pinned function archive source was verified against that
+immutable Git commit. The live deployment was preserved. Five metadata changes
+from the external deployment were recorded from the previous journal so earlier
+comparisons are marked as overlapping and their observation windows restart.
+
 The weekly Monday audit discovers keywords for free and evaluates titles and
 meta descriptions across 31 source-verified pages on 13 Search Console properties.
 Coverage includes homepages, services, categories and products. Visible text is
