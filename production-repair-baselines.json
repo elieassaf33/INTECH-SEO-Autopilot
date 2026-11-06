@@ -142,7 +142,7 @@
       "files": [
         {
           "path": "cards/templates/cards/base.html",
-          "sha256": "00742e351123d523c781933f79ff24e097ad7e4637e457f440875337d76f3705",
+          "sha256": "ffd10735ad0c1e2ef1e8722bdac5f3eeef50e0608c1f994951d62dd69a56f07a",
           "approved_predecessors": [
             "22a52b3f61f9d53cbc8c82298bb2464a6a6f92e6b3f36ed86ebf44db99ef9ed4"
           ]

@@ -234,14 +234,14 @@
     "root": "/var/www/card_bros_tcg/pokemon",
     "file": "cards/templates/cards/base.html",
     "kind": "django",
-    "base_sha256": "00742e351123d523c781933f79ff24e097ad7e4637e457f440875337d76f3705",
+    "base_sha256": "c230cd0a8f8cbf36c83dd80d5eaeeda1a068bd7810978545f858336d6e9daf09",
     "services": [
       "card_bros_tcg.service",
       "gunicorn.service"
     ],
     "original_tags": {
-      "title": "<title>Card Bros TCG – Pokémon Cards, Boosters & Sealed Products</title>",
-      "description": "<meta name=\"description\" content=\"Buy authentic Pokémon cards, booster packs, singles, and sealed products. Fast shipping all around the world. Discover rare pulls and premium TCG accessories at Card Bros TCG.\">"
+      "title": "<title>{% if card.name %}{{ card.name|truncatechars:52 }} | Card Bros TCG{% elif product.name %}{{ product.name|truncatechars:52 }} | Card Bros TCG{% else %}Card Bros TCG – Pokémon Cards, Boosters & Sealed Products{% endif %}</title>",
+      "description": "<meta name=\"description\" content=\"{% if card.name %}{{ card.name|truncatechars:65 }}. {{ card.description|striptags|truncatechars:95 }}{% elif product.name %}{{ product.name|truncatechars:65 }}. {{ product.description|striptags|truncatechars:95 }}{% else %}Buy authentic Pokémon cards, booster packs, singles, and sealed products. Fast shipping all around the world. Discover rare pulls and premium TCG accessories at Card Bros TCG.{% endif %}\">"
     },
     "name": "CardBros TCG",
     "language": "en",
@@ -384,15 +384,15 @@
     "root": "/var/www/card_bros_tcg/pokemon",
     "file": "cards/templates/cards/base.html",
     "kind": "django",
-    "base_sha256": "00742e351123d523c781933f79ff24e097ad7e4637e457f440875337d76f3705",
+    "base_sha256": "c230cd0a8f8cbf36c83dd80d5eaeeda1a068bd7810978545f858336d6e9daf09",
     "services": [
       "card_bros_tcg.service",
       "gunicorn.service"
     ],
     "alias_of": "sc-domain:cardbrostcg.com",
     "original_tags": {
-      "title": "<title>Card Bros TCG – Pokémon Cards, Boosters & Sealed Products</title>",
-      "description": "<meta name=\"description\" content=\"Buy authentic Pokémon cards, booster packs, singles, and sealed products. Fast shipping all around the world. Discover rare pulls and premium TCG accessories at Card Bros TCG.\">"
+      "title": "<title>{% if card.name %}{{ card.name|truncatechars:52 }} | Card Bros TCG{% elif product.name %}{{ product.name|truncatechars:52 }} | Card Bros TCG{% else %}Card Bros TCG – Pokémon Cards, Boosters & Sealed Products{% endif %}</title>",
+      "description": "<meta name=\"description\" content=\"{% if card.name %}{{ card.name|truncatechars:65 }}. {{ card.description|striptags|truncatechars:95 }}{% elif product.name %}{{ product.name|truncatechars:65 }}. {{ product.description|striptags|truncatechars:95 }}{% else %}Buy authentic Pokémon cards, booster packs, singles, and sealed products. Fast shipping all around the world. Discover rare pulls and premium TCG accessories at Card Bros TCG.{% endif %}\">"
     },
     "name": "CardBros TCG UK",
     "language": "en",

@@ -16,6 +16,14 @@ Opportunity ranking and metadata discovery use a separate 28-day final-data
 query window where available, falling back to weekly query data on collection
 failure. Existing weekly comparisons retain their seven-day periods.
 
+CardBros product templates now use each product's existing name and description
+in their metadata. The administrator migration preserves managed homepage rules,
+backs up the template and policies, rebases recovery, and verifies featured card
+pages before recording changes. Its prepared migration is research-only unless
+`scripts/install_product_metadata.py --apply` is explicitly run by an administrator.
+Product canonicals use the reviewed `.com` primary on both domains; legacy
+unprefixed card URLs permanently redirect to the corresponding English page.
+
 The weekly Monday audit discovers keywords for free and evaluates titles and
 meta descriptions across 31 source-verified pages on 13 Search Console properties.
 Coverage includes homepages, services, categories and products. Visible text is
